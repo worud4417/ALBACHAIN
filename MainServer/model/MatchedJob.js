@@ -6,27 +6,14 @@ autoIncrement.initialize(connection);
 
 var Schema = mongoose.Schema;
 
-var jobOfferSchema = new Schema({
-    ID:{
-        type:String,
-        required:true
-    },
-    NAME:{
-        type:String,
-        required:true
-    },
+var MatchedJobSchema = new Schema({
     REGISTRATION:{
         type:String,
         required:true
     },
-    CALLNUMBER:{
-        type:String
-    },
-    ADDRESS:{
-        type:String
-    },
-    TEXT:{
-        type:String
+    SOCIALSECURITY:{
+        type:String,
+        required:true
     },
     STARTDATE:{
         type:Date,
@@ -35,8 +22,15 @@ var jobOfferSchema = new Schema({
     PERIOD:{
         type:Number,
         required:true
+    },
+    TEXT:{
+        type:String
+    },
+    JOINDATE:{
+        type:Date,
+        required:true
     }
 });
 
-jobOfferSchema.plugin(autoIncrement.plugin,'jobOffer');
-module.exports = connection.model("jobOffer",jobOfferSchema);
+MatchedJobSchema.plugin(autoIncrement.plugin,'matchedJob');
+module.exports = connection.model("matchedJob",MatchedJobSchema);

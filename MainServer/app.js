@@ -8,6 +8,10 @@ var employerJoinRouter = require('./routes/Employer/Join');
 var employerLoginRouter = require('./routes/Employer/Login');
 var employerJobOfferRouter = require('./routes/Employer/JobOffer');
 
+var employeeJoinRouter = require('./routes/Employee/Join');
+var employeeLoginRouter = require('./routes/Employee/Login');
+var employeeJobSearchRouter = require('./routes/Employee/JobSearch');
+
 var app = express();
 
 // view engine setup
@@ -23,6 +27,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/employerjoin', employerJoinRouter);
 app.use('/employerlogin',employerLoginRouter);
 app.use('/employerjoboffer',employerJobOfferRouter);
+
+app.use('/employeejoin',employeeJoinRouter);
+app.use('/employeelogin',employeeLoginRouter);
+app.use('/employeejobsearch',employeeJobSearchRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

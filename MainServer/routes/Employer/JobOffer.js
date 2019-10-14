@@ -42,7 +42,37 @@ router.post('/',function(req,res,next){
 })
 
 router.get('/',function(req,res,next){
+    var id = req.query.ID;
     
+    JobOffer.find({ID:id},function(err,obj){
+        if(err){
+            return res.status(500).send({status:"3"});
+        }
+        else{
+            return res.status(200).send(obj);
+        }
+    })
+})
+
+router.delete('/',function(req,res,next){
+    var _id = req.body._id;
+
+    JobOffer.findOne({_id:_id},function(err,obj){
+        if(err){
+            return res.status(500).send({status:"3"});
+        }
+        else if(obj == null){
+            return res.status(400).send({status:"2"});
+        }
+        else{
+            JobOffer.deleteOne({_id:_id},function(err){
+                if(err){
+                    return res.status(500).send({status:"3"});
+                }
+                return res.status(200).send({status:"1"});
+            })
+        }
+    })
 })
 
 module.exports = router;
