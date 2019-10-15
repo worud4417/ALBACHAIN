@@ -28,6 +28,9 @@ var employeeSchema = new Schema({
     SOCIALSECURITY:{
         type:String,
         required:true
+    },
+    KLAYTNPRIVATEKEY:{
+        type:String
     }
 });
 

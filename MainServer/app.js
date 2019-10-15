@@ -7,6 +7,7 @@ var logger = require('morgan');
 var employerJoinRouter = require('./routes/Employer/Join');
 var employerLoginRouter = require('./routes/Employer/Login');
 var employerJobOfferRouter = require('./routes/Employer/JobOffer');
+var employerMatchedJobRouter = require('./routes/Employer/MatchedJob');
 
 var employeeJoinRouter = require('./routes/Employee/Join');
 var employeeLoginRouter = require('./routes/Employee/Login');
@@ -27,6 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/employerjoin', employerJoinRouter);
 app.use('/employerlogin',employerLoginRouter);
 app.use('/employerjoboffer',employerJobOfferRouter);
+app.use('/employermatchedjob',employerMatchedJobRouter);
 
 app.use('/employeejoin',employeeJoinRouter);
 app.use('/employeelogin',employeeLoginRouter);

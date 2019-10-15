@@ -1,9 +1,13 @@
+var Caver = require('caver-js');
 var express = require("express");
 var router = express.Router();
 
 var Employer = require('../../model/Employer');
 
 router.post('/',function(req,res,next){
+
+    var caver = new Caver();
+    var newAccount = caver.klay.accounts.create();
 
     var status ="0";
     var employer = new Employer();
@@ -47,6 +51,7 @@ router.post('/',function(req,res,next){
             employer.CALLNUMBER = callnumber;
             employer.ADDRESS = address;
             employer.JOINDATE = joindate;
+            employer.KLAYTNPRIVATEKEY = newAccount.privateKey;
 
             employer.save(function(err){
                 if(err){

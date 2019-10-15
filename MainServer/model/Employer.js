@@ -31,6 +31,9 @@ var employerSchema = new Schema({
     },
     JOINDATE:{
         type:Date,
+    },
+    KLAYTNPRIVATEKEY:{
+        type:String
     }
 });
 

@@ -26,6 +26,10 @@ var MatchedJobSchema = new Schema({
     TEXT:{
         type:String
     },
+    STATUS:{
+        type:Number,
+        required:true
+    },
     JOINDATE:{
         type:Date,
         required:true

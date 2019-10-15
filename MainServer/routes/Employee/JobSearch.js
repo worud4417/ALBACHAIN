@@ -43,6 +43,7 @@ router.post('/',function(req,res,next){
                     matchedJob.STARTDATE = jobOffer.STARTDATE;
                     matchedJob.PERIOD = jobOffer.PERIOD;
                     matchedJob.TEXT = jobOffer.TEXT;
+                    matchedJob.STATUS = 1,
                     matchedJob.JOINDATE = new Date();
 
                     matchedJob.save(function(err){
