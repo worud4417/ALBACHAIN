@@ -26,7 +26,6 @@ var Employee = require('../../model/Employee');
 /**
  * get matched job between employer and employee
  * use GET
- * use JSON
  * @param ID is employer's id
  */
 router.get('/',function(req,res,next){
@@ -41,6 +40,33 @@ router.get('/',function(req,res,next){
         }
         else{
             MatchedJob.find({REGISTRATION:obj.REGISTRATION,STATUS:1},function(err,matchedJob){
+                if(err){
+                    return res.status(500).send({status:"3"});
+                }
+                return res.status(200).send(matchedJob);
+            })
+        }
+    })
+})
+
+/**
+ * get information about the job being processed.
+ * http://(ipaddress):3000/employermatchedjob/working
+ * use GET
+ * @param ID is employer's id
+ */
+router.get('/working',function(req,res,next){
+    var id = req.query.ID;
+
+    Employer.findOne({ID:id},function(err,obj){
+        if(err){
+            return res.status(500).send({status:"3"});
+        }
+        else if(obj == null){
+            return res.status(400).send({status:"2"});
+        }
+        else{
+            MatchedJob.find({REGISTRATION:obj.REGISTRATION,STATUS:2},function(err,matchedJob){
                 if(err){
                     return res.status(500).send({status:"3"});
                 }

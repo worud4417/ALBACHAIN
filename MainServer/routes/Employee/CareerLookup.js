@@ -38,8 +38,7 @@ router.get('/',function(req,res,next){
         else{
             var address = caver.getAddress(obj.KLAYTNPRIVATEKEY);
             var record = await caver.getEmployeeRecord(address);
-            console.log(record);
-            return res.status(200).send({});
+            return res.status(200).send({status:"1",record});
         }
     })
 })
