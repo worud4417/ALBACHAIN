@@ -1,21 +1,47 @@
+/**
+ * main server 
+ * @project ALBACHAIN
+ * @author JaeGyeong Lee
+ * use REST api
+ * process that search the job
+ * fort number is 3000
+ * http://(ipaddress):3000/employeejobsearch
+ */
+
 var express = require("express");
 var router = express.Router();
 
+//get joboffer's mongodb schema
 var JobOffer = require('../../model/JobOffer');
+//get employee's mongodb schema
 var Employee = require('../../model/Employee');
+//get matchedjob's mongodb schema
 var MatchedJob = require('../../model/MatchedJob');
 
+/**
+ * get all offred job
+ * use GET
+ * use JSON
+ */
 router.get("/",function(req,res,next){
     JobOffer.find({},function(err,obj){
         if(err){
             return res.status(500).send({status:"3"});
         }
         else{
+            //return javascript array
             return res.status(200).send(obj);
         }
     })
 })
 
+/**
+ * employee request the job to employer
+ * use POST
+ * use JSON
+ * @param _id is job id in the joboffer
+ * @param ID is employee's ID
+ */
 router.post('/',function(req,res,next){
     var _id = req.body._id;
     var ID = req.body.ID;

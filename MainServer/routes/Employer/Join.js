@@ -1,13 +1,36 @@
-var Caver = require('caver-js');
+/**
+ * main server 
+ * @project ALBACHAIN
+ * @author JaeGyeong Lee
+ * use REST api
+ * employer join process
+ * fort number is 3000
+ * http://(ipaddress):3000/employerjoin
+ */
+
+ //get caver-js for create address
+var caver = require('../../utils/caver');
 var express = require("express");
 var router = express.Router();
 
+//get employer's mongodb schema
 var Employer = require('../../model/Employer');
 
+/**
+ * set employer
+ * use POST
+ * use JSON
+ * @param ID is employer's id
+ * @param PASSWORD is employer's password
+ * @param NAME is employer's name
+ * @param REGISTRATION is employer's registration.
+ * @param CALLNUMBER is employer's callnumber
+ * @param ADDRESS is employer's address
+ */
 router.post('/',function(req,res,next){
 
-    var caver = new Caver();
-    var newAccount = caver.klay.accounts.create();
+    //create new address
+    var newAccount = caver.createAddress();
 
     var status ="0";
     var employer = new Employer();
@@ -63,6 +86,12 @@ router.post('/',function(req,res,next){
     })
 })
 
+/**
+ * delete employer
+ * use DELETE
+ * use JSON
+ * @param ID is employer's id
+ */
 router.delete('/',function(req,res,next){
     Employer.findOne({ID:req.body.ID},function(err,obj){
         if(err){

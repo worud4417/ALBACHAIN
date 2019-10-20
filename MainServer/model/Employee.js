@@ -1,4 +1,12 @@
+/**
+ * main server 
+ * @project ALBACHAIN
+ * @author JaeGyeong Lee
+ * this module is employee's mongodb schema
+ */
+
 var mongoose = require("mongoose");
+//mongodb plugin for primary key's auto increment
 var autoIncrement = require('mongoose-auto-increment');
 
 var connection = mongoose.createConnection("mongodb://localhost/main");

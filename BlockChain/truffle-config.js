@@ -81,7 +81,7 @@ module.exports = {
     baobab: {
       provider: () => new HDWalletProvider(privateKey,"https://api.baobab.klaytn.net:8651"),
       network_id: '1001', //Klaytn baobab testnet's network id
-      gas: '8500000',
+      gas: '30000000',
       gasPrice: null
     }
   },
@@ -94,7 +94,7 @@ module.exports = {
   // Configure your compilers
   compilers: {
     solc: {
-      // version: "0.5.1",    // Fetch exact version from solc-bin (default: truffle's version)
+      version: "0.5.6",    // Fetch exact version from solc-bin (default: truffle's version)
       // docker: true,        // Use "0.5.1" you've installed locally with docker (default: false)
       // settings: {          // See the solidity docs for advice about optimization and evmVersion
       //  optimizer: {

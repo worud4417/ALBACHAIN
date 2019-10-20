@@ -1,3 +1,12 @@
+/**
+ * main server 
+ * @project ALBACHAIN
+ * @author JaeGyeong Lee
+ * use REST api
+ * fort number is 3000
+ * http://(ipaddress):3000/
+ */
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -12,12 +21,9 @@ var employerMatchedJobRouter = require('./routes/Employer/MatchedJob');
 var employeeJoinRouter = require('./routes/Employee/Join');
 var employeeLoginRouter = require('./routes/Employee/Login');
 var employeeJobSearchRouter = require('./routes/Employee/JobSearch');
+var employeeCareerLookup = require('./routes/Employee/CareerLookup');
 
 var app = express();
-
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -33,6 +39,7 @@ app.use('/employermatchedjob',employerMatchedJobRouter);
 app.use('/employeejoin',employeeJoinRouter);
 app.use('/employeelogin',employeeLoginRouter);
 app.use('/employeejobsearch',employeeJobSearchRouter);
+app.use('/employeecareerlookup',employeeCareerLookup);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
