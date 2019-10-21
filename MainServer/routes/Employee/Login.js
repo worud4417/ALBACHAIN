@@ -12,7 +12,7 @@
 var express = require("express");
 var router = express.Router();
 
-//get employee's mongodb schema
+//get the employee's mongodb schema
 var Employee = require('../../model/Employee');
 
 /**

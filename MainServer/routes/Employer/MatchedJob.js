@@ -70,7 +70,7 @@ router.get('/working',function(req,res,next){
                 if(err){
                     return res.status(500).send({status:"3"});
                 }
-                return res.status(200).send(matchedJob);
+                return res.status(200).json({status:"1",matchedJob});
             })
         }
     })

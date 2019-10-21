@@ -22,6 +22,7 @@ var employeeJoinRouter = require('./routes/Employee/Join');
 var employeeLoginRouter = require('./routes/Employee/Login');
 var employeeJobSearchRouter = require('./routes/Employee/JobSearch');
 var employeeCareerLookup = require('./routes/Employee/CareerLookup');
+var employeeMatchedJob = require('./routes/Employee/MatchedJob');
 
 var app = express();
 
@@ -40,6 +41,7 @@ app.use('/employeejoin',employeeJoinRouter);
 app.use('/employeelogin',employeeLoginRouter);
 app.use('/employeejobsearch',employeeJobSearchRouter);
 app.use('/employeecareerlookup',employeeCareerLookup);
+app.use('/employeematchedjob',employeeMatchedJob);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
