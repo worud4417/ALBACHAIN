@@ -4,15 +4,12 @@ import {connect}from 'react-redux';
 import ActionCreator from '../action/Index';
 
 import LoginComponent from '../component/LoginComponent';
+import ButtonComponent from '../component/ButtonComponent'
 
 class LoginScreen extends React.Component{
 
     constructor(props){
         super(props);
-        this.state={
-            id:"",
-            password:""
-        }
     }
 
     _onChangeStatus(){
@@ -29,9 +26,7 @@ class LoginScreen extends React.Component{
             return(
                 <View>
                     <LoginComponent target="고용주" navigation = {this.props.navigation}></LoginComponent>
-                    <TouchableOpacity onPress={()=>this._onChangeStatus()}>
-                        <Text>아르바이트생 로그인</Text>
-                    </TouchableOpacity>
+                    <ButtonComponent fun = {()=>this._onChangeStatus()} title="아르바이트생 로그인"></ButtonComponent>
                 </View>
             )
         }
@@ -39,9 +34,7 @@ class LoginScreen extends React.Component{
             return(
                 <View>
                     <LoginComponent target="아르바이트생" navigation = {this.props.navigation}></LoginComponent>
-                    <TouchableOpacity onPress={()=>this._onChangeStatus()}>
-                        <Text>고용주 로그인</Text>
-                    </TouchableOpacity>
+                    <ButtonComponent fun = {()=>this._onChangeStatus()} title="고용주 로그인"></ButtonComponent>
                 </View>
             )
         }

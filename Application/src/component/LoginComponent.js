@@ -1,5 +1,11 @@
 import React from 'react';
 import {Text,View,StyleSheet,TouchableOpacity,Image,TextInput,KeyboardAvoidingView} from 'react-native';
+import {connect}from 'react-redux';
+import ActionCreator from '../action/Index';
+
+import ButtonComponent from './ButtonComponent';
+
+import {fetchLoginEmployee,fetchLoginEmployer} from '../api/LoginApi';
 
 class LoginComponent extends React.Component{
     constructor(props){
@@ -21,6 +27,53 @@ class LoginComponent extends React.Component{
         }
     }
 
+    async _login(){
+        if(this.props.status == 1){
+            let result = await fetchLoginEmployer(this.state.id,this.state.password);
+            if(result.status == 1){
+                this.props.Login({
+                    id : result.ID,
+                    name : result.NAME,
+                    callnumber : result.CALLNUMBER,
+                    address : result.ADDRESS,
+                    registration : result.REGISTRATION,
+                    socialsecurity : ""
+                })
+                return this.props.navigation.navigate("Main");
+            }
+            else if(result.status == 2){
+                alert("입력값이 잘못되었습니다!");
+                return null;
+            }
+            else{
+                alert("서버 오류");
+                return null;
+            }
+        }
+        else{
+            let result = await fetchLoginEmployee(this.state.id,this.state.password);
+            if(result.status == 1){
+                this.props.Login({
+                    id : result.ID,
+                    name : result.NAME,
+                    callnumber : result.CALLNUMBER,
+                    address : "",
+                    registration : "",
+                    socialsecurity : result.SOCIALSECURITY
+                })
+                return this.props.navigation.navigate("Main");
+            }
+            else if(result.status == 2){
+                alert("입력값이 잘못되었습니다!");
+                return null;
+            }
+            else{
+                alert("서버 오류");
+                return null;
+            }
+        }
+    }
+
     render(){
         return(
             <KeyboardAvoidingView>
@@ -29,9 +82,8 @@ class LoginComponent extends React.Component{
                     <TextInput style={styles.textinput} onChangeText={(text)=>this.setState({id:text})} ref={input => {this.idTextinput = input}}></TextInput>
                     <Text>PASSWORD</Text>
                     <TextInput style={styles.textinput} onChangeText={(text)=>this.setState({password:text})} ref={input => {this.pwTextInput = input}}></TextInput>
-                    <TouchableOpacity onPress={()=>this.props.navigation.navigate("Join")}>
-                        <Text>회원가입</Text>
-                    </TouchableOpacity>
+                    <ButtonComponent fun={()=>this._login()} title="로그인"></ButtonComponent>
+                    <ButtonComponent fun={()=>this.props.navigation.navigate("Join")} title="회원가입"></ButtonComponent>
             </KeyboardAvoidingView>
         )
     }
@@ -67,4 +119,22 @@ const styles = StyleSheet.create({
     }
 })
 
-export default LoginComponent;
+function mapStateToProps(state){
+    return{
+        status:state.status,
+        user:state.user
+    }
+}
+
+function mapDispatchToProps(dispatch){
+    return{
+        SetTarget : (status) => {
+            dispatch(ActionCreator.SetTarget(status));
+        },
+        Login : (user) => {
+            dispatch(ActionCreator.Login(user));
+        }
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(LoginComponent);

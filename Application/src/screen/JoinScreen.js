@@ -3,6 +3,9 @@ import {Text,View,StyleSheet,TouchableOpacity,Image,TextInput,KeyboardAvoidingVi
 import {connect}from 'react-redux';
 import ActionCreator from '../action/Index';
 
+import ButtonComponent from '../component/ButtonComponent';
+import {fetchJoinEmployee,fetchJoinEmployer} from '../api/JoinApi';
+
 class JoinScreen extends Component{
     constructor(props){
         super(props);
@@ -11,7 +14,78 @@ class JoinScreen extends Component{
             password:"",
             checkPassword:"",
             name:"",
-            callnumber:""
+            callnumber:"",
+            registration:"",
+            address:"",
+            socialsecurity:""
+        }
+    }
+
+    _checkPassword(pw,rpw){
+        if(pw == rpw){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    async _submitEmployer(){
+        if(this._checkPassword(this.state.password,this.state.checkPassword)){
+            let result = await fetchJoinEmployer(
+                this.state.id,
+                this.state.password,
+                this.state.name,
+                this.state.callnumber,
+                this.state.registration,
+                this.state.address
+            );
+
+            if(result.status == 1){
+                alert("회원가입 완료");
+                return this.props.navigation.navigate("Login");
+            }
+            else if(result.status == 2){
+                alert("중복된 값이 있습니다!")
+                return null;
+            }
+            else{
+                alert("서버 오류!")
+                return null;
+            }
+        }
+        else{
+            alert("비밀번호가 다릅니다.");
+            return null;
+        }
+    }
+
+    async _submitEmployee(){
+        if(this._checkPassword(this.state.password,this.state.checkPassword)){
+            let result = await fetchJoinEmployee(
+                this.state.id,
+                this.state.password,
+                this.state.name,
+                this.state.callnumber,
+                this.state.socialsecurity
+            );
+
+            if(result.status == 1){
+                alert("회원가입 완료");
+                return this.props.navigation.navigate("Login");
+            }
+            else if(result.status == 2){
+                alert("중복된 값이 있습니다!")
+                return null;
+            }
+            else{
+                alert("서버 오류!")
+                return null;
+            }
+        }
+        else{
+            alert("비밀번호가 다릅니다.");
+            return null;
         }
     }
 
@@ -21,15 +95,23 @@ class JoinScreen extends Component{
                 <View style={styles.view}>
                    <KeyboardAvoidingView style={{marginLeft:"10%",flex:3,justifyContent:"flex-end",marginRight:"10%"}} behavior="padding" enabled>
                     <Text style={{fontSize:20,fontWeight:"bold",alignSelf:"center",paddingBottom:"5%"}}>고용주 회원 가입</Text>
-                    <Text>ID</Text>
+                    <Text>아이디</Text>
                     <TextInput style={styles.textinput} onChangeText={(text)=>this.setState({id:text})}></TextInput>
-                    <Text>PASSWORD</Text>
-                    <TextInput style={styles.textinput} onChangeText={(text)=>this.setState({password:text})}></TextInput>
-                    <Text>CHECK PASSWORD</Text>
-                    <TextInput style={styles.textinput} onChangeText={(text)=>this.setState({checkPassword:text})}></TextInput>
-                    <Text>NAME</Text>
+                    <Text>비밀번호</Text>
+                    <TextInput secureTextEntry={true} style={styles.textinput} onChangeText={(text)=>this.setState({password:text})}></TextInput>
+                    <Text>비밀번호 확인</Text>
+                    <TextInput secureTextEntry={true} style={styles.textinput} onChangeText={(text)=>this.setState({checkPassword:text})}></TextInput>
+                    <Text>이름</Text>
                     <TextInput style={styles.textinput} onChangeText={(text)=>this.setState({name:text})}></TextInput>
+                    <Text>사업자 등록번호</Text>
+                    <TextInput style={styles.textinput} onChangeText={(text)=>this.setState({registration:text})}></TextInput>
+                    <Text>전화번호</Text>
+                    <TextInput style={styles.textinput} onChangeText={(text)=>this.setState({callnumber:text})}></TextInput>
+                    <Text>주소</Text>
+                    <TextInput style={styles.textinput} onChangeText={(text)=>this.setState({address:text})}></TextInput>
                 </KeyboardAvoidingView>
+                <ButtonComponent fun = {()=>this._submitEmployer()} title="확인"></ButtonComponent>
+                <ButtonComponent fun = {()=>this.props.navigation.navigate("Login")} title="취소"></ButtonComponent>
                 </View>
             )
         }
@@ -38,15 +120,21 @@ class JoinScreen extends Component{
                 <View style={styles.view}>
                     <KeyboardAvoidingView style={{marginLeft:"10%",flex:3,justifyContent:"flex-end",marginRight:"10%"}} behavior="padding" enabled>
                     <Text style={{fontSize:20,fontWeight:"bold",alignSelf:"center",paddingBottom:"5%"}}>아르바이트생 회원 가입</Text>
-                    <Text>ID</Text>
+                    <Text>아이디</Text>
                     <TextInput style={styles.textinput} onChangeText={(text)=>this.setState({id:text})}></TextInput>
-                    <Text>PASSWORD</Text>
-                    <TextInput style={styles.textinput} onChangeText={(text)=>this.setState({password:text})}></TextInput>
-                    <Text>CHECK PASSWORD</Text>
-                    <TextInput style={styles.textinput} onChangeText={(text)=>this.setState({checkPassword:text})}></TextInput>
-                    <Text>NAME</Text>
+                    <Text>비밀번호</Text>
+                    <TextInput secureTextEntry={true} style={styles.textinput} onChangeText={(text)=>this.setState({password:text})}></TextInput>
+                    <Text>비밀번호 확인</Text>
+                    <TextInput secureTextEntry={true} style={styles.textinput} onChangeText={(text)=>this.setState({checkPassword:text})}></TextInput>
+                    <Text>이름</Text>
                     <TextInput style={styles.textinput} onChangeText={(text)=>this.setState({name:text})}></TextInput>
+                    <Text>전화번호</Text>
+                    <TextInput style={styles.textinput} onChangeText={(text)=>this.setState({callnumber:text})}></TextInput>
+                    <Text>주민등록번호</Text>
+                    <TextInput style={styles.textinput} onChangeText={(text)=>this.setState({socialsecurity:text})}></TextInput>
                 </KeyboardAvoidingView>
+                <ButtonComponent fun = {()=>this._submitEmployee()} title="확인"></ButtonComponent>
+                <ButtonComponent fun = {()=>this.props.navigation.navigate("Login")} title="취소"></ButtonComponent>
                 </View>
             )
         }

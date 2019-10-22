@@ -10,8 +10,15 @@ import {createStackNavigator} from 'react-navigation-stack';
 
 import LoginScreen from './src/screen/LoginScreen';
 import JoinScreen from './src/screen/JoinScreen';
+import MainScreen from './src/screen/MainScreen';
 
 import reducer from './src/reducer/Index';
+
+const TabNavigator = createBottomTabNavigator({
+  Main:{
+    screen:MainScreen
+  }
+})
 
 const SwitchNavigator = createSwitchNavigator({
   Login:{
@@ -19,6 +26,9 @@ const SwitchNavigator = createSwitchNavigator({
   },
   Join:{
     screen:JoinScreen
+  },
+  Tab:{
+    screen:TabNavigator
   }
 })
 
