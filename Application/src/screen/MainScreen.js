@@ -3,21 +3,53 @@ import {Text,View,StyleSheet,TouchableOpacity,Image,TextInput,KeyboardAvoidingVi
 import {connect}from 'react-redux';
 import ActionCreator from '../action/Index';
 
+import MainListComponent from '../component/MainListComponent';
+
 import {fetchJobOfferEmployer,fetchJobSearchEmployee} from '../api/JobOfferApi';
 
 class MainScreen extends Component{
     constructor(props){
         super(props)
-        console.log(this.props.user)
     }
 
     async componentDidMount(){
         if(this.props.status == 1){
-            console.log("A")
-            //redux에 구인구직 목록 저장할 차례
+            await fetchJobOfferEmployer(this.props.user.id).then(async (result) => {
+                if(result != null){
+                    await result.forEach(a =>{
+                        this.props.JobOffer({
+                            address : a.ADDRESS,
+                            callnumber : a.CALLNUMBER,
+                            id : a.ID,
+                            name : a.NAME,
+                            period : a.PERIOD,
+                            registration : a.REGISTRATION,
+                            startdate : a.STARTDATE,
+                            text : a.TEXT,
+                            _id : a._id
+                        })
+                    })
+                }
+            })
         }
         else{
-            console.log("B")
+            await fetchJobSearchEmployee().then(async (result) =>{
+                if(result != null){
+                    await result.forEach(a =>{
+                        this.props.JobOffer({
+                            address : a.ADDRESS,
+                            callnumber : a.CALLNUMBER,
+                            id : a.ID,
+                            name : a.NAME,
+                            period : a.PERIOD,
+                            registration : a.REGISTRATION,
+                            startdate : a.STARTDATE,
+                            text : a.TEXT,
+                            _id : a._id
+                        })
+                    })
+                }
+            })
         }
     }
 
@@ -26,6 +58,7 @@ class MainScreen extends Component{
             return(
                 <View>
                     <Text>EmployermainScreen</Text>
+                    <MainListComponent></MainListComponent>
                 </View>
             )
         }
@@ -33,6 +66,7 @@ class MainScreen extends Component{
             return(
                 <View>
                     <Text>EmployeemainScreen</Text>
+                    <MainListComponent></MainListComponent>
                 </View>
             )
         }
@@ -42,7 +76,8 @@ class MainScreen extends Component{
 function mapStateToProps(state){
     return{
         status:state.status,
-        user:state.user
+        user:state.user,
+        jobOffer:state.jobOffer
     }
 }
 
@@ -53,6 +88,9 @@ function mapDispatchToProps(dispatch){
         },
         Login : (user) => {
             dispatch(ActionCreator.Login(user));
+        },
+        JobOffer : (jobOffer) => {
+            dispatch(ActionCreator.JobOffer(jobOffer));
         }
     }
 }

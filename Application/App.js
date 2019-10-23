@@ -11,12 +11,34 @@ import {createStackNavigator} from 'react-navigation-stack';
 import LoginScreen from './src/screen/LoginScreen';
 import JoinScreen from './src/screen/JoinScreen';
 import MainScreen from './src/screen/MainScreen';
+import MyScreen from './src/screen/MyScreen';
+import LogoutComponent from './src/component/LogoutComponent';
+import EmployeeRequestScreen from './src/screen/EmployeeRequestScreen';
+import EmployerResponseScreen from './src/screen/EmployerResponseScreen';
 
 import reducer from './src/reducer/Index';
 
-const TabNavigator = createBottomTabNavigator({
+const MainStack = createStackNavigator({
   Main:{
     screen:MainScreen
+  },
+  EmployeeRequest:{
+    screen:EmployeeRequestScreen
+  },
+  EmployerResponse:{
+    screen:EmployerResponseScreen
+  }
+})
+
+const TabNavigator = createBottomTabNavigator({
+  Main:{
+    screen:MainStack
+  },
+  My:{
+    screen:MyScreen
+  },
+  Logout:{
+    screen:LogoutComponent
   }
 })
 
