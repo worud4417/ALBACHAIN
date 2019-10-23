@@ -1,7 +1,8 @@
 import React,{Component} from 'react';
-import {Text,View,StyleSheet,TouchableOpacity,Image,TextInput,KeyboardAvoidingView} from 'react-native';
+import {Text,View,StyleSheet,TouchableOpacity,Image,TextInput,KeyboardAvoidingView,Button} from 'react-native';
 import {connect}from 'react-redux';
 import ActionCreator from '../action/Index';
+import {withNavigationFocus} from 'react-navigation';
 
 import MainListComponent from '../component/MainListComponent';
 
@@ -12,43 +13,79 @@ class MainScreen extends Component{
         super(props)
     }
 
-    async componentDidMount(){
-        if(this.props.status == 1){
-            await fetchJobOfferEmployer(this.props.user.id).then(async (result) => {
-                if(result != null){
-                    await result.forEach(a =>{
-                        this.props.JobOffer({
-                            address : a.ADDRESS,
-                            callnumber : a.CALLNUMBER,
-                            id : a.ID,
-                            name : a.NAME,
-                            period : a.PERIOD,
-                            registration : a.REGISTRATION,
-                            startdate : a.STARTDATE,
-                            text : a.TEXT,
-                            _id : a._id
-                        })
-                    })
+    static navigationOptions = ({ navigation }) => {
+        return {
+          headerTitle: () => <Text>메인화면</Text>,
+          headerRight: () => (
+            <TouchableOpacity onPress={()=>{
+                if(navigation.getParam('status') == 1){
+                    navigation.navigate("JobOffer");
                 }
+                else{
+                    alert(new Date())
+                }
+            }}>
+                <Text>Button</Text>
+            </TouchableOpacity>
+          ),
+        };
+      };
+
+    async componentDidMount(){
+        this.props.navigation.setParams({status:this.props.status});
+        if(this.props.status == 1){
+            await fetchJobOfferEmployer(this.props.user.id).then((results) => {
+                results.forEach(result => {
+                    this.props.JobOffer({
+                        address : result.ADDRESS,
+                        callnumber : result.CALLNUMBER,
+                        id : result.ID,
+                        name : result.NAME,
+                        period : result.PERIOD,
+                        registration : result.REGISTRATION,
+                        startdate : result.STARTDATE,
+                        text : result.TEXT,
+                        _id : result._id
+                    })
+                })   
             })
         }
         else{
-            await fetchJobSearchEmployee().then(async (result) =>{
-                if(result != null){
-                    await result.forEach(a =>{
-                        this.props.JobOffer({
-                            address : a.ADDRESS,
-                            callnumber : a.CALLNUMBER,
-                            id : a.ID,
-                            name : a.NAME,
-                            period : a.PERIOD,
-                            registration : a.REGISTRATION,
-                            startdate : a.STARTDATE,
-                            text : a.TEXT,
-                            _id : a._id
-                        })
+            await fetchJobSearchEmployee().then((results) =>{
+                results.forEach(result =>{
+                    this.props.JobOffer({
+                        address : result.ADDRESS,
+                        callnumber : result.CALLNUMBER,
+                        id : result.ID,
+                        name : result.NAME,
+                        period : result.PERIOD,
+                        registration : result.REGISTRATION,
+                        startdate : result.STARTDATE,
+                        text : result.TEXT,
+                        _id : result._id
                     })
-                }
+                })
+            })
+        }
+    }
+
+    async componentDidUpdate(prevProps) {
+        if(!prevProps.isFocused){
+            this.props.InitJobOffer();
+            await fetchJobOfferEmployer(this.props.user.id).then((results) => {
+                results.forEach(result => {
+                    this.props.JobOffer({
+                        address : result.ADDRESS,
+                        callnumber : result.CALLNUMBER,
+                        id : result.ID,
+                        name : result.NAME,
+                        period : result.PERIOD,
+                        registration : result.REGISTRATION,
+                        startdate : result.STARTDATE,
+                        text : result.TEXT,
+                        _id : result._id
+                    })
+                })   
             })
         }
     }
@@ -58,7 +95,7 @@ class MainScreen extends Component{
             return(
                 <View>
                     <Text>EmployermainScreen</Text>
-                    <MainListComponent></MainListComponent>
+                    <MainListComponent navigation = {this.props.navigation}></MainListComponent>
                 </View>
             )
         }
@@ -66,7 +103,7 @@ class MainScreen extends Component{
             return(
                 <View>
                     <Text>EmployeemainScreen</Text>
-                    <MainListComponent></MainListComponent>
+                    <MainListComponent navigation = {this.props.navigation}></MainListComponent>
                 </View>
             )
         }
@@ -91,8 +128,11 @@ function mapDispatchToProps(dispatch){
         },
         JobOffer : (jobOffer) => {
             dispatch(ActionCreator.JobOffer(jobOffer));
+        },
+        InitJobOffer : () => {
+            dispatch(ActionCreator.InitJobOffer());
         }
     }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(MainScreen);
+export default connect(mapStateToProps,mapDispatchToProps)(withNavigationFocus(MainScreen));

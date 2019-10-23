@@ -15,8 +15,11 @@ import MyScreen from './src/screen/MyScreen';
 import LogoutComponent from './src/component/LogoutComponent';
 import EmployeeRequestScreen from './src/screen/EmployeeRequestScreen';
 import EmployerResponseScreen from './src/screen/EmployerResponseScreen';
+import JobOffer from './src/screen/JobOfferScreen';
 
 import reducer from './src/reducer/Index';
+
+const defaultNavigationOptions={}
 
 const MainStack = createStackNavigator({
   Main:{
@@ -27,7 +30,12 @@ const MainStack = createStackNavigator({
   },
   EmployerResponse:{
     screen:EmployerResponseScreen
+  },
+  JobOffer:{
+    screen:JobOffer
   }
+},{
+  defaultNavigationOptions
 })
 
 const TabNavigator = createBottomTabNavigator({

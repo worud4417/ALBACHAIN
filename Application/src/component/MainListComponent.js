@@ -8,10 +8,19 @@ class MainListComponent extends React.Component{
         super(props)
     }
 
+    _onPress(){
+        if(this.props.status == 1){
+            this.props.navigation.navigate("EmployerResponse");
+        }
+        else{
+            this.props.navigation.navigate("EmployeeRequest");
+        }
+    }
+
     render(){
         return(
             <FlatList data = {this.props.jobOffer} renderItem={({item}) => (
-                <TouchableOpacity>
+                <TouchableOpacity onPress = {()=>this._onPress()}>
                     <Text>{item._id}</Text>
                     <Text>{item.registration}</Text>
                     <Text>{item.startdate}</Text>

@@ -33,4 +33,30 @@ export function fetchJobSearchEmployee(){
     })
 }
 
-export default {fetchJobOfferEmployer,fetchJobSearchEmployee};
+export function fetchJobOfferSubmit(id,startdate,period,text){
+    let uri = url.url+"/employerjoboffer";
+
+    return fetch(uri,{
+        method:"POST",
+        headers:{
+            Accept:"application/json",
+            'Content-Type' : 'application/json',
+        },
+        body:JSON.stringify({
+            ID : id,
+            STARTDATE : startdate,
+            PERIOD : period,
+            TEXT : text
+        })
+    }).then((response)=>response.json())
+    .then((responseJson)=>{
+        return responseJson;
+    }).catch((error)=>{
+        if(error.message == "Network request failed"){
+            alert("네트워크 오륲");
+        }
+        return {error:false};
+    })
+}
+
+export default {fetchJobOfferEmployer,fetchJobSearchEmployee,fetchJobOfferSubmit};
