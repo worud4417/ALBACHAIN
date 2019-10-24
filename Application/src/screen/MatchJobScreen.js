@@ -5,7 +5,7 @@ import ActionCreator from '../action/Index';
 import {withNavigationFocus} from 'react-navigation';
 import { ListItem,Overlay,Button,ButtonGroup} from 'react-native-elements'
 
-import {fetchMatchingEmployee,fetchMatchedEmployee} from '../api/MatchedJobApi';
+import {fetchMatchingEmployee,fetchMatchedEmployee,fetchMatchinglistEmployer} from '../api/MatchedJobApi';
 
 class MatchJobScreen extends Component{
     constructor(props){
@@ -29,30 +29,57 @@ class MatchJobScreen extends Component{
     static navigationOptions = ({ navigation }) => {
         return {
           headerTitle: () => {
-            return(
-                <Text>구직 요청 현황 리스트</Text>
-            )
+              if(navigation.getParam('status') == 1){
+                return(
+                    <Text>구직 요청 리스트</Text>
+                )
+              }
+              else{
+                return(
+                    <Text>구직 요청 현황 리스트</Text>
+                )
+              }
           },
         };
       }; 
 
     async componentDidMount(){
+        this.props.navigation.setParams({status:this.props.status});
         this.setState({isReady:false});
         this.props.InitMatchedJob();
-        let results = await fetchMatchingEmployee(this.props.user.id);
-        if(results.status == 1){
-            results.obj.forEach(result => {
-                this.props.MatchedJob({
-                    joindate : result.JOINDATE,
-                    period : result.PERIOD,
-                    registration : result.REGISTRATION,
-                    socialsecurity : result.SOCIALSECURITY,
-                    startdate : result.STARTDATE,
-                    status : result.STATUS,
-                    text : result.TEXT,
-                    _id : result._id,
+        if(this.props.status == 1){
+            let results = await fetchMatchinglistEmployer(this.props.user.id);
+            if(results != null){
+                results.forEach(result => {
+                    this.props.MatchedJob({
+                        joindate : result.JOINDATE,
+                        period : result.PERIOD,
+                        registration : result.REGISTRATION,
+                        socialsecurity : result.SOCIALSECURITY,
+                        startdate : result.STARTDATE,
+                        status : result.STATUS,
+                        text : result.TEXT,
+                        _id : result._id
+                    })
                 })
-            })
+            }
+        }
+        else{
+            let results = await fetchMatchingEmployee(this.props.user.id);
+            if(results.status == 1){
+                results.obj.forEach(result => {
+                    this.props.MatchedJob({
+                        joindate : result.JOINDATE,
+                        period : result.PERIOD,
+                        registration : result.REGISTRATION,
+                        socialsecurity : result.SOCIALSECURITY,
+                        startdate : result.STARTDATE,
+                        status : result.STATUS,
+                        text : result.TEXT,
+                        _id : result._id
+                    })
+                })
+            }
         }
         this.setState({isReady:true});
     }
@@ -76,6 +103,7 @@ class MatchJobScreen extends Component{
             this.setState({isReady:false});
             this.props.InitMatchedJob();
             if(selectedIndex == 0){
+                console.log("a")
                 let results = await fetchMatchingEmployee(this.props.user.id);
                 if(results.status == 1){
                     results.obj.forEach(result => {
@@ -93,6 +121,7 @@ class MatchJobScreen extends Component{
                 }   
             }
             if(selectedIndex == 1){
+                console.log("b")
                 let results = await fetchMatchedEmployee(this.props.user.id);
                 if(results.status == 1){
                     results.obj.forEach(result => {
@@ -124,42 +153,78 @@ class MatchJobScreen extends Component{
             )
         }
         else{
-            if(!this.state.isVisible){
-                return(
-                    <View style={{flex:1}}>
-                        <ScrollView style={{flex:8}}>
-                            {
-                                this.props.matchedJob.map((item,i) => (
-                                    <ListItem key = {i} title = {item.registration} 
-                                    subtitle = {item.startdate} bottomDivider chevron onPress = {()=>this._onPress(item)}>
-                                    </ListItem>
-                                ))
-                            }
-                        </ScrollView>
-                        <View style={{flex:1,justifyContent:"flex-end",marginBottom:"5%"}}>
-                            <ButtonGroup onPress={this.updateIndex} selectedIndex={selectedIndex} buttons={["승인 대기","승인 확인"]} containerStyle={{height:30}}></ButtonGroup>
+            if(this.props.status == 1){
+                if(!this.state.isVisible){
+                    return(
+                        <View style={{flex:1}}>
+                            <ScrollView>
+                                {
+                                    this.props.matchedJob.map((item,i) => (
+                                        <ListItem key = {i} title = {item.registration} 
+                                        subtitle = {item.startdate} bottomDivider chevron onPress = {()=>this._onPress(item)}>
+                                        </ListItem>
+                                    ))
+                                }
+                            </ScrollView>
                         </View>
-                    </View>
-                )
+                    )
+                }
+                else{
+                    return(
+                        <Overlay isVisible={this.state.isVisible} onBackdropPress = {()=>this.setState({isVisible:false})}>
+                            <View style={{flex:1}}>
+                                <View style={{flex:1}}>
+                                    <Text>번호 : {this.state._id}</Text>
+                                    <Text>신청 날짜 : {this.state.joindate}</Text>
+                                    <Text>사업자 등록번호 : {this.state.registration}</Text>
+                                    <Text>시작일짜 : {this.state.startdate}</Text>
+                                    <Text>기간 : {this.state.period}</Text>
+                                    <Text>아르바이트 설명 : {this.state.text}</Text>
+                                </View>
+                                <View style={{flex:1, justifyContent:'flex-end'}}>
+                                    <Button title="확인" type="outline" onPress={()=>this.setState({isVisible:false})}></Button>
+                                </View>
+                            </View>
+                        </Overlay>
+                    )
+                }
             }
             else{
-                return(
-                    <Overlay isVisible={this.state.isVisible} onBackdropPress = {()=>this.setState({isVisible:false})}>
+                if(!this.state.isVisible){
+                    return(
                         <View style={{flex:1}}>
-                            <View style={{flex:1}}>
-                                <Text>번호 : {this.state._id}</Text>
-                                <Text>신청 날짜 : {this.state.joindate}</Text>
-                                <Text>사업자 등록번호 : {this.state.registration}</Text>
-                                <Text>시작일짜 : {this.state.startdate}</Text>
-                                <Text>기간 : {this.state.period}</Text>
-                                <Text>아르바이트 설명 : {this.state.text}</Text>
-                            </View>
-                            <View style={{flex:1, justifyContent:'flex-end'}}>
-                                <Button title="확인" type="outline" onPress={()=>this.setState({isVisible:false})}></Button>
-                            </View>
+                            <ScrollView style={{flex:10}}>
+                                {
+                                    this.props.matchedJob.map((item,i) => (
+                                        <ListItem key = {i} title = {item.registration} 
+                                        subtitle = {item.startdate} bottomDivider chevron onPress = {()=>this._onPress(item)}>
+                                        </ListItem>
+                                    ))
+                                }
+                            </ScrollView>
+                            <ButtonGroup buttonStyle={{flex:2}} onPress={this.updateIndex} selectedIndex={selectedIndex} buttons={["승인 대기","승인 확인"]} containerStyle={{height:30}}></ButtonGroup>
                         </View>
-                    </Overlay>
-                )
+                    )
+                }
+                else{
+                    return(
+                        <Overlay isVisible={this.state.isVisible} onBackdropPress = {()=>this.setState({isVisible:false})}>
+                            <View style={{flex:1}}>
+                                <View style={{flex:1}}>
+                                    <Text>번호 : {this.state._id}</Text>
+                                    <Text>신청 날짜 : {this.state.joindate}</Text>
+                                    <Text>사업자 등록번호 : {this.state.registration}</Text>
+                                    <Text>시작일짜 : {this.state.startdate}</Text>
+                                    <Text>기간 : {this.state.period}</Text>
+                                    <Text>아르바이트 설명 : {this.state.text}</Text>
+                                </View>
+                                <View style={{flex:1, justifyContent:'flex-end'}}>
+                                    <Button title="확인" type="outline" onPress={()=>this.setState({isVisible:false})}></Button>
+                                </View>
+                            </View>
+                        </Overlay>
+                    )
+                }
             }
         }
     }
@@ -194,4 +259,4 @@ function mapDispatchToProps(dispatch){
     }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(MatchJobScreen); 
+export default connect(mapStateToProps,mapDispatchToProps)(withNavigationFocus(MatchJobScreen)); 

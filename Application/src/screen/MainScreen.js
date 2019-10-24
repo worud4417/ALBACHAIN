@@ -86,7 +86,7 @@ class MainScreen extends Component{
 
     async componentDidUpdate(prevProps) {
         if(!prevProps.isFocused){
-            this.setState({isReady:false})
+            this.setState({isReady:false});
             this.props.InitJobOffer();
             if(this.props.status == 1){
                 await fetchJobOfferEmployer(this.props.user.id).then((results) => {
@@ -122,7 +122,7 @@ class MainScreen extends Component{
                     })   
                 })
             }
-            this.setState({isReady:true})
+            this.setState({isReady:true});
         }
     }
 

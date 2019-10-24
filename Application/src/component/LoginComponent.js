@@ -1,5 +1,6 @@
 import React from 'react';
 import {Text,View,StyleSheet,TouchableOpacity,Image,TextInput,KeyboardAvoidingView} from 'react-native';
+import {Button} from 'react-native-elements';
 import {connect}from 'react-redux';
 import ActionCreator from '../action/Index';
 
@@ -82,8 +83,8 @@ class LoginComponent extends React.Component{
                     <TextInput style={styles.textinput} onChangeText={(text)=>this.setState({id:text})} ref={input => {this.idTextinput = input}}></TextInput>
                     <Text>PASSWORD</Text>
                     <TextInput style={styles.textinput} onChangeText={(text)=>this.setState({password:text})} ref={input => {this.pwTextInput = input}}></TextInput>
-                    <ButtonComponent fun={()=>this._login()} title="로그인"></ButtonComponent>
-                    <ButtonComponent fun={()=>this.props.navigation.navigate("Join")} title="회원가입"></ButtonComponent>
+                    <Button onPress={()=>this._login()} title="로그인"></Button>
+                    <Button onPress={()=>this.props.navigation.navigate("Join")} title="회원가입" type="outline"></Button>
             </KeyboardAvoidingView>
         )
     }

@@ -1,6 +1,7 @@
 import React,{Component} from 'react';
 import {Text,View,StyleSheet,TouchableOpacity,Image,TextInput,KeyboardAvoidingView} from 'react-native';
 import {connect}from 'react-redux';
+import {Button} from 'react-native-elements';
 import ActionCreator from '../action/Index';
 
 import LoginComponent from '../component/LoginComponent';
@@ -24,17 +25,17 @@ class LoginScreen extends React.Component{
     render(){
         if(this.props.status == 1){
             return(
-                <View>
+                <View style={{flex:1,justifyContent:"center"}}>
                     <LoginComponent target="고용주" navigation = {this.props.navigation}></LoginComponent>
-                    <ButtonComponent fun = {()=>this._onChangeStatus()} title="아르바이트생 로그인"></ButtonComponent>
+                    <Button onPress = {()=>this._onChangeStatus()} title="아르바이트생 로그인"></Button>
                 </View>
             )
         }
         else {
             return(
-                <View>
+                <View style={{flex:1,justifyContent:"center"}}>
                     <LoginComponent target="아르바이트생" navigation = {this.props.navigation}></LoginComponent>
-                    <ButtonComponent fun = {()=>this._onChangeStatus()} title="고용주 로그인"></ButtonComponent>
+                    <Button onPress = {()=>this._onChangeStatus()} title="고용주 로그인"></Button>
                 </View>
             )
         }

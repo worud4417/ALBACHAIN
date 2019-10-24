@@ -16,7 +16,9 @@ class EmployeeRequestScreen extends Component{
 
     async _onSubmit(){
         let result = await fetchMatchRequest(this.props.navigation.getParam('jobOffer')._id,this.props.user.id);
-        console.log(result);
+        if(result.status == 1){
+            this.props.navigation.navigate("Main");
+        }
     }
 
     render(){
