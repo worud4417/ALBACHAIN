@@ -45,6 +45,12 @@ const MatchedJobStack = createStackNavigator({
   }
 })
 
+const MyStack = createStackNavigator({
+  My:{
+    screen:MyScreen
+  }
+})
+
 const TabNavigator = createBottomTabNavigator({
   Main:{
     screen:MainStack
@@ -53,7 +59,7 @@ const TabNavigator = createBottomTabNavigator({
     screen:MatchedJobStack
   },
   My:{
-    screen:MyScreen
+    screen:MyStack
   },
   Logout:{
     screen:LogoutComponent
