@@ -3,7 +3,9 @@ const types = {
     LOGOUT : "LOGOUT",
     SET_TARGET : "SET_TARGET",
     JOB_OFFER : "JOB_OFFER",
-    INIT_JOB_OFFER : "INIT_JOB_OFFER"
+    INIT_JOB_OFFER : "INIT_JOB_OFFER",
+    MATCHEDJOB : "MATCHEDJOB",
+    INIT_MATCHEDJOB : "INIT_MATCHEDJOB"
 };
 
 export default types;

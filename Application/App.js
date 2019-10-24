@@ -15,7 +15,8 @@ import MyScreen from './src/screen/MyScreen';
 import LogoutComponent from './src/component/LogoutComponent';
 import EmployeeRequestScreen from './src/screen/EmployeeRequestScreen';
 import EmployerResponseScreen from './src/screen/EmployerResponseScreen';
-import JobOffer from './src/screen/JobOfferScreen';
+import JobOfferScreen from './src/screen/JobOfferScreen';
+import MatchJobScreen from './src/screen/MatchJobScreen';
 
 import reducer from './src/reducer/Index';
 
@@ -32,15 +33,24 @@ const MainStack = createStackNavigator({
     screen:EmployerResponseScreen
   },
   JobOffer:{
-    screen:JobOffer
+    screen:JobOfferScreen
   }
 },{
   defaultNavigationOptions
 })
 
+const MatchedJobStack = createStackNavigator({
+  MatchJob:{
+    screen:MatchJobScreen
+  }
+})
+
 const TabNavigator = createBottomTabNavigator({
   Main:{
     screen:MainStack
+  },
+  MatchJob:{
+    screen:MatchedJobStack
   },
   My:{
     screen:MyScreen

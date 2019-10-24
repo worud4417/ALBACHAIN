@@ -53,7 +53,7 @@ export function fetchJobOfferSubmit(id,startdate,period,text){
         return responseJson;
     }).catch((error)=>{
         if(error.message == "Network request failed"){
-            alert("네트워크 오륲");
+            alert("네트워크 오류");
         }
         return {error:false};
     })

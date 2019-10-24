@@ -1,33 +1,35 @@
 import React from 'react';
-import {Text,View,StyleSheet,TouchableOpacity,Image,TextInput,KeyboardAvoidingView,FlatList} from 'react-native';
+import {Text,View,StyleSheet,TouchableOpacity,Image,TextInput,KeyboardAvoidingView,FlatList,ScrollView} from 'react-native';
 import {connect}from 'react-redux';
 import ActionCreator from '../action/Index';
+import { ListItem } from 'react-native-elements'
 
 class MainListComponent extends React.Component{
     constructor(props){
         super(props)
     }
 
-    _onPress(){
+    _onPress(item){
         if(this.props.status == 1){
-            this.props.navigation.navigate("EmployerResponse");
+            this.props.navigation.navigate("EmployerResponse",{jobOffer:item});
         }
         else{
-            this.props.navigation.navigate("EmployeeRequest");
+            this.props.navigation.navigate("EmployeeRequest",{jobOffer:item});
         }
     }
 
     render(){
         return(
-            <FlatList data = {this.props.jobOffer} renderItem={({item}) => (
-                <TouchableOpacity onPress = {()=>this._onPress()}>
-                    <Text>{item._id}</Text>
-                    <Text>{item.registration}</Text>
-                    <Text>{item.startdate}</Text>
-                    <Text>{item.period}</Text>
-                    <Text>{item.texr}</Text>
-                </TouchableOpacity>
-            )} keyExtractor = {item => String(item._id)}></FlatList>
+            <ScrollView>
+                {
+                    this.props.jobOffer.map((item,i) => (
+                        <ListItem key = {i} title = {"사업자 : " + item.name} 
+                        subtitle = {"시작일짜 : "+item.startdate+" 기간 : "+item.period} 
+                        bottomDivider chevron onPress = {()=>this._onPress(item)}>
+                        </ListItem>
+                    ))
+                }
+            </ScrollView>
         )
     }
 }
