@@ -2,8 +2,9 @@ import React,{Component} from 'react';
 import {Text,View,StyleSheet,TouchableOpacity,Image,TextInput,KeyboardAvoidingView} from 'react-native';
 import {connect}from 'react-redux';
 import ActionCreator from '../action/Index';
+import {Button,Input} from 'react-native-elements';
+import Icon from 'react-native-vector-icons/Ionicons';
 
-import ButtonComponent from '../component/ButtonComponent';
 import {fetchJoinEmployee,fetchJoinEmployer} from '../api/JoinApi';
 
 class JoinScreen extends Component{
@@ -92,49 +93,109 @@ class JoinScreen extends Component{
     render(){
         if(this.props.status == 1){
             return(
-                <View style={styles.view}>
-                   <KeyboardAvoidingView style={{marginLeft:"10%",flex:3,justifyContent:"flex-end",marginRight:"10%"}} behavior="padding" enabled>
-                    <Text style={{fontSize:20,fontWeight:"bold",alignSelf:"center",paddingBottom:"5%"}}>고용주 회원 가입</Text>
-                    <Text>아이디</Text>
-                    <TextInput style={styles.textinput} onChangeText={(text)=>this.setState({id:text})}></TextInput>
-                    <Text>비밀번호</Text>
-                    <TextInput secureTextEntry={true} style={styles.textinput} onChangeText={(text)=>this.setState({password:text})}></TextInput>
-                    <Text>비밀번호 확인</Text>
-                    <TextInput secureTextEntry={true} style={styles.textinput} onChangeText={(text)=>this.setState({checkPassword:text})}></TextInput>
-                    <Text>이름</Text>
-                    <TextInput style={styles.textinput} onChangeText={(text)=>this.setState({name:text})}></TextInput>
-                    <Text>사업자 등록번호</Text>
-                    <TextInput style={styles.textinput} onChangeText={(text)=>this.setState({registration:text})}></TextInput>
-                    <Text>전화번호</Text>
-                    <TextInput style={styles.textinput} onChangeText={(text)=>this.setState({callnumber:text})}></TextInput>
-                    <Text>주소</Text>
-                    <TextInput style={styles.textinput} onChangeText={(text)=>this.setState({address:text})}></TextInput>
-                </KeyboardAvoidingView>
-                <ButtonComponent fun = {()=>this._submitEmployer()} title="확인"></ButtonComponent>
-                <ButtonComponent fun = {()=>this.props.navigation.navigate("Login")} title="취소"></ButtonComponent>
+                <View style={{flex:1}}>
+                    <KeyboardAvoidingView style={{marginLeft:"10%",flex:3,justifyContent:"center",marginRight:"10%"}} behavior="padding" enabled>
+                        <Text style={{fontSize:20,fontWeight:"bold",alignSelf:"center",paddingBottom:"5%"}}>고용주 회원 가입</Text>
+                        <Input placeholder="ID" 
+                            inputContainerStyle={styles.textinput} 
+                            onChangeText={(text)=>this.setState({id:text})} 
+                            leftIcon={<Icon name="ios-contact" size={24} color="gray"></Icon>}
+                            leftIconContainerStyle={{marginRight:"2%"}}>
+                        </Input>
+                        <Input placeholder="비밀번호" 
+                            secureTextEntry={true} 
+                            inputContainerStyle={styles.textinput} 
+                            onChangeText={(text)=>this.setState({password:text})} 
+                            leftIcon={<Icon name="ios-lock" size={24} color="gray"></Icon>} 
+                            leftIconContainerStyle={{marginRight:"2%"}}>
+                        </Input>
+                        <Input placeholder="비밀번호 확인" 
+                            secureTextEntry={true} 
+                            inputContainerStyle={styles.textinput} 
+                            onChangeText={(text)=>this.setState({checkPassword:text})} 
+                            leftIcon={<Icon name="ios-lock" size={24} color="gray"></Icon>}
+                            leftIconContainerStyle={{marginRight:"2%"}}>
+                        </Input>
+                        <Input placeholder="사업장 이름" 
+                            inputContainerStyle={styles.textinput} 
+                            onChangeText={(text)=>this.setState({name:text})} 
+                            leftIcon={<Icon name="ios-construct" size={24} color="gray"></Icon>}
+                            leftIconContainerStyle={{marginRight:"2%"}}>
+                        </Input>
+                        <Input placeholder="사업자등록번호" 
+                            inputContainerStyle={styles.textinput} 
+                            onChangeText={(text)=>this.setState({registration:text})} 
+                            leftIcon={<Icon name="ios-briefcase" size={24} color="gray"></Icon>} 
+                            leftIconContainerStyle={{marginRight:"2%"}}>
+                        </Input>
+                        <Input placeholder="전화번호" 
+                            inputContainerStyle={styles.textinput} 
+                            onChangeText={(text)=>this.setState({callnumber:text})} 
+                            leftIcon={<Icon name="ios-call" size={24} color="gray"></Icon>}
+                            leftIconContainerStyle={{marginRight:"2%"}}>
+                        </Input>
+                        <Input placeholder="주소" 
+                            inputContainerStyle={styles.textinput} 
+                            onChangeText={(text)=>this.setState({address:text})} 
+                            leftIcon={<Icon name="ios-home" size={24} color="gray"></Icon>}
+                            leftIconContainerStyle={{marginRight:"2%"}}>
+                        </Input>
+                    </KeyboardAvoidingView>
+                    <View style={{flex:1,marginLeft:"10%",marginRight:"10%",justifyContent:"flex-start"}}>
+                        <Button buttonStyle={{marginBottom:"5%"}} onPress = {()=>this._submitEmployer()} title="확인"></Button>
+                        <Button buttonStyle={{marginBottom:"2%"}} onPress = {()=>this.props.navigation.navigate("Login")} title="취소"></Button>
+                    </View>
                 </View>
             )
         }
         else{
             return(
-                <View style={styles.view}>
-                    <KeyboardAvoidingView style={{marginLeft:"10%",flex:3,justifyContent:"flex-end",marginRight:"10%"}} behavior="padding" enabled>
-                    <Text style={{fontSize:20,fontWeight:"bold",alignSelf:"center",paddingBottom:"5%"}}>아르바이트생 회원 가입</Text>
-                    <Text>아이디</Text>
-                    <TextInput style={styles.textinput} onChangeText={(text)=>this.setState({id:text})}></TextInput>
-                    <Text>비밀번호</Text>
-                    <TextInput secureTextEntry={true} style={styles.textinput} onChangeText={(text)=>this.setState({password:text})}></TextInput>
-                    <Text>비밀번호 확인</Text>
-                    <TextInput secureTextEntry={true} style={styles.textinput} onChangeText={(text)=>this.setState({checkPassword:text})}></TextInput>
-                    <Text>이름</Text>
-                    <TextInput style={styles.textinput} onChangeText={(text)=>this.setState({name:text})}></TextInput>
-                    <Text>전화번호</Text>
-                    <TextInput style={styles.textinput} onChangeText={(text)=>this.setState({callnumber:text})}></TextInput>
-                    <Text>주민등록번호</Text>
-                    <TextInput style={styles.textinput} onChangeText={(text)=>this.setState({socialsecurity:text})}></TextInput>
-                </KeyboardAvoidingView>
-                <ButtonComponent fun = {()=>this._submitEmployee()} title="확인"></ButtonComponent>
-                <ButtonComponent fun = {()=>this.props.navigation.navigate("Login")} title="취소"></ButtonComponent>
+                <View style={{flex:1}}>
+                    <KeyboardAvoidingView style={{marginLeft:"10%",flex:3,justifyContent:"center",marginRight:"10%"}} behavior="padding" enabled>
+                        <Text style={{fontSize:20,fontWeight:"bold",alignSelf:"center",paddingBottom:"5%"}}>아르바이트생 회원 가입</Text>
+                        <Input placeholder="ID" 
+                            inputContainerStyle={styles.textinput} 
+                            onChangeText={(text)=>this.setState({id:text})} 
+                            leftIcon={<Icon name="ios-contact" size={24} color="gray"></Icon>}
+                            leftIconContainerStyle={{marginRight:"2%"}}>
+                        </Input>
+                        <Input placeholder="비밀번호" 
+                            secureTextEntry={true} 
+                            inputContainerStyle={styles.textinput} 
+                            onChangeText={(text)=>this.setState({password:text})} 
+                            leftIcon={<Icon name="ios-lock" size={24} color="gray"></Icon>} 
+                            leftIconContainerStyle={{marginRight:"2%"}}>
+                        </Input>
+                        <Input placeholder="비밀번호 확인" 
+                            secureTextEntry={true} 
+                            inputContainerStyle={styles.textinput} 
+                            onChangeText={(text)=>this.setState({checkPassword:text})} 
+                            leftIcon={<Icon name="ios-lock" size={24} color="gray"></Icon>}
+                            leftIconContainerStyle={{marginRight:"2%"}}>
+                        </Input>
+                        <Input placeholder="이름" 
+                            inputContainerStyle={styles.textinput} 
+                            onChangeText={(text)=>this.setState({name:text})} 
+                            leftIcon={<Icon name="ios-person" size={24} color="gray"></Icon>}
+                            leftIconContainerStyle={{marginRight:"2%"}}>
+                        </Input>
+                        <Input placeholder="주민등록번호" 
+                            inputContainerStyle={styles.textinput} 
+                            onChangeText={(text)=>this.setState({socialsecurity:text})} 
+                            leftIcon={<Icon name="ios-today" size={24} color="gray"></Icon>} 
+                            leftIconContainerStyle={{marginRight:"2%"}}>
+                        </Input>
+                        <Input placeholder="전화번호" 
+                            inputContainerStyle={styles.textinput} 
+                            onChangeText={(text)=>this.setState({callnumber:text})} 
+                            leftIcon={<Icon name="ios-call" size={24} color="gray"></Icon>}
+                            leftIconContainerStyle={{marginRight:"2%"}}>
+                        </Input>
+                    </KeyboardAvoidingView>
+                    <View style={{flex:1,marginLeft:"10%",marginRight:"10%",justifyContent:"flex-start"}}>
+                        <Button buttonStyle={{marginBottom:"5%"}} onPress = {()=>this._submitEmployee()} title="확인"></Button>
+                        <Button buttonStyle={{marginBottom:"2%"}} onPress = {()=>this.props.navigation.navigate("Login")} title="취소"></Button>
+                    </View>
                 </View>
             )
         }
@@ -147,24 +208,8 @@ const styles = StyleSheet.create({
         justifyContent:"center",
         flex:1
     },
-    text:{
-        fontSize:15,
-        fontWeight:"bold",
-        alignSelf:"center"
-    },
     textinput:{
-        borderBottomWidth:1,
-        width:"100%",
-        marginBottom:"5%"
-    },
-    touchableopacity:{
-        marginLeft:"10%",
-        marginTop:"5%",
-        backgroundColor: "#00000020",
-        padding:"3%",
-        width:"80%",
-        borderWidth:2,
-        borderRadius:10
+        marginBottom:"2%"
     }
 });
 

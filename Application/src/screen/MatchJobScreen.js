@@ -1,11 +1,12 @@
 import React,{Component} from 'react';
-import {ActivityIndicator,Text,View,StyleSheet,TouchableOpacity,Image,TextInput,ScrollView} from 'react-native';
+import {ActivityIndicator,Text,View,StyleSheet,TouchableOpacity,Image,TextInput,ScrollView,Modal} from 'react-native';
 import {connect}from 'react-redux';
 import ActionCreator from '../action/Index';
 import {withNavigationFocus} from 'react-navigation';
 import { ListItem,Overlay,Button,ButtonGroup} from 'react-native-elements'
 
-import {fetchMatchingEmployee,fetchMatchedEmployee,fetchMatchinglistEmployer} from '../api/MatchedJobApi';
+import {fetchMatchingEmployee,fetchMatchedEmployee,fetchMatchinglistEmployer,fetchMatchRequestApprove,fetchMatchRequestReject} from '../api/MatchedJobApi';
+import {sky} from '../utils/Color';
 
 class MatchJobScreen extends Component{
     constructor(props){
@@ -40,6 +41,9 @@ class MatchJobScreen extends Component{
                 )
               }
           },
+          headerStyle:{
+            backgroundColor: sky
+        }
         };
       }; 
 
@@ -103,7 +107,6 @@ class MatchJobScreen extends Component{
             this.setState({isReady:false});
             this.props.InitMatchedJob();
             if(selectedIndex == 0){
-                console.log("a")
                 let results = await fetchMatchingEmployee(this.props.user.id);
                 if(results.status == 1){
                     results.obj.forEach(result => {
@@ -121,7 +124,6 @@ class MatchJobScreen extends Component{
                 }   
             }
             if(selectedIndex == 1){
-                console.log("b")
                 let results = await fetchMatchedEmployee(this.props.user.id);
                 if(results.status == 1){
                     results.obj.forEach(result => {
@@ -141,6 +143,36 @@ class MatchJobScreen extends Component{
             this.setState({isReady:true});
         }
         this.setState({selectedIndex});
+    }
+
+    async _approveSubmit(){
+        const result = await fetchMatchRequestApprove(this.state._id);
+        if(result.status == 1){
+            alert("승인 성공");
+            this.setState({isReady:false});
+            this.setState({isVisible:false});
+            this.props.InitMatchedJob();
+            let results = await fetchMatchinglistEmployer(this.props.user.id);
+            if(results != null){
+                results.forEach(obj => {
+                    this.props.MatchedJob({
+                        joindate : obj.JOINDATE,
+                        period : obj.PERIOD,
+                        registration : obj.REGISTRATION,
+                        socialsecurity : obj.SOCIALSECURITY,
+                        startdate : obj.STARTDATE,
+                        status : obj.STATUS,
+                        text : obj.TEXT,
+                        _id : obj._id
+                    })
+                })
+            }
+            this.setState({isReady:true});
+        }
+    }
+
+    async _rejectSubmit(){
+
     }
 
     render(){
@@ -180,9 +212,12 @@ class MatchJobScreen extends Component{
                                     <Text>시작일짜 : {this.state.startdate}</Text>
                                     <Text>기간 : {this.state.period}</Text>
                                     <Text>아르바이트 설명 : {this.state.text}</Text>
+                                    <Text>아르바이트생 정보 : {this.state.socialsecurity}</Text>
                                 </View>
                                 <View style={{flex:1, justifyContent:'flex-end'}}>
-                                    <Button title="확인" type="outline" onPress={()=>this.setState({isVisible:false})}></Button>
+                                    <Button buttonStyle={{marginBottom:"3%"}} title="승인" type="solid" onPress={()=>this._approveSubmit()}></Button>
+                                    <Button buttonStyle={{marginBottom:"3%"}} title="거부" type="outline" onPress={()=>this._rejectSubmit()}></Button>
+                                    <Button buttonStyle={{marginBottom:"3%"}} title="뒤로가기" type="solid" onPress={()=>this.setState({isVisible:false})}></Button>
                                 </View>
                             </View>
                         </Overlay>
@@ -218,7 +253,7 @@ class MatchJobScreen extends Component{
                                     <Text>기간 : {this.state.period}</Text>
                                     <Text>아르바이트 설명 : {this.state.text}</Text>
                                 </View>
-                                <View style={{flex:1, justifyContent:'flex-end'}}>
+                                <View style={{flex:1, justifyContent:'flex-start'}}>
                                     <Button title="확인" type="outline" onPress={()=>this.setState({isVisible:false})}></Button>
                                 </View>
                             </View>

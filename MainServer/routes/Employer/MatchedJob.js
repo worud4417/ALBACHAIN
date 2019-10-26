@@ -107,17 +107,17 @@ router.post('/',function(req,res,next){
                         else{
                             //get employer's klaytn address
                             employerAddress = caver.getAddress(employer.KLAYTNPRIVATEKEY);
-                            Employee.findOne({SOCIALSECURITY:obj.SOCIALSECURITY},function(err,employee){
+                            Employee.findOne({SOCIALSECURITY:obj.SOCIALSECURITY},async function(err,employee){
                                 if(err){
                                     return res.status(500).send({status:"3"});
                                 }
                                 else{
                                     //get employee's klaytn address
                                     employeeAddress = caver.getAddress(employee.KLAYTNPRIVATEKEY);
-                                    console.log(employeeAddress)
                                     try{
                                         //record part time job info to klaytn blockchain
-                                        caver.setRecord(employerAddress,employeeAddress,new Date(obj.STARTDATE).getTime());
+                                        console.log(employeeAddress + " "+employerAddress+ " ");
+                                        await caver.setRecord(employerAddress,employeeAddress,new Date(obj.STARTDATE).getTime());
                                         return res.status(201).send({status:"1"});
                                     }
                                     catch(err){

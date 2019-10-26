@@ -25,8 +25,9 @@ var address = caver.klay.accounts.wallet.add('0x547903cc1e9bec5fe4e6f0e47249328a
  * @param _employeeAddress is employee's klaytn address
  * @param _startDate is job's start date
  */
-exports.setRecord = function setRecord(_employerAddress, _employeeAddress, _startDate){
-    contract.methods.setRecord(_employerAddress,_employeeAddress,_startDate).send({from:address,gas:25000000}).then(function(receipt){
+exports.setRecord = async function setRecord(_employerAddress, _employeeAddress, _startDate){
+    console.log(_employerAddress +" "+_employeeAddress + " "+_startDate)
+    await contract.methods.setRecord(_employerAddress,_employeeAddress,_startDate).send({from:address,gas:25000000}).then(function(receipt){
         console.log(receipt);
     }).catch(e=>console.log(e))
 }
@@ -35,22 +36,30 @@ exports.setRecord = function setRecord(_employerAddress, _employeeAddress, _star
  * get employee's job record from klaytn block chain network
  * @param _employeeAdderss is employee's klaytn address
  */
-exports.getEmployeeRecord = function getEmployeeRecord(_employeeAddress){
-    return contract.methods.getEmployeeRecord(_employeeAddress).call({from:address,gas:25000000}).then(function(receipt){
-        //return javascript array
-        return receipt;
-    })
+exports.getEmployeeRecord = async function getEmployeeRecord(_employeeAddress){
+    var result =  await contract.methods.getEmployeeRecord(_employeeAddress).call({from:address,gas:25000000},function(error,response){
+        if(error){
+            console.log(error);
+        }
+        return response;
+    });
+    console.log(result);
+    return result;
 }
 
 /**
  * get employer's hire record from klaytn block chain network
  * @param _employerAdderss is employee's klaytn address
  */
-exports.getEmployerRecord = function getEmployerRecord(_employerAdderss){
-    return contract.methods.getEmployerRecord(_employerAdderss).call({from:address,gas:25000000}).then(function(receipt){
-        //return javascript array
-        return receipt;
-    })
+exports.getEmployerRecord = async function getEmployerRecord(_employerAdderss){
+    var result =  await contract.methods.getEmployerRecord(_employerAdderss).call({from:address,gas:25000000},function(error,response){
+        if(error){
+            console.log(error);
+        }
+        return response;
+    });
+    console.log(result);
+    return result;
 }
 
 /**

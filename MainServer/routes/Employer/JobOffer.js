@@ -73,9 +73,6 @@ router.get('/',function(req,res,next){
         if(err){
             return res.status(500).send({status:"3"});
         }
-        else if(obj.length ==0){
-            return res.status(400).send({status:"2"});
-        }
         else{
             return res.status(200).send(obj);
         }

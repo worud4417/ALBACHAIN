@@ -3,16 +3,31 @@ import {Text,View,StyleSheet,TouchableOpacity,Image,TextInput,KeyboardAvoidingVi
 import {connect}from 'react-redux';
 import ActionCreator from '../action/Index';
 
+import  TextInfoComponent from '../component/TextInfoComponent';
+import {sky} from '../utils/Color';
+
 class MyScreen extends Component{
     constructor(props){
         super(props);
     }
+
+    static navigationOptions = ({ navigation }) => {
+        return{
+            headerTitle:() =>{
+                return(
+                    <Text>내 정보</Text>
+                )
+            },
+            headerStyle:{
+                backgroundColor: sky
+            }
+        }
+    };
     
     render(){
         if(this.props.status == 1){
             return(
                 <View>
-                    <Text>고용주 정보</Text>
                     <Text>{this.props.user.id}</Text>
                     <Text>{this.props.user.name}</Text>
                     <Text>{this.props.user.callnumber}</Text>
@@ -24,7 +39,6 @@ class MyScreen extends Component{
         else {
             return(
                 <View>
-                    <Text>아르바이트생 정보</Text>
                     <Text>{this.props.user.id}</Text>
                     <Text>{this.props.user.name}</Text>
                     <Text>{this.props.user.callnumber}</Text>

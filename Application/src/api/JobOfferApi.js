@@ -1,8 +1,7 @@
 const url = require("./IpAddress");
 
 export function fetchJobOfferEmployer(id){
-    let uri = url.url+"/employerjoboffer";
-    uri = uri + "?ID=" + id;
+    let uri = url.url+"/employerjoboffer?ID="+id;
 
     return fetch(uri,{
         method:"GET"

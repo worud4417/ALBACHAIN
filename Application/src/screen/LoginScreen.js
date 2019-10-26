@@ -5,7 +5,6 @@ import {Button} from 'react-native-elements';
 import ActionCreator from '../action/Index';
 
 import LoginComponent from '../component/LoginComponent';
-import ButtonComponent from '../component/ButtonComponent'
 
 class LoginScreen extends React.Component{
 
@@ -25,7 +24,7 @@ class LoginScreen extends React.Component{
     render(){
         if(this.props.status == 1){
             return(
-                <View style={{flex:1,justifyContent:"center"}}>
+                <View style={{flex:1,justifyContent:"center",marginLeft:"5%",marginRight:"5%"}}>
                     <LoginComponent target="고용주" navigation = {this.props.navigation}></LoginComponent>
                     <Button onPress = {()=>this._onChangeStatus()} title="아르바이트생 로그인"></Button>
                 </View>
@@ -33,7 +32,7 @@ class LoginScreen extends React.Component{
         }
         else {
             return(
-                <View style={{flex:1,justifyContent:"center"}}>
+                <View style={{flex:1,justifyContent:"center",marginLeft:"5%",marginRight:"5%"}}>
                     <LoginComponent target="아르바이트생" navigation = {this.props.navigation}></LoginComponent>
                     <Button onPress = {()=>this._onChangeStatus()} title="고용주 로그인"></Button>
                 </View>

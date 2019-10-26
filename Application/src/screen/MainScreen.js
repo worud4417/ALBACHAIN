@@ -3,8 +3,11 @@ import {ActivityIndicator,Text,View,StyleSheet,TouchableOpacity,Image,TextInput,
 import {connect}from 'react-redux';
 import ActionCreator from '../action/Index';
 import {withNavigationFocus} from 'react-navigation';
+import Icon from 'react-native-vector-icons/Ionicons';
+import {Header} from 'react-native-elements'
 
 import MainListComponent from '../component/MainListComponent';
+import {sky,backsky} from '../utils/Color';
 
 import {fetchJobOfferEmployer,fetchJobSearchEmployee} from '../api/JobOfferApi';
 
@@ -17,51 +20,57 @@ class MainScreen extends Component{
     }
 
     static navigationOptions = ({ navigation }) => {
-        return {
-          headerTitle: () => {
-              if(navigation.getParam('status') == 1){
-                return(
-                    <Text>나의 구인 현황</Text>
-                )
-              }
-              else{
-                return(
-                    <Text>구직 리스트</Text>
-                )
-              }
-          },
-          headerRight: () => (
-            <TouchableOpacity onPress={()=>{
-                if(navigation.getParam('status') == 1){
-                    navigation.navigate("JobOffer");
+        if(navigation.getParam('status') == 1){
+            return{
+                headerTitle:() =>{
+                    return(
+                        <Text> 나의 구인 현황</Text>
+                    )
+                },
+                headerRight:() => {
+                    return(
+                        <TouchableOpacity style={{margin:10}} onPress={()=>{
+                            navigation.navigate("JobOffer");
+                        }}>
+                            <Icon name = "ios-add-circle" size={35}></Icon>
+                        </TouchableOpacity>
+                    )
+                },
+                headerStyle:{
+                    backgroundColor: sky
                 }
-                else{
-                    alert(new Date())
+            }
+        }
+        else{
+            return{
+                headerTitle:() =>{
+                    return(
+                        <Text> 구직 리스트</Text>
+                    )
+                },
+                headerStyle:{
+                    backgroundColor: sky
                 }
-            }}>
-                <Text>Button</Text>
-            </TouchableOpacity>
-          ),
-        };
+            }
+        }
       };
 
     async componentDidMount(){
         this.props.navigation.setParams({status:this.props.status});
         if(this.props.status == 1){
-            await fetchJobOfferEmployer(this.props.user.id).then((results) => {
-                results.forEach(result => {
-                    this.props.JobOffer({
-                        address : result.ADDRESS,
-                        callnumber : result.CALLNUMBER,
-                        id : result.ID,
-                        name : result.NAME,
-                        period : result.PERIOD,
-                        registration : result.REGISTRATION,
-                        startdate : result.STARTDATE,
-                        text : result.TEXT,
-                        _id : result._id
-                    })
-                })   
+            let results = await fetchJobOfferEmployer(this.props.user.id);
+            results.forEach(result =>{
+                this.props.JobOffer({
+                    address : result.ADDRESS,
+                    callnumber : result.CALLNUMBER,
+                    id : result.ID,
+                    name : result.NAME,
+                    period : result.PERIOD,
+                    registration : result.REGISTRATION,
+                    startdate : result.STARTDATE,
+                    text : result.TEXT,
+                    _id : result._id
+                })
             })
         }
         else{
@@ -137,7 +146,7 @@ class MainScreen extends Component{
         else{
             if(this.props.status == 1){
                 return(
-                    <View>
+                    <View style={{backgroundColor:backsky}}>
                         <MainListComponent navigation = {this.props.navigation}></MainListComponent>
                     </View>
                 )

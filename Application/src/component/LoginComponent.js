@@ -1,10 +1,9 @@
 import React from 'react';
 import {Text,View,StyleSheet,TouchableOpacity,Image,TextInput,KeyboardAvoidingView} from 'react-native';
-import {Button} from 'react-native-elements';
+import {Button,Input} from 'react-native-elements';
 import {connect}from 'react-redux';
 import ActionCreator from '../action/Index';
-
-import ButtonComponent from './ButtonComponent';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import {fetchLoginEmployee,fetchLoginEmployer} from '../api/LoginApi';
 
@@ -76,49 +75,40 @@ class LoginComponent extends React.Component{
     }
 
     render(){
+        let target = null;
+        if(this.props.status == 1){
+            target = "고용주";
+        }
+        else{
+            target = "아르바이트생";
+        }
         return(
             <KeyboardAvoidingView>
-                <Text>{this.props.target} 로그인</Text>
-                <Text>ID</Text>
-                    <TextInput style={styles.textinput} onChangeText={(text)=>this.setState({id:text})} ref={input => {this.idTextinput = input}}></TextInput>
-                    <Text>PASSWORD</Text>
-                    <TextInput style={styles.textinput} onChangeText={(text)=>this.setState({password:text})} ref={input => {this.pwTextInput = input}}></TextInput>
-                    <Button onPress={()=>this._login()} title="로그인"></Button>
-                    <Button onPress={()=>this.props.navigation.navigate("Join")} title="회원가입" type="outline"></Button>
+                <View style={{marginBottom:"5%"}}>
+                    <Input placeholder={" "+target+" ID"}
+                        inputContainerStyle={{marginBottom:"4%"}}
+                        onChangeText={(text)=>this.setState({id:text})} 
+                        ref={input => {this.idTextinput = input}} 
+                        leftIcon={<Icon name="ios-contact" size={24} color="gray"></Icon>} 
+                        leftIconContainerStyle={{marginRight:"2%"}}>
+                    </Input>
+                    <Input placeholder=" PASSWORD" 
+                        inputContainerStyle={{marginBottom:"4%"}}
+                        onChangeText={(text)=>this.setState({password:text})} 
+                        ref={input => {this.pwTextInput = input}} 
+                        leftIcon={<Icon name="ios-lock" size={24} color="gray"></Icon>} 
+                        leftIconContainerStyle={{marginRight:"2%"}}
+                        secureTextEntry={true}>
+                    </Input>
+                </View>
+                <View >
+                    <Button buttonStyle={{marginBottom:"2%"}} onPress={()=>this._login()} title="로그인"></Button>
+                    <Button buttonStyle={{marginBottom:"2%"}} onPress={()=>this.props.navigation.navigate("Join")} title="회원가입" type="outline"></Button>
+                </View>
             </KeyboardAvoidingView>
         )
     }
 }
-
-const styles = StyleSheet.create({
-    keyboardavoidingview:{
-        alignContent:"center",
-        justifyContent:"center",
-        flex:1
-    },
-    image:{
-        width:"25%",height:"20%",alignSelf:"center",marginBottom:"20%"
-    },
-    text:{
-        fontSize:20,
-        fontWeight:"bold",
-        alignSelf:"center"
-    }, 
-    textinput:{
-        borderBottomWidth:1,
-        width:"100%",
-        marginBottom:"5%"
-    },
-    touchableopacity:{
-        marginLeft:"10%",
-        marginTop:"5%",
-        backgroundColor: "#00000020",
-        padding:"3%",
-        width:"80%",
-        borderWidth:2,
-        borderRadius:10
-    }
-})
 
 function mapStateToProps(state){
     return{

@@ -1,74 +1,93 @@
 import React,{Component} from 'react';
-import {Text,View,StyleSheet,TouchableOpacity,Image,TextInput,KeyboardAvoidingView} from 'react-native';
+import {Text,View,StyleSheet,TouchableOpacity,Image,KeyboardAvoidingView, ScrollView} from 'react-native';
 import {connect}from 'react-redux';
 import ActionCreator from '../action/Index';
-
-import ButtonComponent from '../component/ButtonComponent';
+import {Button,Input} from 'react-native-elements';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import {fetchJobOfferSubmit} from '../api/JobOfferApi';
+import {sky} from '../utils/Color';
+import TextInfoComponent from '../component/TextInfoComponent';
 
 class JobOffer extends Component{
     constructor(props){
         super(props);
         this.state={
-            startdate : "",
+            year :2000,
+            month : 1,
+            day : 1,
+            hour : 8,
+            minute : 0,
+            // startdate : "",
             period : "",
             text : ""
         }
     }
 
-    async _onSubmit(){
-        const result = await fetchJobOfferSubmit(this.props.user.id,this.state.startdate,this.state.period,this.state.text);
-        if(result.status == 1){
-            this.props.navigation.navigate("Main");
+    static navigationOptions = ({ navigation }) => {
+        return{
+            headerTitle:() =>{
+                return(
+                    <Text>구인 등록</Text>
+                )
+            },
+            headerStyle:{
+                backgroundColor: sky
+            }
         }
+    };
+
+    async _onSubmit(){
+        this._checkDateInput(this.state.startdate)
+        // const result = await fetchJobOfferSubmit(this.props.user.id,this.state.startdate,this.state.period,this.state.text);
+        // if(result.status == 1){
+        //     this.props.navigation.navigate("Main");
+        // }
+    }
+
+    _checkDateInput(date){
     }
 
     render(){
         return(
             <View style={{flex:1}}>
-                <KeyboardAvoidingView style={{marginLeft:"10%",flex:3,justifyContent:"flex-end",marginRight:"10%"}} behavior="padding" enabled>
-                    <Text style={{fontSize:20,fontWeight:"bold",alignSelf:"center",paddingBottom:"5%"}}>구인 등록</Text>
-                    <Text>아이디 : {this.props.user.id}</Text>
-                    <Text>아르바이트 시작 일짜</Text>
-                    <TextInput style={styles.textinput} onChangeText={(text)=>{this.setState({startdate:text})}}></TextInput>
-                    <Text>아르바이트 기간</Text>
-                    <TextInput style={styles.textinput} onChangeText={(text)=>{this.setState({period:text})}}></TextInput>
-                    <Text>아르바이트 설명</Text>
-                    <TextInput style={styles.textinput} onChangeText={(text)=>{this.setState({text:text})}}></TextInput>
+                <KeyboardAvoidingView style={{marginLeft:"10%",flex:3,justifyContent:"center",marginRight:"10%"}} behavior="padding" enabled>
+                    <View style={{flex:1,justifyContent:"center"}}>
+                        <Text style={{fontSize:20,fontWeight:"bold",alignSelf:"center",paddingBottom:"5%"}}>구인 등록</Text>
+                    </View>
+                    <View style={{marginBottom:"3%", flex:1,justifyContent:"center"}}>
+                        <TextInfoComponent icon = {"ios-contact"} text = {"아이디 : " + this.props.user.id}></TextInfoComponent>
+                    </View>
+                    <View style={{flex:4}}>
+                        <Text>아르바이트 시작일</Text>
+                        <ScrollView >
+                            <Input placeholder="년" onChangeText={(text)=>{this.setState({year:text})}}></Input>
+                            <Input placeholder="월" onChangeText={(text)=>{this.setState({month:text})}}></Input>
+                            <Input placeholder="일" onChangeText={(text)=>{this.setState({day:text})}}></Input>
+                            <Input placeholder="시" onChangeText={(text)=>{this.setState({hour:text})}}></Input>
+                            <Input placeholder="분" onChangeText={(text)=>{this.setState({minute:text})}}></Input>
+                        </ScrollView>
+                    </View>
+                    <View style={{flex:3}}>
+                        <Input placeholder="아르바이트 기간" 
+                                inputContainerStyle={{marginBottom:"2%"}} 
+                                onChangeText={(text)=>{this.setState({period:text})}}
+                                leftIcon={<Icon name="ios-hourglass" size={24} color="gray"></Icon>}
+                                leftIconContainerStyle={{marginRight:"2%"}}>
+                        </Input>
+                        <Input placeholder="아르바이트 설명" 
+                                inputContainerStyle={{marginBottom:"2%"}} 
+                                onChangeText={(text)=>{this.setState({text:text})}}
+                                leftIcon={<Icon name="ios-information-circle-outline" size={24} color="gray"></Icon>}
+                                leftIconContainerStyle={{marginRight:"2%"}}>
+                        </Input>
+                    </View>
                 </KeyboardAvoidingView>
-                <ButtonComponent fun = {()=>this._onSubmit()} title="확인"></ButtonComponent>
+                <Button onPress = {()=>this._onSubmit()} title="확인"></Button>
             </View>
         )
     }
 }
-
-const styles = StyleSheet.create({
-    view:{
-        alignContent:"center",
-        justifyContent:"center",
-        flex:1
-    },
-    text:{
-        fontSize:15,
-        fontWeight:"bold",
-        alignSelf:"center"
-    },
-    textinput:{
-        borderBottomWidth:1,
-        width:"100%",
-        marginBottom:"5%"
-    },
-    touchableopacity:{
-        marginLeft:"10%",
-        marginTop:"5%",
-        backgroundColor: "#00000020",
-        padding:"3%",
-        width:"80%",
-        borderWidth:2,
-        borderRadius:10
-    }
-});
 
 function mapStateToProps(state){
     return{
