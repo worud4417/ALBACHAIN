@@ -6,7 +6,7 @@ import {withNavigationFocus} from 'react-navigation';
 import { ListItem,Overlay,Button,ButtonGroup} from 'react-native-elements'
 
 import {fetchMatchingEmployee,fetchMatchedEmployee,fetchMatchinglistEmployer,fetchMatchRequestApprove,fetchMatchRequestReject} from '../api/MatchedJobApi';
-import {sky} from '../utils/Color';
+import {color} from '../utils/Color';
 
 class MatchJobScreen extends Component{
     constructor(props){
@@ -32,17 +32,17 @@ class MatchJobScreen extends Component{
           headerTitle: () => {
               if(navigation.getParam('status') == 1){
                 return(
-                    <Text>구직 요청 리스트</Text>
+                    <Text style={{color:"white",marginLeft:"5%",fontSize:20}}>구직 요청 리스트</Text>
                 )
               }
               else{
                 return(
-                    <Text>구직 요청 현황 리스트</Text>
+                    <Text style={{color:"white",marginLeft:"5%",fontSize:20}}>구직 요청 현황 리스트</Text>
                 )
               }
           },
           headerStyle:{
-            backgroundColor: sky
+            backgroundColor: color.blue
         }
         };
       }; 

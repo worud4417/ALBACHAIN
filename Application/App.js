@@ -7,6 +7,9 @@ import {createStore} from 'redux';
 import {createAppContainer,createSwitchNavigator} from 'react-navigation';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import {createStackNavigator} from 'react-navigation-stack';
+import Icon from 'react-native-vector-icons/Ionicons';
+
+import {color} from './src/utils/Color';
 
 import LoginScreen from './src/screen/LoginScreen';
 import JoinScreen from './src/screen/JoinScreen';
@@ -19,8 +22,6 @@ import JobOfferScreen from './src/screen/JobOfferScreen';
 import MatchJobScreen from './src/screen/MatchJobScreen';
 
 import reducer from './src/reducer/Index';
-
-const defaultNavigationOptions={}
 
 const MainStack = createStackNavigator({
   Main:{
@@ -35,8 +36,6 @@ const MainStack = createStackNavigator({
   JobOffer:{
     screen:JobOfferScreen
   }
-},{
-  defaultNavigationOptions
 })
 
 const MatchedJobStack = createStackNavigator({
@@ -52,17 +51,39 @@ const MyStack = createStackNavigator({
 })
 
 const TabNavigator = createBottomTabNavigator({
-  Main:{
+  목록:{
     screen:MainStack
   },
-  MatchJob:{
+  매칭:{
     screen:MatchedJobStack
   },
-  My:{
+  내정보:{
     screen:MyStack
   },
-  Logout:{
+  로그아웃:{
     screen:LogoutComponent
+  }
+},{
+  defaultNavigationOptions:({navigation})=>({
+    tabBarIcon:({focused,horizontal,tintColor})=>{
+      const {routeName} = navigation.state;
+      if(routeName === "목록"){
+        return <Icon name="ios-construct" size={30} color="gray"></Icon>
+      }
+      else if(routeName === "매칭"){
+        return <Icon name="ios-people" size={30} color="gray"></Icon>
+      }
+      else if(routeName === "내정보"){
+        return <Icon name="ios-contact" size={30} color="gray"></Icon>
+      }
+      else if(routeName === "로그아웃"){
+        return <Icon name="ios-exit" size={30} color="gray"></Icon>
+      }
+    }
+  }),
+  tabBarOptions:{
+    activeBackgroundColor:color.sky,
+    activeTintColor:color.blue,
   }
 })
 

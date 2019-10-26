@@ -4,6 +4,7 @@ import {connect}from 'react-redux';
 import {Button} from 'react-native-elements';
 import ActionCreator from '../action/Index';
 
+import {color} from '../utils/Color';
 import LoginComponent from '../component/LoginComponent';
 
 class LoginScreen extends React.Component{
@@ -24,17 +25,21 @@ class LoginScreen extends React.Component{
     render(){
         if(this.props.status == 1){
             return(
-                <View style={{flex:1,justifyContent:"center",marginLeft:"5%",marginRight:"5%"}}>
-                    <LoginComponent target="고용주" navigation = {this.props.navigation}></LoginComponent>
-                    <Button onPress = {()=>this._onChangeStatus()} title="아르바이트생 로그인"></Button>
+                <View style={{flex:1}}>
+                    <View style={{flex:1,justifyContent:"center",marginLeft:"5%",marginRight:"5%"}}>
+                        <LoginComponent target="고용주" navigation = {this.props.navigation}></LoginComponent>
+                        <Button onPress = {()=>this._onChangeStatus()} title="아르바이트생 로그인"></Button>
+                    </View>
                 </View>
             )
         }
         else {
             return(
-                <View style={{flex:1,justifyContent:"center",marginLeft:"5%",marginRight:"5%"}}>
-                    <LoginComponent target="아르바이트생" navigation = {this.props.navigation}></LoginComponent>
-                    <Button onPress = {()=>this._onChangeStatus()} title="고용주 로그인"></Button>
+                <View style={{flex:1}}>
+                    <View style={{flex:1,justifyContent:"center",marginLeft:"5%",marginRight:"5%"}}>
+                        <LoginComponent target="아르바이트생" navigation = {this.props.navigation}></LoginComponent>
+                        <Button onPress = {()=>this._onChangeStatus()} title="고용주 로그인"></Button>
+                    </View>
                 </View>
             )
         }

@@ -1,5 +1,6 @@
-const sky = "#2389DD";
+const color ={
+    blue:"#2389DD",
+    sky: "#CDE4F8"
+}
 
-const backsky = "#CDE4F8";
-export defalut backsky;
-// export default {sky,backsky};
+exports.color = color;

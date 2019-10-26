@@ -1,13 +1,13 @@
 import React,{Component} from 'react';
-import {ActivityIndicator,Text,View,StyleSheet,TouchableOpacity,Image,TextInput,KeyboardAvoidingView,Button} from 'react-native';
+import {ActivityIndicator,Text,View,StyleSheet,TouchableOpacity,Image,TextInput,KeyboardAvoidingView} from 'react-native';
 import {connect}from 'react-redux';
 import ActionCreator from '../action/Index';
 import {withNavigationFocus} from 'react-navigation';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {Header} from 'react-native-elements'
+import {Button} from 'react-native-elements'
 
 import MainListComponent from '../component/MainListComponent';
-import {sky,backsky} from '../utils/Color';
+import {color} from '../utils/Color';
 
 import {fetchJobOfferEmployer,fetchJobSearchEmployee} from '../api/JobOfferApi';
 
@@ -24,20 +24,20 @@ class MainScreen extends Component{
             return{
                 headerTitle:() =>{
                     return(
-                        <Text> 나의 구인 현황</Text>
+                        <Text style={{color:"white",marginLeft:"5%",fontSize:20}}>나의 구인 현황</Text>
                     )
                 },
-                headerRight:() => {
-                    return(
-                        <TouchableOpacity style={{margin:10}} onPress={()=>{
-                            navigation.navigate("JobOffer");
-                        }}>
-                            <Icon name = "ios-add-circle" size={35}></Icon>
-                        </TouchableOpacity>
-                    )
-                },
+                // headerRight:() => {
+                //     return(
+                //         <TouchableOpacity style={{margin:10}} onPress={()=>{
+                //             navigation.navigate("JobOffer");
+                //         }}>
+                //             <Icon name = "ios-add-circle" size={35}></Icon>
+                //         </TouchableOpacity>
+                //     )
+                // },
                 headerStyle:{
-                    backgroundColor: sky
+                    backgroundColor: color.blue
                 }
             }
         }
@@ -45,11 +45,11 @@ class MainScreen extends Component{
             return{
                 headerTitle:() =>{
                     return(
-                        <Text> 구직 리스트</Text>
+                        <Text style={{color:"white",marginLeft:"5%",fontSize:20}}> 구직 리스트</Text>
                     )
                 },
                 headerStyle:{
-                    backgroundColor: sky
+                    backgroundColor: color.blue
                 }
             }
         }
@@ -146,8 +146,13 @@ class MainScreen extends Component{
         else{
             if(this.props.status == 1){
                 return(
-                    <View style={{backgroundColor:backsky}}>
-                        <MainListComponent navigation = {this.props.navigation}></MainListComponent>
+                    <View style={{flex:1}}>
+                        <View style={{flex:7}}>
+                            <MainListComponent navigation = {this.props.navigation}></MainListComponent>
+                        </View>
+                        <View style={{flex:1,justifyContent:"center"}}>
+                            <Button containerStyle={{flex:1,marginBottom:"3%",marginHorizontal:"10%",height:"60%"}} onPress={()=>{this.props.navigation.navigate("JobOffer")}} title="구인등록"></Button>
+                        </View>
                     </View>
                 )
             }

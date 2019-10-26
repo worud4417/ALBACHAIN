@@ -6,7 +6,7 @@ import {Button,Input} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import {fetchJobOfferSubmit} from '../api/JobOfferApi';
-import {sky} from '../utils/Color';
+import {color} from '../utils/Color';
 import TextInfoComponent from '../component/TextInfoComponent';
 
 class JobOffer extends Component{
@@ -28,11 +28,11 @@ class JobOffer extends Component{
         return{
             headerTitle:() =>{
                 return(
-                    <Text>구인 등록</Text>
+                    <Text style={{color:"white",marginLeft:"5%",fontSize:20}}>구인 등록</Text>
                 )
             },
             headerStyle:{
-                backgroundColor: sky
+                backgroundColor: color.blue
             }
         }
     };
@@ -50,7 +50,7 @@ class JobOffer extends Component{
 
     render(){
         return(
-            <View style={{flex:1}}>
+            <View style={{flex:1,marginHorizontal:"5%"}}>
                 <KeyboardAvoidingView style={{marginLeft:"10%",flex:3,justifyContent:"center",marginRight:"10%"}} behavior="padding" enabled>
                     <View style={{flex:1,justifyContent:"center"}}>
                         <Text style={{fontSize:20,fontWeight:"bold",alignSelf:"center",paddingBottom:"5%"}}>구인 등록</Text>
@@ -68,7 +68,7 @@ class JobOffer extends Component{
                             <Input placeholder="분" onChangeText={(text)=>{this.setState({minute:text})}}></Input>
                         </ScrollView>
                     </View>
-                    <View style={{flex:3}}>
+                    <View style={{flex:3,justifyContent:"center"}}>
                         <Input placeholder="아르바이트 기간" 
                                 inputContainerStyle={{marginBottom:"2%"}} 
                                 onChangeText={(text)=>{this.setState({period:text})}}
@@ -83,7 +83,7 @@ class JobOffer extends Component{
                         </Input>
                     </View>
                 </KeyboardAvoidingView>
-                <Button onPress = {()=>this._onSubmit()} title="확인"></Button>
+                <Button buttonStyle={{marginBottom:"3%"}} onPress = {()=>this._onSubmit()} title="확인"></Button>
             </View>
         )
     }

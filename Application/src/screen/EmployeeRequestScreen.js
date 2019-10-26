@@ -5,7 +5,7 @@ import {connect}from 'react-redux';
 import ActionCreator from '../action/Index';
 
 import TextInfoComponent from '../component/TextInfoComponent';
-import {sky} from '../utils/Color';
+import {color} from '../utils/Color';
 
 import {fetchMatchRequest} from '../api/MatchedJobApi';
 
@@ -21,11 +21,11 @@ class EmployeeRequestScreen extends Component{
         return{
             headerTitle:() =>{
                 return(
-                    <Text>구직 신청</Text>
+                    <Text style={{color:"white",marginLeft:"5%",fontSize:20}}>구직 신청</Text>
                 )
             },
             headerStyle:{
-                backgroundColor: sky
+                backgroundColor: color.blue
             }
         }
     };
@@ -41,7 +41,7 @@ class EmployeeRequestScreen extends Component{
         if(!this.state.okSubmit){
             return(
                 <View style={{flex:1, justifyContent:"center"}}>
-                    <View style={{flex:3,margin:"5%",borderBottomWidth:2,borderBottomColor:sky}}>
+                    <View style={{flex:3,margin:"5%",borderBottomWidth:2, borderBottomColor:color.sky}}>
                         <ScrollView>
                             <TextInfoComponent icon="ios-contact" text={"번호 : "+this.props.navigation.getParam('jobOffer')._id}></TextInfoComponent>
                             <TextInfoComponent icon="ios-time" text={"시작일짜 : "+this.props.navigation.getParam('jobOffer').startdate}></TextInfoComponent>
@@ -63,7 +63,7 @@ class EmployeeRequestScreen extends Component{
         else{
             return(
                 <View style={{flex:1, justifyContent:"center"}}>
-                    <View style={{flex:3, borderBottomWidth:2,margin:"5%",borderBottomColor:sky}}>
+                    <View style={{flex:3, borderBottomWidth:2,margin:"5%",borderBottomColor:color.sky}}>
                         <ScrollView>
                             <TextInfoComponent icon="ios-contact" text={"번호 : "+this.props.navigation.getParam('jobOffer')._id}></TextInfoComponent>
                             <TextInfoComponent icon="ios-time" text={"시작일짜 : "+this.props.navigation.getParam('jobOffer').startdate}></TextInfoComponent>
