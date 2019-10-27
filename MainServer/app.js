@@ -12,6 +12,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var cors = require('cors');
 
 var employerJoinRouter = require('./routes/Employer/Join');
 var employerLoginRouter = require('./routes/Employer/Login');
@@ -31,6 +32,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors());
 
 app.use('/employerjoin', employerJoinRouter);
 app.use('/employerlogin',employerLoginRouter);

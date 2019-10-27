@@ -41,6 +41,14 @@ var MatchedJobSchema = new Schema({
     JOINDATE:{
         type:Date,
         required:true
+    },
+    EMPLOYEENAME:{
+        type:String,
+        required:true
+    },
+    EMPLOYERNAME:{
+        type:String,
+        required:true
     }
 });
 

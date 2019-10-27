@@ -43,6 +43,10 @@ var jobOfferSchema = new Schema({
     PERIOD:{
         type:Number,
         required:true
+    },
+    PAY:{
+        type:Number,
+        required:true
     }
 });
 

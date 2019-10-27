@@ -11,6 +11,7 @@
 
 var express = require("express");
 var router = express.Router();
+var message = require('../../utils/ErrorMessage');
 
 //get the employee's mongodb schema
 var Employee = require('../../model/Employee');

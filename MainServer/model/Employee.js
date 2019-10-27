@@ -39,6 +39,10 @@ var employeeSchema = new Schema({
     },
     KLAYTNPRIVATEKEY:{
         type:String
+    },
+    RATING:{
+        type:Number,
+        default:0
     }
 });
 

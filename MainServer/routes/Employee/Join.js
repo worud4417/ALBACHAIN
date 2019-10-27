@@ -12,6 +12,7 @@
 var caver = require('../../utils/caver');
 var express = require("express");
 var router = express.Router();
+var message = require('../../utils/ErrorMessage');
 
 //get employee's mongodb schema
 var Employee = require('../../model/Employee');
@@ -41,46 +42,52 @@ router.post('/',function(req,res,next){
     var socialsecurity = req.body.SOCIALSECURITY;
     var joindate = new Date();
 
-    Employee.findOne({ID:id},function(err,obj){
-        if(err){
-            status = "3";
-        }
-
-        if(obj != null){
-            status = "2"
-        }
-    }).then(Employee.findOne({SOCIALSECURITY:socialsecurity},function(err,obj){
-        if(err){
-            status = "3";
-        }
-
-        if(obj != null){
-            status = "2"
-        }
-    })).then(function(){
-        if(status == "2"){
-            return res.status(400).send({status:status});
-        }
-        else if(status == "3"){
-            return res.status(500).send({status:status});
-        }
-        else{
-            employee.ID = id;
-            employee.PASSWORD = password;
-            employee.NAME = name;
-            employee.SOCIALSECURITY = socialsecurity;
-            employee.CALLNUMBER = callnumber;
-            employee.JOINDATE = joindate;
-            employee.KLAYTNPRIVATEKEY = newAccount.privateKey;
-
-            employee.save(function(err){
-                if(err){
-                    return res.status(500).send({status:"3"});
-                }
-                return res.status(201).send({status:"1"});
-            })
-        }
-    })
+    if(id == undefined || password == undefined || name == undefined
+        || callnumber == undefined || socialsecurity == undefined){
+            res.status(400).send({status:"2",errormessage:message.nullParam});
+    }
+    else{
+        Employee.findOne({ID:id},function(err,obj){
+            if(err){
+                status = "3";
+            }
+    
+            if(obj != null){
+                status = "2"
+            }
+        }).then(Employee.findOne({SOCIALSECURITY:socialsecurity},function(err,obj){
+            if(err){
+                status = "3";
+            }
+    
+            if(obj != null){
+                status = "2"
+            }
+        })).then(function(){
+            if(status == "2"){
+                return res.status(400).send({status:status,errormessage:message.duplicatedParam});
+            }
+            else if(status == "3"){
+                return res.status(500).send({status:status,errormessage:message.serverError});
+            }
+            else{
+                employee.ID = id;
+                employee.PASSWORD = password;
+                employee.NAME = name;
+                employee.SOCIALSECURITY = socialsecurity;
+                employee.CALLNUMBER = callnumber;
+                employee.JOINDATE = joindate;
+                employee.KLAYTNPRIVATEKEY = newAccount.privateKey;
+    
+                employee.save(function(err){
+                    if(err){
+                        return res.status(500).send({status:"3",errormessage:message.serverError});
+                    }
+                    return res.status(201).send({status:"1"});
+                })
+            }
+        })
+    }
 })
 
 /**
@@ -92,20 +99,60 @@ router.post('/',function(req,res,next){
 router.delete('/',function(req,res,next){
     Employee.findOne({ID:req.body.ID},function(err,obj){
         if(err){
-            return res.status(500).send({status:"3"});
+            return res.status(500).send({status:"3",errormessage:message.serverError});
         }
         else if(obj == null){
-            return res.status(400).send({status:"2"});
+            return res.status(400).send({status:"2",errormessage:message.idNotFounded});
         }
         else{
             Employee.deleteOne({ID:req.body.ID},function(err){
                 if(err){
-                    return res.status(500).send({status:"3"});
+                    return res.status(500).send({status:"3",errormessage:message.serverError});
                 }
                 return res.status(200).send({status:"1"});
             })
         }
     })
+})
+
+/**
+ * update employee
+ * use POST
+ * use JSON
+ * @param ID is employee's id
+ * @param PASSWORD is employee's password
+ * @param 
+ */
+router.post('/update',function(req,res,next){
+
+    var id = req.body.ID;
+    var password = req.body.PASSWORD;
+    var callnumber = req.body.CALLNUMBER;
+    var name = req.body.NAME;
+
+    if(password == undefined || callnumber == undefined || name == undefined){
+        res.status(400).send({status:"2",errormessage:message.nullParam});
+    }
+    else{
+        Employee.findOne({ID:id},function(err,obj){
+            if(err){
+                res.status(500).send({status:message.serverError});
+            }
+            else if(obj == null){
+                res.status(400).send({status:"2",errormessage:message.idNotFounded});
+            }
+            else{
+                Employee.updateOne({ID:id},{PASSWORD:password,CALLNUMBER:callnumber,NAME:name},function(err,result){
+                    if(err){
+                        res.status(500).send({status:"3",errormessage:message.serverError});
+                    }
+                    else{
+                        res.status(200).send({status:"1",result});
+                    }
+                })
+            }
+        })
+    }
 })
 
 module.exports = router;
