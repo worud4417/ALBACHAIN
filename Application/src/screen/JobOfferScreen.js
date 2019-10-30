@@ -152,7 +152,7 @@ class JobOffer extends Component{
                             <Button title = "시작일짜" buttonStyle={{marginBottom:"3%"}} onPress={()=>{this.setState({isStartVisible:true})}}></Button>
                             <TextInfoComponent icon = {"ios-log-in"} text = {new Date(this.state.startDate).toUTCString()}></TextInfoComponent>
                             <Button title = "종료일짜" buttonStyle={{marginBottom:"3%"}} onPress={()=>{this.setState({isEndVisible:true})}}></Button>
-                            <TextInfoComponent icon = {"ios-log-out"} text = {new Date(this.state.startDate).toUTCString()}></TextInfoComponent>
+                            <TextInfoComponent icon = {"ios-log-out"} text = {new Date(this.state.endDate).toUTCString()}></TextInfoComponent>
                         </View>
                         <View style={{flex:3,justifyContent:"center"}}>
                             <Input placeholder="아르바이트 시급" 
