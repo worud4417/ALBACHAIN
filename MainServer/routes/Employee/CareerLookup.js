@@ -10,6 +10,7 @@
 
 var express = require("express");
 var router = express.Router();
+var message = require("../../utils/ErrorMessage");
 
 //get caver-js utils to search the job record
 var caver = require('../../utils/caver');
@@ -30,15 +31,14 @@ router.get('/',function(req,res,next){
 
     Employee.findOne({ID:id},async function(err,obj){
         if(err){
-            return res.status(500).send({status:"3"});
+            return res.status(500).send({status:"3",errormessage:message.serverError});
         }
         else if(obj == null){
-            return res.status(400).send({status:"2"});
+            return res.status(400).send({status:"2",errormessage:message.idNotFounded});
         }
         else{
             var address = caver.getAddress(obj.KLAYTNPRIVATEKEY);
             var record = await caver.getEmployeeRecord(address);
-            console.log(record)
             return res.status(200).send({status:"1",record});
         }
     })

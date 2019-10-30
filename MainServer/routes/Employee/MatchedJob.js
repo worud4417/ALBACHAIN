@@ -10,6 +10,7 @@
 
 var express = require('express');
 var router = express.Router();
+var message = require('../../utils/ErrorMessage');
 
 //get the matchedjob's mongodb schema
 var MatchedJob = require('../../model/MatchedJob');
@@ -26,18 +27,18 @@ router.get('/',function(req,res,next){
 
     Employee.findOne({ID:id},function(err,employee){
         if(err){
-            return res.status(500).send({status:"3"});
+            return res.status(500).send({status:"3",errormessage:message.serverError});
         }
         else if(employee == null){
-            return res.status(400).send({status:"2"});
+            return res.status(400).send({status:"2",errormessge:message.idNotFounded});
         }
         else{
-            MatchedJob.find({SOCIALSECURITY:employee.SOCIALSECURITY,STATUS:"1"},function(err,obj){
+            MatchedJob.find({SOCIALSECURITY:employee.SOCIALSECURITY,STATUS:"1"},function(err,matchedJob){
                 if(err){
-                    return res.status(500).send({status:"3"});
+                    return res.status(500).send({status:"3",errormessage:message.serverError});
                 }
                 else{
-                    return res.status(200).json({status:"1",obj})
+                    return res.status(200).json({status:"1",matchedJob})
                 }
             })
         }
@@ -55,18 +56,18 @@ router.get('/matched',function(req,res,next){
 
     Employee.findOne({ID:id},function(err,employee){
         if(err){
-            return res.status(500).send({status:"3"});
+            return res.status(500).send({status:"3",errormessage:message.serverError});
         }
         else if(employee == null){
-            return res.status(400).send({status:"2"});
+            return res.status(400).send({status:"2",errormessage:message.idNotFounded});
         }
         else{
-            MatchedJob.find({SOCIALSECURITY:employee.SOCIALSECURITY,STATUS:"2"},function(err,obj){
+            MatchedJob.find({SOCIALSECURITY:employee.SOCIALSECURITY,STATUS:"2"},function(err,matchedJob){
                 if(err){
-                    return res.status(500).send({status:"3"});
+                    return res.status(500).send({status:"3",errormessage:message.serverError});
                 }
                 else{
-                    return res.status(200).json({status:"1",obj})
+                    return res.status(200).json({status:"1",matchedJob})
                 }
             })
         }

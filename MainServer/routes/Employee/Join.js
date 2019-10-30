@@ -116,12 +116,13 @@ router.delete('/',function(req,res,next){
 })
 
 /**
- * update employee
+ * update employee's info
  * use POST
  * use JSON
  * @param ID is employee's id
  * @param PASSWORD is employee's password
- * @param 
+ * @param CALLNUMBER is employee's callnumber
+ * @param NAME is employee's name
  */
 router.post('/update',function(req,res,next){
 
@@ -131,23 +132,23 @@ router.post('/update',function(req,res,next){
     var name = req.body.NAME;
 
     if(password == undefined || callnumber == undefined || name == undefined){
-        res.status(400).send({status:"2",errormessage:message.nullParam});
+        return res.status(400).send({status:"2",errormessage:message.nullParam});
     }
     else{
         Employee.findOne({ID:id},function(err,obj){
             if(err){
-                res.status(500).send({status:message.serverError});
+                return res.status(500).send({status:message.serverError});
             }
             else if(obj == null){
-                res.status(400).send({status:"2",errormessage:message.idNotFounded});
+                return res.status(400).send({status:"2",errormessage:message.idNotFounded});
             }
             else{
                 Employee.updateOne({ID:id},{PASSWORD:password,CALLNUMBER:callnumber,NAME:name},function(err,result){
                     if(err){
-                        res.status(500).send({status:"3",errormessage:message.serverError});
+                        return res.status(500).send({status:"3",errormessage:message.serverError});
                     }
                     else{
-                        res.status(200).send({status:"1",result});
+                        return res.status(201).send({status:"1",result});
                     }
                 })
             }

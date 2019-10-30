@@ -29,13 +29,13 @@ router.post('/',function(req,res,next){
 
     Employee.findOne({ID:id},function(err,obj){
         if(err){
-            return res.status(500).send({status:"3"});
+            return res.status(500).send({status:"3",errormessage:message.serverError});
         }
         else if(obj == null){
-            return res.status(400).send({status:"2"});
+            return res.status(400).send({status:"2",errormessage:message.idNotFounded});
         }
         else if(obj.PASSWORD != password){
-            return res.status(400).send({status:"2"});
+            return res.status(400).send({status:"2",errormessage:message.invalidPassword});
         }
         else{
             //return employee's info
@@ -45,9 +45,33 @@ router.post('/',function(req,res,next){
                 NAME:obj.NAME,
                 SOCIALSECURITY:obj.SOCIALSECURITY,
                 CALLNUMBER:obj.CALLNUMBER,
+                RATING:obj.RATING
             });
         }
     })
 });
+
+/**
+ * search employee
+ * use GET
+ * use JSON
+ * @param ID is employee's id
+ */
+router.get('/',function(req,res,next){
+    var id = req.query.ID;
+    if(id == undefined){
+        return res.status(400).send({status:"2",errormessage:message.idNotFounded});
+    }
+    else{
+        Employee.findOne({ID:id},function(err,employee){
+            if(err){
+                return res.status(500).send({status:'3',errormessage:message.serverError});
+            }
+            else{
+                return res.status(200).send({status:"1",employee});
+            }
+        })
+    }
+})
 
 module.exports = router;

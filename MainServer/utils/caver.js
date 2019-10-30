@@ -26,7 +26,6 @@ var address = caver.klay.accounts.wallet.add('0x547903cc1e9bec5fe4e6f0e47249328a
  * @param _startDate is job's start date
  */
 exports.setRecord = async function setRecord(_employerAddress, _employeeAddress, _startDate){
-    console.log(_employerAddress +" "+_employeeAddress + " "+_startDate)
     await contract.methods.setRecord(_employerAddress,_employeeAddress,_startDate).send({from:address,gas:25000000}).then(function(receipt){
         console.log(receipt);
     }).catch(e=>console.log(e))

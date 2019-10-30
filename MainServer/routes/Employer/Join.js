@@ -12,6 +12,7 @@
 var caver = require('../../utils/caver');
 var express = require("express");
 var router = express.Router();
+var message = require('../../utils/ErrorMessage');
 
 //get employer's mongodb schema
 var Employer = require('../../model/Employer');
@@ -43,47 +44,53 @@ router.post('/',function(req,res,next){
     var address = req.body.ADDRESS;
     var joindate = new Date();
 
-    Employer.findOne({ID:id},function(err,obj){
-        if(err){
-            status = "3";
-        }
-
-        if(obj != null){
-            status = "2"
-        }
-    }).then(Employer.findOne({REGISTRATION:registration},function(err,obj){
-        if(err){
-            status = "3";
-        }
-
-        if(obj != null){
-            status = "2"
-        }
-    })).then(function(){
-        if(status == "2"){
-            return res.status(400).send({status:status});
-        }
-        else if(status == "3"){
-            return res.status(500).send({status:status});
-        }
-        else{
-            employer.ID = id;
-            employer.PASSWORD = password;
-            employer.NAME = name;
-            employer.REGISTRATION = registration;
-            employer.CALLNUMBER = callnumber;
-            employer.ADDRESS = address;
-            employer.JOINDATE = joindate;
-            employer.KLAYTNPRIVATEKEY = newAccount.privateKey;
-
-            employer.save(function(err){
-                if(err){
-                    return res.status(500).send({status:"3"});
-                }
-                return res.status(201).send({status:"1"});
-            })
-        }
-    })
+    if(id == undefined || password == undefined || name == undefined ||
+        registration == undefined || callnumber == undefined || address ==undefined){
+            return res.status(400).send({status:"2",errormessage:message.nullParam});
+    }
+    else{
+        Employer.findOne({ID:id},function(err,obj){
+            if(err){
+                status = "3";
+            }
+    
+            if(obj != null){
+                status = "2"
+            }
+        }).then(Employer.findOne({REGISTRATION:registration},function(err,obj){
+            if(err){
+                status = "3";
+            }
+    
+            if(obj != null){
+                status = "2"
+            }
+        })).then(function(){
+            if(status == "2"){
+                return res.status(400).send({status:status,errormessage:message.duplicatedParam});
+            }
+            else if(status == "3"){
+                return res.status(500).send({status:status,errormessage:message.serverError});
+            }
+            else{
+                employer.ID = id;
+                employer.PASSWORD = password;
+                employer.NAME = name;
+                employer.REGISTRATION = registration;
+                employer.CALLNUMBER = callnumber;
+                employer.ADDRESS = address;
+                employer.JOINDATE = joindate;
+                employer.KLAYTNPRIVATEKEY = newAccount.privateKey;
+    
+                employer.save(function(err){
+                    if(err){
+                        return res.status(500).send({status:"3",errormessage:message.serverError});
+                    }
+                    return res.status(201).send({status:"1"});
+                })
+            }
+        })
+    }
 })
 
 /**
@@ -95,20 +102,62 @@ router.post('/',function(req,res,next){
 router.delete('/',function(req,res,next){
     Employer.findOne({ID:req.body.ID},function(err,obj){
         if(err){
-            return res.status(500).send({status:"3"});
+            return res.status(500).send({status:"3",errormessage:message.serverError});
         }
         else if(obj == null){
-            return res.status(400).send({status:"2"});
+            return res.status(400).send({status:"2",errormessage:message.idNotFounded});
         }
         else{
             Employer.remove({ID:req.body.ID},function(err,obj){
                 if(err){
-                    return res.status(500).send({status:"3"});
+                    return res.status(500).send({status:"3",errormessage:message.serverError});
                 }
                 return res.status(200).send({status:"1"});
             })
         }
     })
+})
+
+/**
+ * update employer's info
+ * use POST
+ * use JSON
+ * @param ID is employer's id
+ * @param PASSWORD is employer's password
+ * @param CALLNUMBER is employer's callnumber
+ * @param NAME is employer's name
+ * @param ADDRESS is employer's address
+ */
+router.post('/update',function(req,res,next){
+    var id = req.body.ID;
+    var password = req.body.PASSWORD;
+    var callnumber = req.body.CALLNUMBER;
+    var name = req.body.NAME;
+    var address = req.body.ADDRESS;
+
+    if(password == undefined || callnumber == undefined || name == undefined || address == undefined){
+        return res.status(400).send({status:"2",errormessage:message.nullParam});
+    }
+    else{
+        Employer.findOne({ID:id},function(err,obj){
+            if(err){
+                return res.status(500).send({status:message.serverError});
+            }
+            else if(obj == null){
+                return res.status(400).send({status:"2",errormessage:message.idNotFounded});
+            }
+            else{
+                Employer.updateOne({ID:id},{PASSWORD:password,CALLNUMBER:callnumber,NAME:name,ADDRESS:address},function(err,result){
+                    if(err){
+                        return res.status(500).send({status:"3",errormessage:message.serverError});
+                    }
+                    else{
+                        return res.status(200).send({status:"1",result});
+                    }
+                })
+            }
+        })
+    }
 })
 
 module.exports = router;

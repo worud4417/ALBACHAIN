@@ -48,4 +48,36 @@ export function fetchLoginEmployee(id,password){
     })
 }
 
-export default {fetchLoginEmployee,fetchLoginEmployer};
+export function fetchGetEmployer(id){
+    const uri = url.url+"/employerlogin?ID="+id;
+
+    return fetch(uri,{
+        method:"GET"
+    }).then((response)=>response.json())
+    .then((responseJson)=>{
+        return responseJson
+    }).catch((error)=>{
+        if(error.message == "Network request failed"){
+            alert("네트워크 오류");
+        }
+        return {error:false};
+    })
+}
+
+export function fetchGetEmployee(id){
+    const uri = url.url+"/employeelogin?ID="+id;
+
+    return fetch(uri,{
+        method:"GET"
+    }).then((response)=>response.json())
+    .then((responseJson)=>{
+        return responseJson
+    }).catch((error)=>{
+        if(error.message == "Network request failed"){
+            alert("네트워크 오류");
+        }
+        return {error:false};
+    })
+}
+
+export default {fetchLoginEmployee,fetchLoginEmployer,fetchGetEmployee,fetchGetEmployer};

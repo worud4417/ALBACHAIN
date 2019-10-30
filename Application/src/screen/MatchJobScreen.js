@@ -14,12 +14,15 @@ class MatchJobScreen extends Component{
         this.state={
             isVisible:false,
             joindate : "",
-            period : "",
+            enddate : "",
             registration : "",
             socialsecurity : "",
             startdate : "",
             status : "",
             text : "",
+            pay : "",
+            employeeName : "",
+            employerName : "",
             _id : "",
             selectedIndex:0,
             isReady : false
@@ -52,35 +55,41 @@ class MatchJobScreen extends Component{
         this.setState({isReady:false});
         this.props.InitMatchedJob();
         if(this.props.status == 1){
-            let results = await fetchMatchinglistEmployer(this.props.user.id);
+            let results = await fetchMatchinglistEmployer(this.props.user[0].ID);
             if(results != null){
-                results.forEach(result => {
+                results.matchedJob.forEach(result => {
                     this.props.MatchedJob({
                         joindate : result.JOINDATE,
-                        period : result.PERIOD,
+                        enddate : result.ENDDATE,
                         registration : result.REGISTRATION,
                         socialsecurity : result.SOCIALSECURITY,
                         startdate : result.STARTDATE,
                         status : result.STATUS,
                         text : result.TEXT,
-                        _id : result._id
+                        pay : result.PAY,
+                        _id : result._id,
+                        employerName: result.EMPLOYERNAME,
+                        employeeName : result.EMPLOYEENAME
                     })
                 })
             }
         }
         else{
-            let results = await fetchMatchingEmployee(this.props.user.id);
+            let results = await fetchMatchingEmployee(this.props.user[0].ID);
             if(results.status == 1){
-                results.obj.forEach(result => {
+                results.matchedJob.forEach(result => {
                     this.props.MatchedJob({
                         joindate : result.JOINDATE,
-                        period : result.PERIOD,
+                        enddate : result.ENDDATE,
                         registration : result.REGISTRATION,
                         socialsecurity : result.SOCIALSECURITY,
                         startdate : result.STARTDATE,
                         status : result.STATUS,
                         text : result.TEXT,
-                        _id : result._id
+                        _id : result._id,
+                        pay : result.PAY,
+                        employerName: result.EMPLOYERNAME,
+                        employeeName : result.EMPLOYEENAME
                     })
                 })
             }
@@ -92,13 +101,16 @@ class MatchJobScreen extends Component{
         this.setState({
             isVisible:true,
             joindate : item.joindate,
-            period : item.period,
+            enddate : item.enddate,
             registration : item.registration,
             socialsecurity : item.socialsecurity,
             startdate : item.startdate,
             status : item.status,
             text : item.text,
-            _id : item._id
+            pay : item.pay,
+            _id : item._id,
+            employerName: item.employerName,
+            employeeName : item.employeeName
         });
     }
 
@@ -107,35 +119,41 @@ class MatchJobScreen extends Component{
             this.setState({isReady:false});
             this.props.InitMatchedJob();
             if(selectedIndex == 0){
-                let results = await fetchMatchingEmployee(this.props.user.id);
+                let results = await fetchMatchingEmployee(this.props.user[0].ID);
                 if(results.status == 1){
-                    results.obj.forEach(result => {
+                    results.matchedJob.forEach(result => {
                         this.props.MatchedJob({
                             joindate : result.JOINDATE,
-                            period : result.PERIOD,
+                            enddate : result.ENDDATE,
                             registration : result.REGISTRATION,
                             socialsecurity : result.SOCIALSECURITY,
                             startdate : result.STARTDATE,
                             status : result.STATUS,
                             text : result.TEXT,
+                            pay : result.PAY,
                             _id : result._id,
+                            employerName: result.EMPLOYERNAME,
+                            employeeName : result.EMPLOYEENAME
                         })
                     })
                 }   
             }
             if(selectedIndex == 1){
-                let results = await fetchMatchedEmployee(this.props.user.id);
+                let results = await fetchMatchedEmployee(this.props.user[0].ID);
                 if(results.status == 1){
-                    results.obj.forEach(result => {
+                    results.matchedJob.forEach(result => {
                         this.props.MatchedJob({
                             joindate : result.JOINDATE,
-                            period : result.PERIOD,
+                            enddate : result.ENDDATE,
                             registration : result.REGISTRATION,
                             socialsecurity : result.SOCIALSECURITY,
                             startdate : result.STARTDATE,
                             status : result.STATUS,
                             text : result.TEXT,
+                            pay : result.PAY,
                             _id : result._id,
+                            employerName: result.EMPLOYERNAME,
+                            employeeName : result.EMPLOYEENAME
                         })
                     })
                 }
@@ -152,18 +170,21 @@ class MatchJobScreen extends Component{
             this.setState({isReady:false});
             this.setState({isVisible:false});
             this.props.InitMatchedJob();
-            let results = await fetchMatchinglistEmployer(this.props.user.id);
+            let results = await fetchMatchinglistEmployer(this.props.user[0].ID);
             if(results != null){
-                results.forEach(obj => {
+                results.matchedJob.forEach(obj => {
                     this.props.MatchedJob({
                         joindate : obj.JOINDATE,
-                        period : obj.PERIOD,
+                        enddate : obj.ENDDATE,
                         registration : obj.REGISTRATION,
                         socialsecurity : obj.SOCIALSECURITY,
                         startdate : obj.STARTDATE,
                         status : obj.STATUS,
                         text : obj.TEXT,
-                        _id : obj._id
+                        pay : obj.PAY,
+                        _id : obj._id,
+                        employerName: obj.EMPLOYERNAME,
+                        employeeName : obj.EMPLOYEENAME
                     })
                 })
             }
@@ -172,7 +193,32 @@ class MatchJobScreen extends Component{
     }
 
     async _rejectSubmit(){
-
+        const result = await fetchMatchRequestReject(this.state._id);
+        if(result.status == 1){
+            alert("승인 거부");
+            this.setState({isReady:false});
+            this.setState({isVisible:false});
+            this.props.InitMatchedJob();
+            let results = await fetchMatchinglistEmployer(this.props.user[0].ID);
+            if(results != null){
+                results.matchedJob.forEach(obj => {
+                    this.props.MatchedJob({
+                        joindate : obj.JOINDATE,
+                        enddate : obj.ENDDATE,
+                        registration : obj.REGISTRATION,
+                        socialsecurity : obj.SOCIALSECURITY,
+                        startdate : obj.STARTDATE,
+                        status : obj.STATUS,
+                        text : obj.TEXT,
+                        pay : obj.PAY,
+                        _id : obj._id,
+                        employerName: obj.EMPLOYERNAME,
+                        employeeName : obj.EMPLOYEENAME
+                    })
+                })
+            }
+            this.setState({isReady:true});
+        }
     }
 
     render(){
@@ -209,10 +255,12 @@ class MatchJobScreen extends Component{
                                     <Text>번호 : {this.state._id}</Text>
                                     <Text>신청 날짜 : {this.state.joindate}</Text>
                                     <Text>사업자 등록번호 : {this.state.registration}</Text>
+                                    <Text>사업자 이름 : {this.state.employerName}</Text>
                                     <Text>시작일짜 : {this.state.startdate}</Text>
-                                    <Text>기간 : {this.state.period}</Text>
+                                    <Text>종료일짜 : {this.state.enddate}</Text>
+                                    <Text>시급 : {this.state.pay}</Text>
                                     <Text>아르바이트 설명 : {this.state.text}</Text>
-                                    <Text>아르바이트생 정보 : {this.state.socialsecurity}</Text>
+                                    <Text>아르바이트생 이름 : {this.state.employeeName}</Text>
                                 </View>
                                 <View style={{flex:1, justifyContent:'flex-end'}}>
                                     <Button buttonStyle={{marginBottom:"3%"}} title="승인" type="solid" onPress={()=>this._approveSubmit()}></Button>
@@ -249,8 +297,10 @@ class MatchJobScreen extends Component{
                                     <Text>번호 : {this.state._id}</Text>
                                     <Text>신청 날짜 : {this.state.joindate}</Text>
                                     <Text>사업자 등록번호 : {this.state.registration}</Text>
+                                    <Text>사업자 이름 : {this.state.employerName}</Text>
                                     <Text>시작일짜 : {this.state.startdate}</Text>
-                                    <Text>기간 : {this.state.period}</Text>
+                                    <Text>종료일짜 : {this.state.enddate}</Text>
+                                    <Text>시급 : {this.state.pay}</Text>
                                     <Text>아르바이트 설명 : {this.state.text}</Text>
                                 </View>
                                 <View style={{flex:1, justifyContent:'flex-start'}}>

@@ -40,8 +40,8 @@ var jobOfferSchema = new Schema({
         type:Date,
         required:true
     },
-    PERIOD:{
-        type:Number,
+    ENDDATE:{
+        type:Date,
         required:true
     },
     PAY:{

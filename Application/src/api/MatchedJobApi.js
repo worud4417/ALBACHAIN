@@ -109,6 +109,7 @@ export function fetchMatchRequestReject(_id){
         })
     }).then((response) => response.json())
     .then((responseJson) => {
+        console.log(responseJson)
         return responseJson;
     }).catch((error) => {
         if(error.message == "Network request failed"){

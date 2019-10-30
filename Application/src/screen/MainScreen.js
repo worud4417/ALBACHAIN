@@ -58,33 +58,35 @@ class MainScreen extends Component{
     async componentDidMount(){
         this.props.navigation.setParams({status:this.props.status});
         if(this.props.status == 1){
-            let results = await fetchJobOfferEmployer(this.props.user.id);
-            results.forEach(result =>{
+            let results = await fetchJobOfferEmployer(this.props.user[0].ID);
+            results.jobOffer.forEach(result =>{
                 this.props.JobOffer({
                     address : result.ADDRESS,
                     callnumber : result.CALLNUMBER,
                     id : result.ID,
                     name : result.NAME,
-                    period : result.PERIOD,
+                    enddate : result.ENDDATE,
                     registration : result.REGISTRATION,
                     startdate : result.STARTDATE,
                     text : result.TEXT,
+                    pay : result.PAY,
                     _id : result._id
                 })
             })
         }
         else{
             await fetchJobSearchEmployee().then((results) =>{
-                results.forEach(result =>{
+                results.jobOffer.forEach(result =>{
                     this.props.JobOffer({
                         address : result.ADDRESS,
                         callnumber : result.CALLNUMBER,
                         id : result.ID,
                         name : result.NAME,
-                        period : result.PERIOD,
+                        enddate : result.ENDDATE,
                         registration : result.REGISTRATION,
                         startdate : result.STARTDATE,
                         text : result.TEXT,
+                        pay : result.PAY,
                         _id : result._id
                     })
                 })
@@ -98,17 +100,18 @@ class MainScreen extends Component{
             this.setState({isReady:false});
             this.props.InitJobOffer();
             if(this.props.status == 1){
-                await fetchJobOfferEmployer(this.props.user.id).then((results) => {
-                    results.forEach(result => {
+                await fetchJobOfferEmployer(this.props.user[0].ID).then((results) => {
+                    results.jobOffer.forEach(result => {
                         this.props.JobOffer({
                             address : result.ADDRESS,
                             callnumber : result.CALLNUMBER,
                             id : result.ID,
                             name : result.NAME,
-                            period : result.PERIOD,
+                            enddate : result.ENDDATE,
                             registration : result.REGISTRATION,
                             startdate : result.STARTDATE,
                             text : result.TEXT,
+                            pay : result.PAY,
                             _id : result._id
                         })
                     })   
@@ -116,16 +119,17 @@ class MainScreen extends Component{
             }
             else{
                 await fetchJobSearchEmployee().then((results) =>{
-                    results.forEach(result => {
+                    results.jobOffer.forEach(result => {
                         this.props.JobOffer({
                             address : result.ADDRESS,
                             callnumber : result.CALLNUMBER,
                             id : result.ID,
                             name : result.NAME,
-                            period : result.PERIOD,
+                            enddate : result.ENDDATE,
                             registration : result.REGISTRATION,
                             startdate : result.STARTDATE,
                             text : result.TEXT,
+                            pay : result.PAY,
                             _id : result._id
                         })
                     })   

@@ -27,6 +27,7 @@ class LoginScreen extends React.Component{
             return(
                 <View style={{flex:1}}>
                     <View style={{flex:1,justifyContent:"center",marginLeft:"5%",marginRight:"5%"}}>
+                        <Image source={require("../../assets/icon.png")} style={{width:"30%",height:"15%",backgroundColor:color.blue,borderRadius:20,alignSelf:"center",marginBottom:"10%"}}></Image>
                         <LoginComponent target="고용주" navigation = {this.props.navigation}></LoginComponent>
                         <Button onPress = {()=>this._onChangeStatus()} title="아르바이트생 로그인"></Button>
                     </View>
@@ -37,6 +38,7 @@ class LoginScreen extends React.Component{
             return(
                 <View style={{flex:1}}>
                     <View style={{flex:1,justifyContent:"center",marginLeft:"5%",marginRight:"5%"}}>
+                        <Image source={require("../../assets/icon.png")} style={{width:"30%",height:"15%",backgroundColor:color.blue,borderRadius:20,alignSelf:"center",marginBottom:"10%"}}></Image>
                         <LoginComponent target="아르바이트생" navigation = {this.props.navigation}></LoginComponent>
                         <Button onPress = {()=>this._onChangeStatus()} title="고용주 로그인"></Button>
                     </View>

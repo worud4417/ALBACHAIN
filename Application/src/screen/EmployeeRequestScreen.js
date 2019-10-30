@@ -31,7 +31,7 @@ class EmployeeRequestScreen extends Component{
     };
 
     async _onSubmit(){
-        let result = await fetchMatchRequest(this.props.navigation.getParam('jobOffer')._id,this.props.user.id);
+        let result = await fetchMatchRequest(this.props.navigation.getParam('jobOffer')._id,this.props.user[0].ID);
         if(result.status == 1){
             this.props.navigation.navigate("Main");
         }
@@ -45,11 +45,12 @@ class EmployeeRequestScreen extends Component{
                         <ScrollView>
                             <TextInfoComponent icon="ios-contact" text={"번호 : "+this.props.navigation.getParam('jobOffer')._id}></TextInfoComponent>
                             <TextInfoComponent icon="ios-time" text={"시작일짜 : "+this.props.navigation.getParam('jobOffer').startdate}></TextInfoComponent>
-                            <TextInfoComponent icon="ios-hourglass" text={"기간 : "+this.props.navigation.getParam('jobOffer').period}></TextInfoComponent>
+                            <TextInfoComponent icon="ios-hourglass" text={"종료일자 : "+this.props.navigation.getParam('jobOffer').enddate}></TextInfoComponent>
                             <TextInfoComponent icon="ios-person" text={"사업자 이름 : "+this.props.navigation.getParam('jobOffer').name}></TextInfoComponent>
                             <TextInfoComponent icon="ios-briefcase" text={"사업자 등록번호 : "+this.props.navigation.getParam('jobOffer').registration}></TextInfoComponent>
                             <TextInfoComponent icon="ios-call" text={"사업자 전화번호 : "+this.props.navigation.getParam('jobOffer').callnumber}></TextInfoComponent>
                             <TextInfoComponent icon="ios-home" text={"사업자 주소 : "+this.props.navigation.getParam('jobOffer').address}></TextInfoComponent>
+                            <TextInfoComponent icon="ios-home" text={"아르바이트 시급 : "+this.props.navigation.getParam('jobOffer').pay}></TextInfoComponent>
                             <TextInfoComponent icon="ios-information-circle-outline" text={"설명 : "+this.props.navigation.getParam('jobOffer').text}></TextInfoComponent>
                         </ScrollView>
                     </View>
@@ -67,19 +68,20 @@ class EmployeeRequestScreen extends Component{
                         <ScrollView>
                             <TextInfoComponent icon="ios-contact" text={"번호 : "+this.props.navigation.getParam('jobOffer')._id}></TextInfoComponent>
                             <TextInfoComponent icon="ios-time" text={"시작일짜 : "+this.props.navigation.getParam('jobOffer').startdate}></TextInfoComponent>
-                            <TextInfoComponent icon="ios-hourglass" text={"기간 : "+this.props.navigation.getParam('jobOffer').period}></TextInfoComponent>
+                            <TextInfoComponent icon="ios-hourglass" text={"종료일자 : "+this.props.navigation.getParam('jobOffer').enddate}></TextInfoComponent>
                             <TextInfoComponent icon="ios-person" text={"사업자 이름 : "+this.props.navigation.getParam('jobOffer').name}></TextInfoComponent>
                             <TextInfoComponent icon="ios-briefcase" text={"사업자 등록번호 : "+this.props.navigation.getParam('jobOffer').registration}></TextInfoComponent>
                             <TextInfoComponent icon="ios-call" text={"사업자 전화번호 : "+this.props.navigation.getParam('jobOffer').callnumber}></TextInfoComponent>
                             <TextInfoComponent icon="ios-home" text={"사업자 주소 : "+this.props.navigation.getParam('jobOffer').address}></TextInfoComponent>
+                            <TextInfoComponent icon="ios-home" text={"아르바이트 시급 : "+this.props.navigation.getParam('jobOffer').pay}></TextInfoComponent>
                             <TextInfoComponent icon="ios-information-circle-outline" text={"설명 : "+this.props.navigation.getParam('jobOffer').text}></TextInfoComponent>
                         </ScrollView>
                     </View>
                     <View style={{flex:2}}>
                         <ScrollView style={{margin:"5%"}}>
-                            <TextInfoComponent icon="ios-person" text={"신청자 이름 : "+this.props.user.name}></TextInfoComponent>
-                            <TextInfoComponent icon="ios-call" text={"신청자 전화번호 : "+this.props.user.callnumber}></TextInfoComponent>
-                            <TextInfoComponent icon="ios-today" text={"주민등록번호 : "+this.props.user.socialsecurity}></TextInfoComponent>
+                            <TextInfoComponent icon="ios-person" text={"신청자 이름 : "+this.props.user[0].NAME}></TextInfoComponent>
+                            <TextInfoComponent icon="ios-call" text={"신청자 전화번호 : "+this.props.user[0].CALLNUMBER}></TextInfoComponent>
+                            <TextInfoComponent icon="ios-today" text={"주민등록번호 : "+this.props.user[0].SOCIALSECURITY}></TextInfoComponent>
                         </ScrollView>
                     </View>
                     <View style={{flex:1,justifyContent:"center",margin:"5%"}}>

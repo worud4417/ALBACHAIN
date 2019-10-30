@@ -27,8 +27,8 @@ var MatchedJobSchema = new Schema({
         type:Date,
         required:true
     },
-    PERIOD:{
-        type:Number,
+    ENDDATE:{
+        type:Date,
         required:true
     },
     TEXT:{
@@ -48,6 +48,10 @@ var MatchedJobSchema = new Schema({
     },
     EMPLOYERNAME:{
         type:String,
+        required:true
+    },
+    PAY:{
+        type:Number,
         required:true
     }
 });

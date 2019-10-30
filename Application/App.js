@@ -17,9 +17,9 @@ import MainScreen from './src/screen/MainScreen';
 import MyScreen from './src/screen/MyScreen';
 import LogoutComponent from './src/component/LogoutComponent';
 import EmployeeRequestScreen from './src/screen/EmployeeRequestScreen';
-import EmployerResponseScreen from './src/screen/EmployerResponseScreen';
 import JobOfferScreen from './src/screen/JobOfferScreen';
 import MatchJobScreen from './src/screen/MatchJobScreen';
+import UpdateScreen from './src/screen/UpdateScreen';
 
 import reducer from './src/reducer/Index';
 
@@ -29,9 +29,6 @@ const MainStack = createStackNavigator({
   },
   EmployeeRequest:{
     screen:EmployeeRequestScreen
-  },
-  EmployerResponse:{
-    screen:EmployerResponseScreen
   },
   JobOffer:{
     screen:JobOfferScreen
@@ -47,6 +44,9 @@ const MatchedJobStack = createStackNavigator({
 const MyStack = createStackNavigator({
   My:{
     screen:MyScreen
+  },
+  Update:{
+    screen:UpdateScreen
   }
 })
 
@@ -118,7 +118,7 @@ export default class App extends React.Component{
     if(!this.state.isReady){
       return (
         <View style={{flex:1}}>
-          <Image source={require('./assets/background.png')} onLoad={this._cacheResourcesAsync} style={{width:"100%",height:"100%"}}></Image>
+          <Image source={require('./assets/backGround.jpg')} onLoad={this._cacheResourcesAsync} style={{width:"100%",height:"100%"}}></Image>
         </View>
       )
     }
@@ -135,7 +135,7 @@ export default class App extends React.Component{
     setTimeout(()=>{
       SplashScreen.hide();
       const images = [
-        require('./assets/background.png')
+        require('./assets/backGround.jpg')
       ];
   
       const cacheImages = images.map(image => {

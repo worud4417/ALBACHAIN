@@ -4,6 +4,8 @@ import {connect}from 'react-redux';
 import ActionCreator from '../action/Index';
 import { ListItem,Overlay,Text,Button } from 'react-native-elements'
 
+import {fetchJobOfferCancel,fetchJobOfferEmployer} from '../api/JobOfferApi';
+
 class MainListComponent extends React.Component{
     constructor(props){
         super(props);
@@ -14,9 +16,10 @@ class MainListComponent extends React.Component{
             callnumber:"",
             id:"",
             name:"",
-            period:"",
+            enddate:"",
             registration:"",
             startdate:"",
+            pay:"",
             text:""
         }
     }
@@ -30,15 +33,39 @@ class MainListComponent extends React.Component{
                 callnumber:item.callnumber,
                 id:item.id,
                 name:item.name,
-                period:item.period,
+                enddate:item.enddate,
                 registration:item.registration,
                 startdate:item.startdate,
-                text:item.text
+                text:item.text,
+                pay:item.pay
             });
         }
         else{
             this.props.navigation.navigate("EmployeeRequest",{jobOffer:item});
         }
+    }
+
+    async _onCancel(){
+        let result = await fetchJobOfferCancel(this.state._id);
+        if(result.status == 1){
+            this.props.InitJobOffer();
+            let results = await fetchJobOfferEmployer(this.props.user[0].ID);
+            results.jobOffer.forEach(result =>{
+                this.props.JobOffer({
+                    address : result.ADDRESS,
+                    callnumber : result.CALLNUMBER,
+                    id : result.ID,
+                    name : result.NAME,
+                    enddate : result.ENDDATE,
+                    registration : result.REGISTRATION,
+                    startdate : result.STARTDATE,
+                    text : result.TEXT,
+                    pay : result.PAY,
+                    _id : result._id
+                })
+            })
+        }
+        this.setState({isVisible:false});
     }
 
     render(){
@@ -48,7 +75,7 @@ class MainListComponent extends React.Component{
                     {
                         this.props.jobOffer.map((item,i) => (
                             <ListItem key = {i} title = {"사업자 : " + item.name} 
-                            subtitle = {"시작일짜 : "+item.startdate+" 기간 : "+item.period} 
+                            subtitle = {"시작일짜 : "+item.startdate} 
                             bottomDivider chevron onPress = {()=>this._onPress(item)}>
                             </ListItem>
                         ))
@@ -66,10 +93,12 @@ class MainListComponent extends React.Component{
                             <Text>이름 : {this.state.name}</Text>
                             <Text>사업자 등록번호 : {this.state.registration}</Text>
                             <Text>시작일자 : {this.state.startdate}</Text>
-                            <Text>기간 : {this.state.period}</Text>
+                            <Text>종료일자 : {this.state.enddate}</Text>
+                            <Text>아르바이트 시급 : {this.state.pay}</Text>
                             <Text>아르바이트 설명 : {this.state.text}</Text>
                         </View>
-                        <Button title="확인" type="solid" onPress={()=>this.setState({isVisible:false})}></Button>
+                        <Button buttonStyle={{marginBottom:"3%"}} title="구인 취소" onPress={()=>this._onCancel()}></Button>
+                        <Button buttonStyle={{marginBottom:"3%"}} title="확인" type="solid" onPress={()=>this.setState({isVisible:false})}></Button>
                     </View>
                 </Overlay>
             )
@@ -95,6 +124,9 @@ function mapDispatchToProps(dispatch){
         },
         JobOffer : (jobOffer) => {
             dispatch(ActionCreator.JobOffer(jobOffer));
+        },
+        InitJobOffer : () => {
+            dispatch(ActionCreator.InitJobOffer());
         }
     }
 }

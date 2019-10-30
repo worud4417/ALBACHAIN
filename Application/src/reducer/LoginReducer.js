@@ -1,27 +1,29 @@
 import Types from '../action/Types';
+import produce from 'immer';
 
-let user = {
-    id : "",
-    name : "",
-    callnumber : "",
-    address : "",
-    registration : "",
-    socialsecurity : ""
+let user = [{
+    
 }
+
+]
+
+const auth = {
+    user:{
+        ID: '',
+        ...
+    },
+    isLogined: false
+
+}
+
 export default (state = user,action) => {
     switch(action.type){
         case Types.LOGIN : 
-            return state = action.user;
+            return produce(state,draft => {
+                draft.push(action.payload);
+            })
         case Types.LOGOUT :
-            let term ={
-                id : "",
-                name : "",
-                callnumber : "",
-                address : "",
-                registration : "",
-                socialsecurity : ""
-            }
-            return state = term
+            return draft = [];
         default :
             return state;
     }

@@ -32,7 +32,7 @@ export function fetchJobSearchEmployee(){
     })
 }
 
-export function fetchJobOfferSubmit(id,startdate,period,text){
+export function fetchJobOfferSubmit(id,startdate,enddate,pay,text){
     let uri = url.url+"/employerjoboffer";
 
     return fetch(uri,{
@@ -44,8 +44,32 @@ export function fetchJobOfferSubmit(id,startdate,period,text){
         body:JSON.stringify({
             ID : id,
             STARTDATE : startdate,
-            PERIOD : period,
+            ENDDATE : enddate,
+            PAY:pay,
             TEXT : text
+        })
+    }).then((response)=>response.json())
+    .then((responseJson)=>{
+        return responseJson;
+    }).catch((error)=>{
+        if(error.message == "Network request failed"){
+            alert("네트워크 오류");
+        }
+        return {error:false};
+    })
+}
+
+export function fetchJobOfferCancel(_id){
+    let uri = url.url+"/employerjoboffer";
+
+    return fetch(uri,{
+        method:"DELETE",
+        headers:{
+            Accept:"application/json",
+            'Content-Type' : 'application/json',
+        },
+        body:JSON.stringify({
+            _id:_id
         })
     }).then((response)=>response.json())
     .then((responseJson)=>{
