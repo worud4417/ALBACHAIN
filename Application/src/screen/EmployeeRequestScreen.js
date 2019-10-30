@@ -31,7 +31,7 @@ class EmployeeRequestScreen extends Component{
     };
 
     async _onSubmit(){
-        let result = await fetchMatchRequest(this.props.navigation.getParam('jobOffer')._id,this.props.user[0].ID);
+        let result = await fetchMatchRequest(this.props.navigation.getParam('jobOffer')._id,this.props.user.user.id);
         if(result.status == 1){
             this.props.navigation.navigate("Main");
         }
@@ -79,9 +79,9 @@ class EmployeeRequestScreen extends Component{
                     </View>
                     <View style={{flex:2}}>
                         <ScrollView style={{margin:"5%"}}>
-                            <TextInfoComponent icon="ios-person" text={"신청자 이름 : "+this.props.user[0].NAME}></TextInfoComponent>
-                            <TextInfoComponent icon="ios-call" text={"신청자 전화번호 : "+this.props.user[0].CALLNUMBER}></TextInfoComponent>
-                            <TextInfoComponent icon="ios-today" text={"주민등록번호 : "+this.props.user[0].SOCIALSECURITY}></TextInfoComponent>
+                            <TextInfoComponent icon="ios-person" text={"신청자 이름 : "+this.props.user.user.name}></TextInfoComponent>
+                            <TextInfoComponent icon="ios-call" text={"신청자 전화번호 : "+this.props.user.user.callnumber}></TextInfoComponent>
+                            <TextInfoComponent icon="ios-today" text={"주민등록번호 : "+this.props.user.user.socialsecurity}></TextInfoComponent>
                         </ScrollView>
                     </View>
                     <View style={{flex:1,justifyContent:"center",margin:"5%"}}>

@@ -42,7 +42,6 @@ exports.getEmployeeRecord = async function getEmployeeRecord(_employeeAddress){
         }
         return response;
     });
-    console.log(result);
     return result;
 }
 
@@ -57,7 +56,6 @@ exports.getEmployerRecord = async function getEmployerRecord(_employerAdderss){
         }
         return response;
     });
-    console.log(result);
     return result;
 }
 

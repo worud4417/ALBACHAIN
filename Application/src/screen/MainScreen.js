@@ -58,7 +58,7 @@ class MainScreen extends Component{
     async componentDidMount(){
         this.props.navigation.setParams({status:this.props.status});
         if(this.props.status == 1){
-            let results = await fetchJobOfferEmployer(this.props.user[0].ID);
+            let results = await fetchJobOfferEmployer(this.props.user.user.id);
             results.jobOffer.forEach(result =>{
                 this.props.JobOffer({
                     address : result.ADDRESS,
@@ -100,7 +100,7 @@ class MainScreen extends Component{
             this.setState({isReady:false});
             this.props.InitJobOffer();
             if(this.props.status == 1){
-                await fetchJobOfferEmployer(this.props.user[0].ID).then((results) => {
+                await fetchJobOfferEmployer(this.props.user.user.id).then((results) => {
                     results.jobOffer.forEach(result => {
                         this.props.JobOffer({
                             address : result.ADDRESS,

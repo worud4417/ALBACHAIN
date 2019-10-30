@@ -6,7 +6,8 @@ import {Button,Input} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons'
 
 import {color} from '../utils/Color';
-import { fetchUpdateEmployer, fetchUpdateEmployee } from '../api/JoinApi';
+import { fetchUpdateEmployer, fetchUpdateEmployee} from '../api/JoinApi';
+import { fetchGetEmployee,fetchGetEmployer} from '../api/LoginApi';
 
 class UpdateScreen extends Component{
     constructor(props){
@@ -37,17 +38,17 @@ class UpdateScreen extends Component{
     componentDidMount(){
         if(this.props.status == 1){
             this.setState({
-                id : this.props.user[0].ID,
-                callnumber : this.props.user[0].CALLNUMBER,
-                name : this.props.user[0].NAME,
-                address : this.props.user[0].ADDRESS
+                id : this.props.user.user.id,
+                callnumber : this.props.user.user.callnumber,
+                name : this.props.user.user.name,
+                address : this.props.user.user.address
             })
         }
         else{
             this.setState({
-                id : this.props.user[0].ID,
-                callnumber : this.props.user[0].CALLNUMBER,
-                name : this.props.user[0].NAME
+                id : this.props.user.user.id,
+                callnumber : this.props.user.user.callnumber,
+                name : this.props.user.user.name
             })
         }
     }
@@ -67,9 +68,21 @@ class UpdateScreen extends Component{
                 let result = await fetchUpdateEmployer(this.state.id,this.state.password,this.state.callnumber,this.state.name,this.state.address);
                 if(result.status == 1){
                     alert("회원정보 수정 완료");
-                    this.props.Logout();
-                    console.log("AAA")
-                    // return this.props.navigation.navigate("My");
+                    let term = await fetchGetEmployer(this.state.id);
+                    if(term.status == 1){
+                        this.props.Logout();
+                        this.props.Login({
+                            user:{
+                                id : term.employer.ID,
+                                name : term.employer.NAME,
+                                callnumber : term.employer.CALLNUMBER,
+                                address : term.employer.ADDRESS,
+                                registration : term.employer.REGISTRATION,
+                                socialsecurity : ""
+                            }
+                        })
+                    }
+                    return this.props.navigation.navigate("My");
                 }
                 return null;
             }
@@ -77,6 +90,20 @@ class UpdateScreen extends Component{
                 let result = await fetchUpdateEmployee(this.state.id,this.state.password,this.state.callnumber,this.state.name);
                 if(result.status == 1){
                     alert("회원정보 수정 완료");
+                    let term = await fetchGetEmployee(this.state.id);
+                    if(term.status == 1){
+                        this.props.Logout();
+                        this.props.Login({
+                            user:{
+                                id : term.employee.ID,
+                                name : term.employee.NAME,
+                                callnumber : term.employee.CALLNUMBER,
+                                address : "",
+                                registration : "",
+                                socialsecurity : term.employee.SOCIALSECURITY
+                            }
+                        })
+                    }
                     return this.props.navigation.navigate("My");
                 }
                 return null;
@@ -94,7 +121,7 @@ class UpdateScreen extends Component{
                     <View style={{marginTop:"5%",flex:3}}>
                         <View style={{marginBottom:"3%"}}>
                             <Text>이름</Text>
-                            <Input placeholder="이름" defaultValue = {this.props.user[0].NAME}
+                            <Input placeholder="이름" defaultValue = {this.props.user.user.name}
                                     onChangeText={(text)=>this.setState({name:text})} 
                                     leftIcon={<Icon name="ios-contact" size={24} color="gray"></Icon>}
                                     leftIconContainerStyle={{marginRight:"2%"}}>
@@ -118,7 +145,7 @@ class UpdateScreen extends Component{
                         </View>
                         <View style={{marginBottom:"3%"}}>
                             <Text>전화번호</Text>
-                            <Input placeholder="전화번호" defaultValue = {this.props.user[0].CALLNUMBER}
+                            <Input placeholder="전화번호" defaultValue = {this.props.user.user.callnumber}
                                     onChangeText={(text)=>this.setState({callnumber:text})} 
 
                                     leftIcon={<Icon name="ios-contact" size={24} color="gray"></Icon>}
@@ -127,7 +154,7 @@ class UpdateScreen extends Component{
                         </View>
                         <View style={{marginBottom:"3%"}}>
                             <Text>주소</Text>
-                            <Input placeholder="주소" defaultValue = {this.props.user[0].ADDRESS}
+                            <Input placeholder="주소" defaultValue = {this.props.user.user.address}
                                     onChangeText={(text)=>this.setState({address:text})} 
                                     leftIcon={<Icon name="ios-contact" size={24} color="gray"></Icon>}
                                     leftIconContainerStyle={{marginRight:"2%"}}>
@@ -147,7 +174,7 @@ class UpdateScreen extends Component{
                     <View style={{marginTop:"5%",flex:3}}>
                         <View style={{marginBottom:"3%"}}>
                             <Text>이름</Text>
-                            <Input placeholder="이름" defaultValue = {this.props.user[0].NAME}
+                            <Input placeholder="이름" defaultValue = {this.props.user.user.name}
                                     onChangeText={(text)=>this.setState({name:text})} 
                                     leftIcon={<Icon name="ios-contact" size={24} color="gray"></Icon>}
                                     leftIconContainerStyle={{marginRight:"2%"}}>
@@ -171,7 +198,7 @@ class UpdateScreen extends Component{
                         </View>
                         <View style={{marginBottom:"3%"}}>
                             <Text>전화번호</Text>
-                            <Input placeholder="전화번호" defaultValue = {this.props.user[0].CALLNUMBER}
+                            <Input placeholder="전화번호" defaultValue = {this.props.user.user.callnumber}
                                     onChangeText={(text)=>this.setState({callnumber:text})} 
 
                                     leftIcon={<Icon name="ios-contact" size={24} color="gray"></Icon>}

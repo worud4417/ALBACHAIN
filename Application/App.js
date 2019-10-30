@@ -20,6 +20,7 @@ import EmployeeRequestScreen from './src/screen/EmployeeRequestScreen';
 import JobOfferScreen from './src/screen/JobOfferScreen';
 import MatchJobScreen from './src/screen/MatchJobScreen';
 import UpdateScreen from './src/screen/UpdateScreen';
+import EmployeeRecodeScreen from './src/screen/EmployeeRecodeScreen';
 
 import reducer from './src/reducer/Index';
 
@@ -47,6 +48,9 @@ const MyStack = createStackNavigator({
   },
   Update:{
     screen:UpdateScreen
+  },
+  EmployeeRecode:{
+    screen:EmployeeRecodeScreen
   }
 })
 

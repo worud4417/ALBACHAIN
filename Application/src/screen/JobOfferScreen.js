@@ -46,7 +46,7 @@ class JobOffer extends Component{
     };
 
     async _onSubmit(){
-        let result = await fetchJobOfferSubmit(this.props.user[0].ID,this.state.startDate,this.state.endDate,this.state.pay,this.state.text);
+        let result = await fetchJobOfferSubmit(this.props.user.user.id,this.state.startDate,this.state.endDate,this.state.pay,this.state.text);
         if(result.status == "1"){
             this.props.navigation.navigate("Main");
             return null
@@ -76,13 +76,11 @@ class JobOffer extends Component{
 
     _makeDate(year,month,day,hour,minute){
         let date = new Date();
-        date.setFullYear(year);
-        date.setMonth(month-1);
-        date.setDate(day);
-        date.setHours(hour);
-        date.setMinutes(minute);
-        date.setMilliseconds("000");
-        return date.toISOString();
+        date.setUTCFullYear(year);
+        date.setUTCMonth(month-1);
+        date.setUTCDate(day);
+        date.setUTCHours(hour,minute,0,0);
+        return date.getTime();
     }
 
     _checkDateInput(year,month,day,hour,minute){
@@ -148,13 +146,13 @@ class JobOffer extends Component{
                             <Text style={{fontSize:20,fontWeight:"bold",alignSelf:"center",paddingBottom:"5%"}}>구인 등록</Text>
                         </View>
                         <View style={{marginBottom:"3%", flex:1,justifyContent:"center"}}>
-                            <TextInfoComponent icon = {"ios-contact"} text = {"아이디 : " + this.props.user[0].ID}></TextInfoComponent>
+                            <TextInfoComponent icon = {"ios-contact"} text = {"아이디 : " + this.props.user.user.id}></TextInfoComponent>
                         </View>
                         <View style={{flex:2}}>
                             <Button title = "시작일짜" buttonStyle={{marginBottom:"3%"}} onPress={()=>{this.setState({isStartVisible:true})}}></Button>
-                            <TextInfoComponent icon = {"ios-log-in"} text = {this.state.startDate}></TextInfoComponent>
+                            <TextInfoComponent icon = {"ios-log-in"} text = {new Date(this.state.startDate).toUTCString()}></TextInfoComponent>
                             <Button title = "종료일짜" buttonStyle={{marginBottom:"3%"}} onPress={()=>{this.setState({isEndVisible:true})}}></Button>
-                            <TextInfoComponent icon = {"ios-log-out"} text = {this.state.endDate}></TextInfoComponent>
+                            <TextInfoComponent icon = {"ios-log-out"} text = {new Date(this.state.startDate).toUTCString()}></TextInfoComponent>
                         </View>
                         <View style={{flex:3,justifyContent:"center"}}>
                             <Input placeholder="아르바이트 시급" 

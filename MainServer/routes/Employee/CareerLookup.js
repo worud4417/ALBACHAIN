@@ -39,7 +39,12 @@ router.get('/',function(req,res,next){
         else{
             var address = caver.getAddress(obj.KLAYTNPRIVATEKEY);
             var record = await caver.getEmployeeRecord(address);
-            return res.status(200).send({status:"1",record});
+            
+            var recordArray = record[0].map(function(e,i){
+                return [e,record[1][i]];
+            });
+
+            return res.status(200).send({status:"1",recordArray});
         }
     })
 })

@@ -49,7 +49,7 @@ class MainListComponent extends React.Component{
         let result = await fetchJobOfferCancel(this.state._id);
         if(result.status == 1){
             this.props.InitJobOffer();
-            let results = await fetchJobOfferEmployer(this.props.user[0].ID);
+            let results = await fetchJobOfferEmployer(this.props.user.user.id);
             results.jobOffer.forEach(result =>{
                 this.props.JobOffer({
                     address : result.ADDRESS,

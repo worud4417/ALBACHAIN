@@ -55,7 +55,7 @@ class MatchJobScreen extends Component{
         this.setState({isReady:false});
         this.props.InitMatchedJob();
         if(this.props.status == 1){
-            let results = await fetchMatchinglistEmployer(this.props.user[0].ID);
+            let results = await fetchMatchinglistEmployer(this.props.user.user.id);
             if(results != null){
                 results.matchedJob.forEach(result => {
                     this.props.MatchedJob({
@@ -75,7 +75,7 @@ class MatchJobScreen extends Component{
             }
         }
         else{
-            let results = await fetchMatchingEmployee(this.props.user[0].ID);
+            let results = await fetchMatchingEmployee(this.props.user.user.id);
             if(results.status == 1){
                 results.matchedJob.forEach(result => {
                     this.props.MatchedJob({
@@ -119,7 +119,7 @@ class MatchJobScreen extends Component{
             this.setState({isReady:false});
             this.props.InitMatchedJob();
             if(selectedIndex == 0){
-                let results = await fetchMatchingEmployee(this.props.user[0].ID);
+                let results = await fetchMatchingEmployee(this.props.user.user.id);
                 if(results.status == 1){
                     results.matchedJob.forEach(result => {
                         this.props.MatchedJob({
@@ -139,7 +139,7 @@ class MatchJobScreen extends Component{
                 }   
             }
             if(selectedIndex == 1){
-                let results = await fetchMatchedEmployee(this.props.user[0].ID);
+                let results = await fetchMatchedEmployee(this.props.user.user.id);
                 if(results.status == 1){
                     results.matchedJob.forEach(result => {
                         this.props.MatchedJob({
@@ -170,7 +170,7 @@ class MatchJobScreen extends Component{
             this.setState({isReady:false});
             this.setState({isVisible:false});
             this.props.InitMatchedJob();
-            let results = await fetchMatchinglistEmployer(this.props.user[0].ID);
+            let results = await fetchMatchinglistEmployer(this.props.user.user.id);
             if(results != null){
                 results.matchedJob.forEach(obj => {
                     this.props.MatchedJob({
@@ -199,7 +199,7 @@ class MatchJobScreen extends Component{
             this.setState({isReady:false});
             this.setState({isVisible:false});
             this.props.InitMatchedJob();
-            let results = await fetchMatchinglistEmployer(this.props.user[0].ID);
+            let results = await fetchMatchinglistEmployer(this.props.user.user.id);
             if(results != null){
                 results.matchedJob.forEach(obj => {
                     this.props.MatchedJob({

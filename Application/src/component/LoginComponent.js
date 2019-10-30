@@ -31,7 +31,16 @@ class LoginComponent extends React.Component{
         if(this.props.status == 1){
             let result = await fetchLoginEmployer(this.state.id,this.state.password);
             if(result.status == 1){
-                this.props.Login(result)
+                this.props.Login({
+                    user:{
+                        id : result.ID,
+                        name : result.NAME,
+                        callnumber : result.CALLNUMBER,
+                        address : result.ADDRESS,
+                        registration : result.REGISTRATION,
+                        socialsecurity : ""
+                    }
+                })
                 return this.props.navigation.navigate("Main");
             }
             else if(result.status == 2){
@@ -47,12 +56,15 @@ class LoginComponent extends React.Component{
             let result = await fetchLoginEmployee(this.state.id,this.state.password);
             if(result.status == 1){
                 this.props.Login({
-                    id : result.ID,
-                    name : result.NAME,
-                    callnumber : result.CALLNUMBER,
-                    address : "",
-                    registration : "",
-                    socialsecurity : result.SOCIALSECURITY
+                    user:{
+                        id : result.ID,
+                        name : result.NAME,
+                        callnumber : result.CALLNUMBER,
+                        address : "",
+                        registration : "",
+                        socialsecurity : result.SOCIALSECURITY
+                    },
+                    isLogined : true
                 })
                 return this.props.navigation.navigate("Main");
             }
