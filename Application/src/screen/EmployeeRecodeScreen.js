@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
-import {Text,View,ActivityIndicator,StyleSheet,TouchableOpacity,Image,TextInput,ScrollView} from 'react-native';
-import {Button,ListItem} from 'react-native-elements';
+import {Text,View,ActivityIndicator,ScrollView} from 'react-native';
+import {ListItem} from 'react-native-elements';
 import {connect}from 'react-redux';
 import ActionCreator from '../action/Index';
 

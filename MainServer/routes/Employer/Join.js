@@ -10,6 +10,7 @@
 
  //get caver-js for create address
 var caver = require('../../utils/caver');
+var web3 = require('../../utils/Web3');
 var express = require("express");
 var router = express.Router();
 var message = require('../../utils/ErrorMessage');

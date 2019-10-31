@@ -7,6 +7,7 @@ import {createStore} from 'redux';
 import {createAppContainer,createSwitchNavigator} from 'react-navigation';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import {createStackNavigator} from 'react-navigation-stack';
+import {createDrawerNavigator} from 'react-navigation-drawer';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import {color} from './src/utils/Color';
@@ -21,6 +22,7 @@ import JobOfferScreen from './src/screen/JobOfferScreen';
 import MatchJobScreen from './src/screen/MatchJobScreen';
 import UpdateScreen from './src/screen/UpdateScreen';
 import EmployeeRecodeScreen from './src/screen/EmployeeRecodeScreen';
+import PayScreen from './src/screen/PayScreen';
 
 import reducer from './src/reducer/Index';
 
@@ -54,15 +56,43 @@ const MyStack = createStackNavigator({
   }
 })
 
+const PayStack = createStackNavigator({
+  Pay:{
+    screen:PayScreen
+  }
+})
+
+const PayTabNavigator = createBottomTabNavigator({
+  급료계산:{
+    screen:PayStack
+  },
+  로그아웃:{
+    screen:LogoutComponent
+  }
+},{
+  defaultNavigationOptions:({navigation})=>({
+    tabBarIcon:({focused,horizontal,tintColor})=>{
+      const {routeName} = navigation.state;
+      if(routeName === "급료계산"){
+        return <Icon name="ios-calculator" size={30} color="gray"></Icon>
+      }
+      else if(routeName === "로그아웃"){
+        return <Icon name="ios-exit" size={30} color="gray"></Icon>
+      }
+    }
+  }),
+  tabBarOptions:{
+    activeBackgroundColor:color.sky,
+    activeTintColor:color.blue,
+  }
+})
+
 const TabNavigator = createBottomTabNavigator({
   목록:{
     screen:MainStack
   },
   매칭:{
     screen:MatchedJobStack
-  },
-  내정보:{
-    screen:MyStack
   },
   로그아웃:{
     screen:LogoutComponent
@@ -77,7 +107,29 @@ const TabNavigator = createBottomTabNavigator({
       else if(routeName === "매칭"){
         return <Icon name="ios-people" size={30} color="gray"></Icon>
       }
-      else if(routeName === "내정보"){
+      else if(routeName === "로그아웃"){
+        return <Icon name="ios-exit" size={30} color="gray"></Icon>
+      }
+    }
+  }),
+  tabBarOptions:{
+    activeBackgroundColor:color.sky,
+    activeTintColor:color.blue,
+  }
+})
+
+const MyTabNavigator = createBottomTabNavigator({
+  "내 정보":{
+    screen:MyStack
+  },
+  로그아웃:{
+    screen:LogoutComponent
+  }
+},{
+  defaultNavigationOptions:({navigation})=>({
+    tabBarIcon:({focused,horizontal,tintColor})=>{
+      const {routeName} = navigation.state;
+      if(routeName === "내 정보"){
         return <Icon name="ios-contact" size={30} color="gray"></Icon>
       }
       else if(routeName === "로그아웃"){
@@ -91,6 +143,23 @@ const TabNavigator = createBottomTabNavigator({
   }
 })
 
+const DrawerNavigator = createDrawerNavigator({
+  구인구직:{
+    screen:TabNavigator
+  },
+  급료계산:{
+    screen:PayTabNavigator
+  },
+  "내 정보":{
+    screen:MyTabNavigator
+  }
+},{
+  contentOptions:{
+    activeBackgroundColor : color.sky,
+    inactiveTintColor:"gray"
+  }
+})
+
 const SwitchNavigator = createSwitchNavigator({
   Login:{
     screen:LoginScreen
@@ -98,8 +167,8 @@ const SwitchNavigator = createSwitchNavigator({
   Join:{
     screen:JoinScreen
   },
-  Tab:{
-    screen:TabNavigator
+  Drawer:{
+    screen:DrawerNavigator
   }
 })
 

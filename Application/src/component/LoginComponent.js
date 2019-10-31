@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text,View,StyleSheet,TouchableOpacity,Image,TextInput,KeyboardAvoidingView} from 'react-native';
+import {View,KeyboardAvoidingView} from 'react-native';
 import {Button,Input} from 'react-native-elements';
 import {connect}from 'react-redux';
 import ActionCreator from '../action/Index';
@@ -107,8 +107,8 @@ class LoginComponent extends React.Component{
                     </Input>
                 </View>
                 <View >
-                    <Button buttonStyle={{marginBottom:"2%"}} onPress={()=>this._login()} title="로그인"></Button>
-                    <Button buttonStyle={{marginBottom:"2%"}} onPress={()=>this.props.navigation.navigate("Join")} title="회원가입" type="outline"></Button>
+                    <Button icon={<Icon name = "ios-checkmark" size={25} style={{marginRight:"2%"}} color="white"></Icon>} buttonStyle={{marginBottom:"2%"}} onPress={()=>this._login()} title="로그인"></Button>
+                    <Button icon={<Icon name = "ios-person-add" size={25} style={{marginRight:"2%"}} color="gray"></Icon>} buttonStyle={{marginBottom:"2%"}} onPress={()=>this.props.navigation.navigate("Join")} title="회원가입" type="outline"></Button>
                 </View>
             </KeyboardAvoidingView>
         )

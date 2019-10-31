@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {Text,View,StyleSheet,KeyboardAvoidingView, ScrollView} from 'react-native';
+import {Text,View,KeyboardAvoidingView, ScrollView} from 'react-native';
 import {connect}from 'react-redux';
 import ActionCreator from '../action/Index';
 import {Button,Input,Overlay} from 'react-native-elements';
@@ -27,8 +27,8 @@ class JobOffer extends Component{
             text : "",
             isStartVisible: false,
             isEndVisible : false,
-            startDate : "",
-            endDate : "",
+            startDate : "0",
+            endDate : "0",
         }
     }
 
@@ -141,36 +141,40 @@ class JobOffer extends Component{
         else{
             return(
                 <View style={{flex:1,marginHorizontal:"5%"}}>
-                    <KeyboardAvoidingView style={{marginLeft:"10%",flex:3,justifyContent:"center",marginRight:"10%"}} behavior="padding" keyboardVerticalOffset="100">
-                        <View style={{flex:1,justifyContent:"center"}}>
-                            <Text style={{fontSize:20,fontWeight:"bold",alignSelf:"center",paddingBottom:"5%"}}>구인 등록</Text>
-                        </View>
-                        <View style={{marginBottom:"3%", flex:1,justifyContent:"center"}}>
-                            <TextInfoComponent icon = {"ios-contact"} text = {"아이디 : " + this.props.user.user.id}></TextInfoComponent>
-                        </View>
-                        <View style={{flex:2}}>
-                            <Button title = "시작일짜" buttonStyle={{marginBottom:"3%"}} onPress={()=>{this.setState({isStartVisible:true})}}></Button>
-                            <TextInfoComponent icon = {"ios-log-in"} text = {new Date(this.state.startDate).toUTCString()}></TextInfoComponent>
-                            <Button title = "종료일짜" buttonStyle={{marginBottom:"3%"}} onPress={()=>{this.setState({isEndVisible:true})}}></Button>
-                            <TextInfoComponent icon = {"ios-log-out"} text = {new Date(this.state.endDate).toUTCString()}></TextInfoComponent>
-                        </View>
-                        <View style={{flex:3,justifyContent:"center"}}>
-                            <Input placeholder="아르바이트 시급" 
-                                    inputContainerStyle={{marginBottom:"2%"}} 
-                                    onChangeText={(text)=>{this.setState({pay:text})}}
-                                    leftIcon={<Icon name="ios-cash" size={24} color="gray"></Icon>}
-                                    leftIconContainerStyle={{marginRight:"2%"}}>
-                            </Input>
-                            <Input placeholder="아르바이트 설명" 
-                                    inputContainerStyle={{marginBottom:"2%"}} 
-                                    onChangeText={(text)=>{this.setState({text:text})}}
-                                    leftIcon={<Icon name="ios-information-circle-outline" size={24} color="gray"></Icon>}
-                                    leftIconContainerStyle={{marginRight:"2%"}}>
-                            </Input>
-                        </View>
+                    <KeyboardAvoidingView style={{marginLeft:"10%",flex:3,justifyContent:"center",marginRight:"10%",marginTop:"5%"}} behavior="padding" keyboardVerticalOffset="100">
+                        <ScrollView>
+                            <View style={{flex:1,justifyContent:"center"}}>
+                                <Text style={{fontSize:20,fontWeight:"bold",alignSelf:"center",paddingBottom:"5%"}}>구인 등록</Text>
+                            </View>
+                            <View style={{marginBottom:"3%", flex:1,justifyContent:"center"}}>
+                                <TextInfoComponent icon = {"ios-contact"} text = {"아이디 : " + this.props.user.user.id}></TextInfoComponent>
+                            </View>
+                            <View style={{flex:2}}>
+                                <Button title = "시작일짜" buttonStyle={{marginBottom:"3%"}} onPress={()=>{this.setState({isStartVisible:true})}}></Button>
+                                <TextInfoComponent icon = {"ios-log-in"} text = {new Date(this.state.startDate).toUTCString()}></TextInfoComponent>
+                                <Button title = "종료일짜" buttonStyle={{marginBottom:"3%"}} onPress={()=>{this.setState({isEndVisible:true})}}></Button>
+                                <TextInfoComponent icon = {"ios-log-out"} text = {new Date(this.state.endDate).toUTCString()}></TextInfoComponent>
+                            </View>
+                            <View style={{flex:3,justifyContent:"center"}}>
+                                <Input placeholder="아르바이트 시급" 
+                                        inputContainerStyle={{marginBottom:"2%"}} 
+                                        onChangeText={(text)=>{this.setState({pay:text})}}
+                                        leftIcon={<Icon name="ios-cash" size={24} color="gray"></Icon>}
+                                        leftIconContainerStyle={{marginRight:"2%"}}>
+                                </Input>
+                                <Input placeholder="아르바이트 설명" 
+                                        inputContainerStyle={{marginBottom:"2%"}} 
+                                        onChangeText={(text)=>{this.setState({text:text})}}
+                                        leftIcon={<Icon name="ios-information-circle-outline" size={24} color="gray"></Icon>}
+                                        leftIconContainerStyle={{marginRight:"2%"}}>
+                                </Input>
+                            </View>
+                        </ScrollView>
                     </KeyboardAvoidingView>
-                    <Button buttonStyle={{marginBottom:"5%"}} onPress = {()=>this._onSubmit()} title="확인"></Button>
-                    <Button buttonStyle={{marginBottom:"5%"}} onPress ={()=>this.props.navigation.navigate("Main")} title="취소"></Button>
+                    <View style={{flex:1}}>
+                        <Button buttonStyle={{marginBottom:"5%"}} onPress = {()=>this._onSubmit()} title="확인"></Button>
+                        <Button buttonStyle={{marginBottom:"5%"}} onPress ={()=>this.props.navigation.navigate("Main")} title="취소"></Button>
+                    </View>
                 </View>
             )
         }

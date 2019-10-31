@@ -14,6 +14,8 @@ var message = require('../../utils/ErrorMessage');
 
 //get caver-js from utils/caver
 var caver = require('../../utils/caver');
+//get web3 from util/web3
+var web3 = require('../../utils/Web3');
 
 //get employer's mongodb schema
 var Employer = require('../../model/Employer');
@@ -101,27 +103,34 @@ router.post('/',function(req,res,next){
                     return res.status(400).send({status:"2",errormessage:message.idNotFounded});
                 }
                 else{
-                    Employer.findOne({REGISTRATION:obj.REGISTRATION},function(err,employer){
+                    Employer.findOne({REGISTRATION:obj.REGISTRATION}, async function(err,employer){
                         if(err){
                             return res.status(500).send({status:"3",errormessage:message.serverError});
                         }
                         else{
                             //get employer's klaytn address
-                            employerAddress = caver.getAddress(employer.KLAYTNPRIVATEKEY);
+                            employerAddress = await caver.getAddress(employer.KLAYTNPRIVATEKEY);
                             Employee.findOne({SOCIALSECURITY:obj.SOCIALSECURITY},async function(err,employee){
                                 if(err){
                                     return res.status(500).send({status:"3",errormessage:message.serverError});
                                 }
                                 else{
                                     //get employee's klaytn address
-                                    employeeAddress = caver.getAddress(employee.KLAYTNPRIVATEKEY);
+                                    employeeAddress = await caver.getAddress(employee.KLAYTNPRIVATEKEY);
                                     try{
                                         //record part time job info to klaytn blockchain
                                         await caver.setRecord(employerAddress,employeeAddress,new Date(obj.STARTDATE).getTime());
                                         return res.status(201).send({status:"1"});
                                     }
                                     catch(err){
-                                        return res.status(500).send({status:"3",errormessage:message.serverError});
+                                        MatchedJob.updateOne({_id:_id},{STATUS:1},function(err,obj){
+                                            if(err){
+                                                return res.status(500).send({status:"3",errormessage:message.serverError});
+                                            }
+                                            else{
+                                                return res.status(500).send({status:"3",errormessage:"block chain error"});
+                                            }
+                                        })
                                     }
                                 }
                             })

@@ -14,6 +14,7 @@ var message = require("../../utils/ErrorMessage");
 
 //get caver-js utils to search the job record
 var caver = require('../../utils/caver');
+var web3 = require('../../utils/web3');
 
 //get employee's mongodb schema
 var Employee = require('../../model/Employee');
@@ -37,14 +38,18 @@ router.get('/',function(req,res,next){
             return res.status(400).send({status:"2",errormessage:message.idNotFounded});
         }
         else{
-            var address = caver.getAddress(obj.KLAYTNPRIVATEKEY);
-            var record = await caver.getEmployeeRecord(address);
-            
-            var recordArray = record[0].map(function(e,i){
-                return [e,record[1][i]];
-            });
+            try{
+                var address = caver.getAddress(obj.KLAYTNPRIVATEKEY);
+                var record = await caver.getEmployeeRecord(address);
+                var recordArray = record[0].map(function(e,i){
+                    return [e,record[1][i]];
+                });
 
-            return res.status(200).send({status:"1",recordArray});
+                return res.status(200).send({status:"1",recordArray});
+            }
+            catch(e){
+                return res.status(500).send({status:"3",});
+            }
         }
     })
 })

@@ -1,12 +1,12 @@
 import React,{Component} from 'react';
-import {ActivityIndicator,Text,View,StyleSheet,TouchableOpacity,Image,TextInput,KeyboardAvoidingView} from 'react-native';
+import {ActivityIndicator,Text,View} from 'react-native';
 import {connect}from 'react-redux';
 import ActionCreator from '../action/Index';
 import {withNavigationFocus} from 'react-navigation';
-import Icon from 'react-native-vector-icons/Ionicons';
 import {Button} from 'react-native-elements'
 
 import MainListComponent from '../component/MainListComponent';
+import HeaderMenuComponent from '../component/HeaderMenuComponent';
 import {color} from '../utils/Color';
 
 import {fetchJobOfferEmployer,fetchJobSearchEmployee} from '../api/JobOfferApi';
@@ -27,15 +27,11 @@ class MainScreen extends Component{
                         <Text style={{color:"white",marginLeft:"5%",fontSize:20}}>나의 구인 현황</Text>
                     )
                 },
-                // headerRight:() => {
-                //     return(
-                //         <TouchableOpacity style={{margin:10}} onPress={()=>{
-                //             navigation.navigate("JobOffer");
-                //         }}>
-                //             <Icon name = "ios-add-circle" size={35}></Icon>
-                //         </TouchableOpacity>
-                //     )
-                // },
+                headerRight:() => {
+                    return(
+                        <HeaderMenuComponent onPress={()=>navigation.openDrawer()} icon={"ios-menu"}></HeaderMenuComponent>
+                    )
+                },
                 headerStyle:{
                     backgroundColor: color.blue
                 }
@@ -46,6 +42,11 @@ class MainScreen extends Component{
                 headerTitle:() =>{
                     return(
                         <Text style={{color:"white",marginLeft:"5%",fontSize:20}}> 구직 리스트</Text>
+                    )
+                },
+                headerRight:() => {
+                    return(
+                        <HeaderMenuComponent onPress={()=>navigation.openDrawer()} icon={"ios-menu"}></HeaderMenuComponent>
                     )
                 },
                 headerStyle:{

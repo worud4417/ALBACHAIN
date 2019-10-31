@@ -1,5 +1,5 @@
 import React from 'react';
-import {View,StyleSheet,TouchableOpacity,Image,TextInput,KeyboardAvoidingView,FlatList,ScrollView} from 'react-native';
+import {View,ScrollView} from 'react-native';
 import {connect}from 'react-redux';
 import ActionCreator from '../action/Index';
 import { ListItem,Overlay,Text,Button } from 'react-native-elements'
@@ -75,7 +75,7 @@ class MainListComponent extends React.Component{
                     {
                         this.props.jobOffer.map((item,i) => (
                             <ListItem key = {i} title = {"사업자 : " + item.name} 
-                            subtitle = {"시작일짜 : "+item.startdate} 
+                            subtitle = {"시작일짜 : "+new Date(item.startdate).toUTCString()} 
                             bottomDivider chevron onPress = {()=>this._onPress(item)}>
                             </ListItem>
                         ))
@@ -92,8 +92,8 @@ class MainListComponent extends React.Component{
                             <Text>아이디 : {this.state.id}</Text>
                             <Text>이름 : {this.state.name}</Text>
                             <Text>사업자 등록번호 : {this.state.registration}</Text>
-                            <Text>시작일자 : {this.state.startdate}</Text>
-                            <Text>종료일자 : {this.state.enddate}</Text>
+                            <Text>시작일자 : {new Date(this.state.startdate).toUTCString()}</Text>
+                            <Text>종료일자 : {new Date(this.state.enddate).toUTCString()}</Text>
                             <Text>아르바이트 시급 : {this.state.pay}</Text>
                             <Text>아르바이트 설명 : {this.state.text}</Text>
                         </View>

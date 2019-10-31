@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {Text,View,StyleSheet,TouchableOpacity,Image,TextInput,KeyboardAvoidingView} from 'react-native';
+import {Text,View,StyleSheet,KeyboardAvoidingView} from 'react-native';
 import {connect}from 'react-redux';
 import ActionCreator from '../action/Index';
 import {Button,Input} from 'react-native-elements';
@@ -203,11 +203,6 @@ class JoinScreen extends Component{
 }
 
 const styles = StyleSheet.create({
-    view:{
-        alignContent:"center",
-        justifyContent:"center",
-        flex:1
-    },
     textinput:{
         marginBottom:"2%"
     }

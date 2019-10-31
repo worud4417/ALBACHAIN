@@ -1,8 +1,5 @@
 import React from 'react';
-import {Text,View,StyleSheet,TouchableOpacity,Image,TextInput,KeyboardAvoidingView} from 'react-native';
-import {Button,Input} from 'react-native-elements';
-import {connect}from 'react-redux';
-import ActionCreator from '../action/Index';
+import {Text,View} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 class TextInfoComponent extends React.Component{

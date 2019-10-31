@@ -1,13 +1,13 @@
 import React,{Component} from 'react';
-import {Text,View,StyleSheet,TouchableOpacity,Image,TextInput,KeyboardAvoidingView, Alert} from 'react-native';
+import {Text,View,Alert} from 'react-native';
 import {connect}from 'react-redux';
 import ActionCreator from '../action/Index';
 import {ButtonGroup,Button} from 'react-native-elements';
 import { withNavigationFocus } from 'react-navigation';
 
+import HeaderMenuComponent from '../component/HeaderMenuComponent';
 import  TextInfoComponent from '../component/TextInfoComponent';
 import {fetchDeleteEmployee,fetchDeleteEmployer} from '../api/JoinApi';
-import {fetchLoginEmployer,fetchLoginEmployee} from '../api/LoginApi';
 import {color} from '../utils/Color';
 
 class MyScreen extends Component{
@@ -25,6 +25,11 @@ class MyScreen extends Component{
             headerTitle:() =>{
                 return(
                     <Text style={{color:"white",marginLeft:"5%",fontSize:20}}>내 정보</Text>
+                )
+            },
+            headerRight:() => {
+                return(
+                    <HeaderMenuComponent onPress={()=>navigation.openDrawer()} icon={"ios-menu"}></HeaderMenuComponent>
                 )
             },
             headerStyle:{

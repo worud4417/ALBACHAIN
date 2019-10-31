@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {Text,View,StyleSheet,TouchableOpacity,Image,TextInput,ScrollView} from 'react-native';
+import {Text,View,ScrollView} from 'react-native';
 import {Button} from 'react-native-elements';
 import {connect}from 'react-redux';
 import ActionCreator from '../action/Index';
@@ -44,8 +44,8 @@ class EmployeeRequestScreen extends Component{
                     <View style={{flex:3,margin:"5%",borderBottomWidth:2, borderBottomColor:color.sky}}>
                         <ScrollView>
                             <TextInfoComponent icon="ios-contact" text={"번호 : "+this.props.navigation.getParam('jobOffer')._id}></TextInfoComponent>
-                            <TextInfoComponent icon="ios-time" text={"시작일짜 : "+this.props.navigation.getParam('jobOffer').startdate}></TextInfoComponent>
-                            <TextInfoComponent icon="ios-hourglass" text={"종료일자 : "+this.props.navigation.getParam('jobOffer').enddate}></TextInfoComponent>
+                            <TextInfoComponent icon="ios-time" text={"시작일짜 : "+new Date(this.props.navigation.getParam('jobOffer').startdate).toUTCString()}></TextInfoComponent>
+                            <TextInfoComponent icon="ios-hourglass" text={"종료일자 : "+new Date(this.props.navigation.getParam('jobOffer').enddate).toUTCString()}></TextInfoComponent>
                             <TextInfoComponent icon="ios-person" text={"사업자 이름 : "+this.props.navigation.getParam('jobOffer').name}></TextInfoComponent>
                             <TextInfoComponent icon="ios-briefcase" text={"사업자 등록번호 : "+this.props.navigation.getParam('jobOffer').registration}></TextInfoComponent>
                             <TextInfoComponent icon="ios-call" text={"사업자 전화번호 : "+this.props.navigation.getParam('jobOffer').callnumber}></TextInfoComponent>

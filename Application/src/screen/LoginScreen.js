@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {Text,View,StyleSheet,TouchableOpacity,Image,TextInput,KeyboardAvoidingView} from 'react-native';
+import {View,Image} from 'react-native';
 import {connect}from 'react-redux';
 import {Button} from 'react-native-elements';
 import ActionCreator from '../action/Index';
@@ -7,7 +7,7 @@ import ActionCreator from '../action/Index';
 import {color} from '../utils/Color';
 import LoginComponent from '../component/LoginComponent';
 
-class LoginScreen extends React.Component{
+class LoginScreen extends Component{
 
     constructor(props){
         super(props);
@@ -27,7 +27,7 @@ class LoginScreen extends React.Component{
             return(
                 <View style={{flex:1}}>
                     <View style={{flex:1,justifyContent:"center",marginLeft:"5%",marginRight:"5%"}}>
-                        <Image source={require("../../assets/icon.png")} style={{width:"30%",height:"15%",backgroundColor:color.blue,borderRadius:20,alignSelf:"center",marginBottom:"10%"}}></Image>
+                        <Image source={require("../../assets/logo.png")} style={{width:"30%",height:"15%",backgroundColor:color.blue,borderRadius:20,alignSelf:"center",marginBottom:"10%"}}></Image>
                         <LoginComponent target="고용주" navigation = {this.props.navigation}></LoginComponent>
                         <Button onPress = {()=>this._onChangeStatus()} title="아르바이트생 로그인"></Button>
                     </View>
@@ -38,7 +38,7 @@ class LoginScreen extends React.Component{
             return(
                 <View style={{flex:1}}>
                     <View style={{flex:1,justifyContent:"center",marginLeft:"5%",marginRight:"5%"}}>
-                        <Image source={require("../../assets/icon.png")} style={{width:"30%",height:"15%",backgroundColor:color.blue,borderRadius:20,alignSelf:"center",marginBottom:"10%"}}></Image>
+                        <Image source={require("../../assets/logo.png")} style={{width:"30%",height:"15%",backgroundColor:color.blue,borderRadius:20,alignSelf:"center",marginBottom:"10%"}}></Image>
                         <LoginComponent target="아르바이트생" navigation = {this.props.navigation}></LoginComponent>
                         <Button onPress = {()=>this._onChangeStatus()} title="고용주 로그인"></Button>
                     </View>

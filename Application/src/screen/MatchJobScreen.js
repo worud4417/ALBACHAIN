@@ -1,11 +1,12 @@
 import React,{Component} from 'react';
-import {ActivityIndicator,Text,View,StyleSheet,TouchableOpacity,Image,TextInput,ScrollView,Modal} from 'react-native';
+import {ActivityIndicator,Text,View,ScrollView} from 'react-native';
 import {connect}from 'react-redux';
 import ActionCreator from '../action/Index';
 import {withNavigationFocus} from 'react-navigation';
 import { ListItem,Overlay,Button,ButtonGroup} from 'react-native-elements'
 
-import {fetchMatchingEmployee,fetchMatchedEmployee,fetchMatchinglistEmployer,fetchMatchRequestApprove,fetchMatchRequestReject} from '../api/MatchedJobApi';
+import {fetchMatchingEmployee,fetchMatchedEmployee,fetchMatchinglistEmployer,fetchMatchRequestApprove,fetchMatchRequestReject,fetchMatchedJobEmployer} from '../api/MatchedJobApi';
+import HeaderMenuComponent from '../component/HeaderMenuComponent';
 import {color} from '../utils/Color';
 
 class MatchJobScreen extends Component{
@@ -32,23 +33,28 @@ class MatchJobScreen extends Component{
 
     static navigationOptions = ({ navigation }) => {
         return {
-          headerTitle: () => {
-              if(navigation.getParam('status') == 1){
+            headerTitle: () => {
+                if(navigation.getParam('status') == 1){
+                    return(
+                        <Text style={{color:"white",marginLeft:"5%",fontSize:20}}>구직 요청 리스트</Text>
+                    )
+                }
+                else{
+                    return(
+                        <Text style={{color:"white",marginLeft:"5%",fontSize:20}}>구직 요청 현황 리스트</Text>
+                    )
+                }
+            },
+            headerRight:() => {
                 return(
-                    <Text style={{color:"white",marginLeft:"5%",fontSize:20}}>구직 요청 리스트</Text>
+                    <HeaderMenuComponent onPress={()=>navigation.openDrawer()} icon={"ios-menu"}></HeaderMenuComponent>
                 )
-              }
-              else{
-                return(
-                    <Text style={{color:"white",marginLeft:"5%",fontSize:20}}>구직 요청 현황 리스트</Text>
-                )
-              }
-          },
-          headerStyle:{
-            backgroundColor: color.blue
-        }
+            },
+            headerStyle:{
+                backgroundColor: color.blue
+            }
         };
-      }; 
+    }; 
 
     async componentDidMount(){
         this.props.navigation.setParams({status:this.props.status});
@@ -115,50 +121,99 @@ class MatchJobScreen extends Component{
     }
 
     async updateIndex(selectedIndex){
-        if(this.state.selectedIndex != selectedIndex){
-            this.setState({isReady:false});
-            this.props.InitMatchedJob();
-            if(selectedIndex == 0){
-                let results = await fetchMatchingEmployee(this.props.user.user.id);
-                if(results.status == 1){
-                    results.matchedJob.forEach(result => {
-                        this.props.MatchedJob({
-                            joindate : result.JOINDATE,
-                            enddate : result.ENDDATE,
-                            registration : result.REGISTRATION,
-                            socialsecurity : result.SOCIALSECURITY,
-                            startdate : result.STARTDATE,
-                            status : result.STATUS,
-                            text : result.TEXT,
-                            pay : result.PAY,
-                            _id : result._id,
-                            employerName: result.EMPLOYERNAME,
-                            employeeName : result.EMPLOYEENAME
+        if(this.props.status == 1){
+            if(this.state.selectedIndex != selectedIndex){
+                this.setState({isReady:false});
+                this.props.InitMatchedJob();
+                if(selectedIndex == 0){
+                    let results = await fetchMatchinglistEmployer(this.props.user.user.id);
+                    if(results != null){
+                        results.matchedJob.forEach(result => {
+                            this.props.MatchedJob({
+                                joindate : result.JOINDATE,
+                                enddate : result.ENDDATE,
+                                registration : result.REGISTRATION,
+                                socialsecurity : result.SOCIALSECURITY,
+                                startdate : result.STARTDATE,
+                                status : result.STATUS,
+                                text : result.TEXT,
+                                pay : result.PAY,
+                                _id : result._id,
+                                employerName: result.EMPLOYERNAME,
+                                employeeName : result.EMPLOYEENAME
+                            })
                         })
-                    })
-                }   
-            }
-            if(selectedIndex == 1){
-                let results = await fetchMatchedEmployee(this.props.user.user.id);
-                if(results.status == 1){
-                    results.matchedJob.forEach(result => {
-                        this.props.MatchedJob({
-                            joindate : result.JOINDATE,
-                            enddate : result.ENDDATE,
-                            registration : result.REGISTRATION,
-                            socialsecurity : result.SOCIALSECURITY,
-                            startdate : result.STARTDATE,
-                            status : result.STATUS,
-                            text : result.TEXT,
-                            pay : result.PAY,
-                            _id : result._id,
-                            employerName: result.EMPLOYERNAME,
-                            employeeName : result.EMPLOYEENAME
-                        })
-                    })
+                    }
                 }
+                else{
+                    let results = await fetchMatchedJobEmployer(this.props.user.user.id);
+                    if(results != null){
+                        results.matchedJob.forEach(result => {
+                            this.props.MatchedJob({
+                                joindate : result.JOINDATE,
+                                enddate : result.ENDDATE,
+                                registration : result.REGISTRATION,
+                                socialsecurity : result.SOCIALSECURITY,
+                                startdate : result.STARTDATE,
+                                status : result.STATUS,
+                                text : result.TEXT,
+                                pay : result.PAY,
+                                _id : result._id,
+                                employerName: result.EMPLOYERNAME,
+                                employeeName : result.EMPLOYEENAME
+                            })
+                        })
+                    }
+                }
+                this.setState({isReady:true});
             }
-            this.setState({isReady:true});
+        }
+        else{
+            if(this.state.selectedIndex != selectedIndex){
+                this.setState({isReady:false});
+                this.props.InitMatchedJob();
+                if(selectedIndex == 0){
+                    let results = await fetchMatchingEmployee(this.props.user.user.id);
+                    if(results.status == 1){
+                        results.matchedJob.forEach(result => {
+                            this.props.MatchedJob({
+                                joindate : result.JOINDATE,
+                                enddate : result.ENDDATE,
+                                registration : result.REGISTRATION,
+                                socialsecurity : result.SOCIALSECURITY,
+                                startdate : result.STARTDATE,
+                                status : result.STATUS,
+                                text : result.TEXT,
+                                pay : result.PAY,
+                                _id : result._id,
+                                employerName: result.EMPLOYERNAME,
+                                employeeName : result.EMPLOYEENAME
+                            })
+                        })
+                    }   
+                }
+                if(selectedIndex == 1){
+                    let results = await fetchMatchedEmployee(this.props.user.user.id);
+                    if(results.status == 1){
+                        results.matchedJob.forEach(result => {
+                            this.props.MatchedJob({
+                                joindate : result.JOINDATE,
+                                enddate : result.ENDDATE,
+                                registration : result.REGISTRATION,
+                                socialsecurity : result.SOCIALSECURITY,
+                                startdate : result.STARTDATE,
+                                status : result.STATUS,
+                                text : result.TEXT,
+                                pay : result.PAY,
+                                _id : result._id,
+                                employerName: result.EMPLOYERNAME,
+                                employeeName : result.EMPLOYEENAME
+                            })
+                        })
+                    }
+                }
+                this.setState({isReady:true});
+            }
         }
         this.setState({selectedIndex});
     }
@@ -239,11 +294,12 @@ class MatchJobScreen extends Component{
                                 {
                                     this.props.matchedJob.map((item,i) => (
                                         <ListItem key = {i} title = {item.registration} 
-                                        subtitle = {item.startdate} bottomDivider chevron onPress = {()=>this._onPress(item)}>
+                                        subtitle = {new Date(item.startdate).toUTCString()} bottomDivider chevron onPress = {()=>this._onPress(item)}>
                                         </ListItem>
                                     ))
                                 }
                             </ScrollView>
+                            <ButtonGroup buttonStyle={{flex:2}} onPress={this.updateIndex} selectedIndex={selectedIndex} buttons={["구직 신청","구직 승인"]} containerStyle={{height:30}}></ButtonGroup>
                         </View>
                     )
                 }
@@ -256,8 +312,8 @@ class MatchJobScreen extends Component{
                                     <Text>신청 날짜 : {this.state.joindate}</Text>
                                     <Text>사업자 등록번호 : {this.state.registration}</Text>
                                     <Text>사업자 이름 : {this.state.employerName}</Text>
-                                    <Text>시작일짜 : {this.state.startdate}</Text>
-                                    <Text>종료일짜 : {this.state.enddate}</Text>
+                                    <Text>시작일짜 : {new Date(this.state.startdate).toUTCString()}</Text>
+                                    <Text>종료일짜 : {new Date(this.state.enddate).toUTCString()}</Text>
                                     <Text>시급 : {this.state.pay}</Text>
                                     <Text>아르바이트 설명 : {this.state.text}</Text>
                                     <Text>아르바이트생 이름 : {this.state.employeeName}</Text>
@@ -298,12 +354,12 @@ class MatchJobScreen extends Component{
                                     <Text>신청 날짜 : {this.state.joindate}</Text>
                                     <Text>사업자 등록번호 : {this.state.registration}</Text>
                                     <Text>사업자 이름 : {this.state.employerName}</Text>
-                                    <Text>시작일짜 : {this.state.startdate}</Text>
-                                    <Text>종료일짜 : {this.state.enddate}</Text>
+                                    <Text>시작일짜 : {new Date(this.state.startdate).toUTCString()}</Text>
+                                    <Text>종료일짜 : {new Date(this.state.enddate).toUTCString()}</Text>
                                     <Text>시급 : {this.state.pay}</Text>
                                     <Text>아르바이트 설명 : {this.state.text}</Text>
                                 </View>
-                                <View style={{flex:1, justifyContent:'flex-start'}}>
+                                <View style={{flex:1, justifyContent:'flex-end'}}>
                                     <Button title="확인" type="outline" onPress={()=>this.setState({isVisible:false})}></Button>
                                 </View>
                             </View>

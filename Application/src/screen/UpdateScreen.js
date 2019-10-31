@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {Text,View,StyleSheet,TouchableOpacity,Image,KeyboardAvoidingView, Alert} from 'react-native';
+import {Text,View} from 'react-native';
 import {connect}from 'react-redux';
 import ActionCreator from '../action/Index';
 import {Button,Input} from 'react-native-elements';
@@ -147,7 +147,6 @@ class UpdateScreen extends Component{
                             <Text>전화번호</Text>
                             <Input placeholder="전화번호" defaultValue = {this.props.user.user.callnumber}
                                     onChangeText={(text)=>this.setState({callnumber:text})} 
-
                                     leftIcon={<Icon name="ios-contact" size={24} color="gray"></Icon>}
                                     leftIconContainerStyle={{marginRight:"2%"}}>
                             </Input>
@@ -200,7 +199,6 @@ class UpdateScreen extends Component{
                             <Text>전화번호</Text>
                             <Input placeholder="전화번호" defaultValue = {this.props.user.user.callnumber}
                                     onChangeText={(text)=>this.setState({callnumber:text})} 
-
                                     leftIcon={<Icon name="ios-contact" size={24} color="gray"></Icon>}
                                     leftIconContainerStyle={{marginRight:"2%"}}>
                             </Input>
