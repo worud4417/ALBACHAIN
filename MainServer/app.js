@@ -18,12 +18,14 @@ var employerJoinRouter = require('./routes/Employer/Join');
 var employerLoginRouter = require('./routes/Employer/Login');
 var employerJobOfferRouter = require('./routes/Employer/JobOffer');
 var employerMatchedJobRouter = require('./routes/Employer/MatchedJob');
+var employerPay = require('./routes/Employer/PayEmployer');
 
 var employeeJoinRouter = require('./routes/Employee/Join');
 var employeeLoginRouter = require('./routes/Employee/Login');
 var employeeJobSearchRouter = require('./routes/Employee/JobSearch');
 var employeeCareerLookup = require('./routes/Employee/CareerLookup');
 var employeeMatchedJob = require('./routes/Employee/MatchedJob');
+var employeePay = require('./routes/Employee/PayEmployee');
 
 var app = express();
 
@@ -38,12 +40,14 @@ app.use('/employerjoin', employerJoinRouter);
 app.use('/employerlogin',employerLoginRouter);
 app.use('/employerjoboffer',employerJobOfferRouter);
 app.use('/employermatchedjob',employerMatchedJobRouter);
+app.use('/employerpay',employerPay);
 
 app.use('/employeejoin',employeeJoinRouter);
 app.use('/employeelogin',employeeLoginRouter);
 app.use('/employeejobsearch',employeeJobSearchRouter);
 app.use('/employeecareerlookup',employeeCareerLookup);
 app.use('/employeematchedjob',employeeMatchedJob);
+app.use('/employeepay',employeePay);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
