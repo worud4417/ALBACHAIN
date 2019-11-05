@@ -1,8 +1,8 @@
 const protocol = "http";
 const ipAddress = "15.164.224.74";
-const temr = "172.30.1.46";
+const temr = "172.30.1.30";
 const portNumber = "3000"
 
-const url = protocol+"://"+temr+":"+portNumber;
+const url = protocol+"://"+ipAddress+":"+portNumber;
 
 exports.url = url;

@@ -43,6 +43,9 @@ var employeeSchema = new Schema({
     RATING:{
         type:Number,
         default:0
+    },
+    IMAGESOURCE : {
+        type:String
     }
 });
 

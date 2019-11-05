@@ -1,21 +1,24 @@
 const url = require("./IpAddress");
 
-export function fetchJoinEmployee(id,password,name,callnumber,socialsecurity){
+export function fetchJoinEmployee(id,password,name,callnumber,socialsecurity,image){
     const uri = url.url+"/employeejoin";
+
+    let body = new FormData();
+    body.append('image',{uri:image.uri,name:id,filename:id+"-ee.jpg",type:'image/jpg'});
+    body.append('ID',id);
+    body.append('PASSWORD',password);
+    body.append("NAME",name);
+    body.append("CALLNUMBER",callnumber);
+    body.append("SOCIALSECURITY",socialsecurity)
+    body.append("Content-Type","image/jpg");
 
     return fetch(uri,{
         method:"POST",
         headers:{
-            Accept:"application/json",
-            'Content-Type' : 'application/json',
+            "Content-Type": "multipart/form-data",
+            "otherHeader": "foo"
         },
-        body:JSON.stringify({
-            ID:id,
-            PASSWORD:password,
-            NAME:name,
-            CALLNUMBER:callnumber,
-            SOCIALSECURITY:socialsecurity
-        })
+        body:body
     }).then((response)=>response.json())
     .then((responseJson)=>{
         return responseJson;
@@ -27,23 +30,26 @@ export function fetchJoinEmployee(id,password,name,callnumber,socialsecurity){
     })
 }
 
-export function fetchJoinEmployer(id,password,name,callnumber,registration,address){
+export function fetchJoinEmployer(id,password,name,callnumber,registration,address,image){
     const uri = url.url+"/employerjoin";
+
+    let body = new FormData();
+    body.append('image',{uri:image.uri,name:id,filename:id+"-er.jpg",type:'image/jpg'});
+    body.append('ID',id);
+    body.append('PASSWORD',password);
+    body.append("NAME",name);
+    body.append("CALLNUMBER",callnumber);
+    body.append("REGISTRATION",registration);
+    body.append("ADDRESS",address);
+    body.append("Content-Type","image/jpg");
 
     return fetch(uri,{
         method:"POST",
         headers:{
-            Accept:"application/json",
-            'Content-Type' : 'application/json',
+            "Content-Type": "multipart/form-data",
+            "otherHeader": "foo"
         },
-        body:JSON.stringify({
-            ID:id,
-            PASSWORD:password,
-            NAME:name,
-            CALLNUMBER:callnumber,
-            REGISTRATION:registration,
-            ADDRESS:address
-        })
+        body : body
     }).then((response)=>response.json())
     .then((responseJson)=>{
         return responseJson
@@ -154,4 +160,5 @@ export function fetchUpdateEmployee(id,password,callnumber,name){
     })
 }
 
-export default {fetchJoinEmployee,fetchJoinEmployer};
+export default {fetchJoinEmployee,fetchJoinEmployer,
+    fetchDeleteEmployee,fetchDeleteEmployer};

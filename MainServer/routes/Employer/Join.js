@@ -14,9 +14,20 @@ var web3 = require('../../utils/Web3');
 var express = require("express");
 var router = express.Router();
 var message = require('../../utils/ErrorMessage');
+var multer = require('multer');
+var path = require('path');
 
 //get employer's mongodb schema
 var Employer = require('../../model/Employer');
+
+const storage = multer.diskStorage({destination:function(req,file,callback){
+    callback(null,'../public/images');
+},
+filename:function(req,file,callback){
+    callback(null,file.originalname+"-er.jpg");
+}});
+
+let upload = multer({storage:storage});
 
 /**
  * set employer
@@ -29,7 +40,7 @@ var Employer = require('../../model/Employer');
  * @param CALLNUMBER is employer's callnumber
  * @param ADDRESS is employer's address
  */
-router.post('/',function(req,res,next){
+router.post('/',upload.single("image"),function(req,res,next){
 
     //create new address
     var newAccount = caver.createAddress();
@@ -44,6 +55,7 @@ router.post('/',function(req,res,next){
     var callnumber = req.body.CALLNUMBER;
     var address = req.body.ADDRESS;
     var joindate = new Date();
+    var imagesource = req.file.destination+"/"+req.file.filename;
 
     if(id == undefined || password == undefined || name == undefined ||
         registration == undefined || callnumber == undefined || address ==undefined){
@@ -82,6 +94,7 @@ router.post('/',function(req,res,next){
                 employer.ADDRESS = address;
                 employer.JOINDATE = joindate;
                 employer.KLAYTNPRIVATEKEY = newAccount.privateKey;
+                employer.IMAGESOURCE = imagesource;
     
                 employer.save(function(err){
                     if(err){

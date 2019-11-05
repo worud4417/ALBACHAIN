@@ -1,10 +1,13 @@
 import React,{Component} from 'react';
-import {Text,View,StyleSheet,KeyboardAvoidingView} from 'react-native';
+import {Text,View,StyleSheet,KeyboardAvoidingView,Image} from 'react-native';
 import {connect}from 'react-redux';
 import ActionCreator from '../action/Index';
 import {Button,Input} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
+import * as permission from 'expo-permissions';
+import * as ImagePicker from 'expo-image-picker';
 
+import {} from '../api/IpAddress';
 import {fetchJoinEmployee,fetchJoinEmployer} from '../api/JoinApi';
 
 class JoinScreen extends Component{
@@ -18,7 +21,16 @@ class JoinScreen extends Component{
             callnumber:"",
             registration:"",
             address:"",
-            socialsecurity:""
+            socialsecurity:"",
+            imageSource : "../",
+            image : ""
+        }
+    }
+
+    componentDidMount(){
+        const grant = permission.getAsync(permission.CAMERA_ROLL);
+        if(grant != "granted"){
+            permission.askAsync(permission.CAMERA_ROLL);
         }
     }
 
@@ -39,8 +51,9 @@ class JoinScreen extends Component{
                 this.state.name,
                 this.state.callnumber,
                 this.state.registration,
-                this.state.address
-            );
+                this.state.address,
+                this.state.image
+            )
 
             if(result.status == 1){
                 alert("회원가입 완료");
@@ -68,7 +81,8 @@ class JoinScreen extends Component{
                 this.state.password,
                 this.state.name,
                 this.state.callnumber,
-                this.state.socialsecurity
+                this.state.socialsecurity,
+                this.state.image
             );
 
             if(result.status == 1){
@@ -90,12 +104,18 @@ class JoinScreen extends Component{
         }
     }
 
+    async _getPhoto(){
+        const image = await ImagePicker.launchImageLibraryAsync({quality:0.3});
+        this.setState({image:image,imageSource:image.uri});
+    }
+
     render(){
         if(this.props.status == 1){
             return(
                 <View style={{flex:1}}>
                     <KeyboardAvoidingView style={{marginLeft:"10%",flex:3,justifyContent:"center",marginRight:"10%"}} behavior="padding" enabled>
                         <Text style={{fontSize:20,fontWeight:"bold",alignSelf:"center",paddingBottom:"5%"}}>고용주 회원 가입</Text>
+                        <Image source={{uri:this.state.imageSource}} style={{alignSelf:"center",width:100,height:100,borderRadius:50,overflow:"hidden",resizeMode:"cover",backgroundColor:"gray"}}></Image>
                         <Input placeholder="ID" 
                             inputContainerStyle={styles.textinput} 
                             onChangeText={(text)=>this.setState({id:text})} 
@@ -142,6 +162,7 @@ class JoinScreen extends Component{
                         </Input>
                     </KeyboardAvoidingView>
                     <View style={{flex:1,marginLeft:"10%",marginRight:"10%",justifyContent:"flex-start"}}>
+                        <Button buttonStyle={{marginBottom:"5%"}} onPress = {()=>this._getPhoto()} title="프로필사진"></Button>
                         <Button buttonStyle={{marginBottom:"5%"}} onPress = {()=>this._submitEmployer()} title="확인"></Button>
                         <Button buttonStyle={{marginBottom:"2%"}} onPress = {()=>this.props.navigation.navigate("Login")} title="취소"></Button>
                     </View>
@@ -153,6 +174,7 @@ class JoinScreen extends Component{
                 <View style={{flex:1}}>
                     <KeyboardAvoidingView style={{marginLeft:"10%",flex:3,justifyContent:"center",marginRight:"10%"}} behavior="padding" enabled>
                         <Text style={{fontSize:20,fontWeight:"bold",alignSelf:"center",paddingBottom:"5%"}}>아르바이트생 회원 가입</Text>
+                        <Image source={{uri:this.state.imageSource}} style={{alignSelf:"center",width:100,height:100,borderRadius:50,overflow:"hidden",resizeMode:"cover",backgroundColor:"gray"}}></Image>
                         <Input placeholder="ID" 
                             inputContainerStyle={styles.textinput} 
                             onChangeText={(text)=>this.setState({id:text})} 
@@ -193,6 +215,7 @@ class JoinScreen extends Component{
                         </Input>
                     </KeyboardAvoidingView>
                     <View style={{flex:1,marginLeft:"10%",marginRight:"10%",justifyContent:"flex-start"}}>
+                        <Button buttonStyle={{marginBottom:"5%"}} onPress = {()=>this._getPhoto()} title="프로필사진"></Button>
                         <Button buttonStyle={{marginBottom:"5%"}} onPress = {()=>this._submitEmployee()} title="확인"></Button>
                         <Button buttonStyle={{marginBottom:"2%"}} onPress = {()=>this.props.navigation.navigate("Login")} title="취소"></Button>
                     </View>

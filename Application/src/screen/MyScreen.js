@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {Text,View,Alert} from 'react-native';
+import {Text,View,Alert,Image} from 'react-native';
 import {connect}from 'react-redux';
 import ActionCreator from '../action/Index';
 import {ButtonGroup,Button} from 'react-native-elements';
@@ -76,13 +76,14 @@ class MyScreen extends Component{
         if (prevProps.isFocused !== this.props.isFocused) {
             this.setState({isReRender:this.state.isReRender++});
         }
-      }
+    }
     
     render(){
         const { selectedIndex } = this.state;
         if(this.props.status == 1){
             return(
                 <View style={{flex:1}}>
+                    <Image source={{uri:this.props.user.user.imagesource}} style={{alignSelf:"center",width:100,height:100,borderRadius:50,overflow:"hidden",resizeMode:"cover",backgroundColor:"gray",marginTop:"5%"}}></Image>
                     <View style={{flex:3,margin:"5%"}}>
                         <TextInfoComponent icon={"ios-contact"} text={"ID : " + this.props.user.user.id}></TextInfoComponent>
                         <TextInfoComponent icon={"ios-person"} text={"사업자 이름 : " + this.props.user.user.name}></TextInfoComponent>
@@ -99,6 +100,7 @@ class MyScreen extends Component{
         else {
             return(
                 <View style={{flex:1}}>
+                    <Image source={{uri:this.props.user.user.imagesource}} style={{alignSelf:"center",width:100,height:100,borderRadius:50,overflow:"hidden",resizeMode:"cover",backgroundColor:"gray",marginTop:"5%"}}></Image>
                     <View style={{flex:3,margin:"5%"}}>
                         <TextInfoComponent icon={"ios-contact"} text={"ID : " + this.props.user.user.id}></TextInfoComponent>
                         <TextInfoComponent icon={"ios-person"} text={"이름 : " + this.props.user.user.name}></TextInfoComponent>

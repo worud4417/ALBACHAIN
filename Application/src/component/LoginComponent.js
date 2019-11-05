@@ -6,6 +6,7 @@ import ActionCreator from '../action/Index';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import {fetchLoginEmployee,fetchLoginEmployer} from '../api/LoginApi';
+import {GetEmployeeImage,GetEmployerImage} from '../api/ImageApi';
 
 class LoginComponent extends React.Component{
     constructor(props){
@@ -38,7 +39,8 @@ class LoginComponent extends React.Component{
                         callnumber : result.CALLNUMBER,
                         address : result.ADDRESS,
                         registration : result.REGISTRATION,
-                        socialsecurity : ""
+                        socialsecurity : "",
+                        imagesource : GetEmployerImage(result.ID)
                     }
                 })
                 return this.props.navigation.navigate("Main");
@@ -62,7 +64,8 @@ class LoginComponent extends React.Component{
                         callnumber : result.CALLNUMBER,
                         address : "",
                         registration : "",
-                        socialsecurity : result.SOCIALSECURITY
+                        socialsecurity : result.SOCIALSECURITY,
+                        imagesource : GetEmployeeImage(result.ID)
                     },
                     isLogined : true
                 })
