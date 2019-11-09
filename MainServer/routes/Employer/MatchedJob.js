@@ -87,15 +87,13 @@ router.get('/working',function(req,res,next){
  */
 router.post('/',function(req,res,next){
     var _id = req.body._id;
-    var employerAddress = null;
-    var employeeAddress = null;
 
-    MatchedJob.updateOne({_id:_id},{STATUS:2},function(err,obj){
+    MatchedJob.updateOne({_id:_id},{STATUS:2},function(err){
         if(err){
             return res.status(500).send({status:"3",errormessage:message.serverError});
         }
         else{
-            MatchedJob.findOne({_id:_id},function(err,obj){
+            MatchedJob.findOne({_id:_id},async function(err,obj){
                 if(err){
                     return res.status(500).send({status:"3",errormessage:message.serverError});
                 }
@@ -103,39 +101,8 @@ router.post('/',function(req,res,next){
                     return res.status(400).send({status:"2",errormessage:message.idNotFounded});
                 }
                 else{
-                    Employer.findOne({REGISTRATION:obj.REGISTRATION}, async function(err,employer){
-                        if(err){
-                            return res.status(500).send({status:"3",errormessage:message.serverError});
-                        }
-                        else{
-                            //get employer's klaytn address
-                            employerAddress = await caver.getAddress(employer.KLAYTNPRIVATEKEY);
-                            Employee.findOne({SOCIALSECURITY:obj.SOCIALSECURITY},async function(err,employee){
-                                if(err){
-                                    return res.status(500).send({status:"3",errormessage:message.serverError});
-                                }
-                                else{
-                                    //get employee's klaytn address
-                                    employeeAddress = await caver.getAddress(employee.KLAYTNPRIVATEKEY);
-                                    try{
-                                        //record part time job info to klaytn blockchain
-                                        await caver.setRecord(employerAddress,employeeAddress,new Date(obj.STARTDATE).getTime());
-                                        return res.status(201).send({status:"1"});
-                                    }
-                                    catch(err){
-                                        MatchedJob.updateOne({_id:_id},{STATUS:1},function(err,obj){
-                                            if(err){
-                                                return res.status(500).send({status:"3",errormessage:message.serverError});
-                                            }
-                                            else{
-                                                return res.status(500).send({status:"3",errormessage:"block chain error"});
-                                            }
-                                        })
-                                    }
-                                }
-                            })
-                        }
-                    })
+                    await caver.setRecord(obj.REGISTRATION,obj.SOCIALSECURITY,obj.STARTDATE,obj.ENDDATE,obj.PAY);
+                    return res.status(201).send({status:"1"});
                 }
             })
         }

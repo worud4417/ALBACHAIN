@@ -5,13 +5,16 @@
  * this module is employee's mongodb schema
  */
 
+ //module for using mongodb
 var mongoose = require("mongoose");
 //mongodb plugin for primary key's auto increment
 var autoIncrement = require('mongoose-auto-increment');
 
+//set connection to db
 var connection = mongoose.createConnection("mongodb://localhost/main");
 autoIncrement.initialize(connection);
 
+//make schema
 var Schema = mongoose.Schema;
 
 var employeeSchema = new Schema({
@@ -34,7 +37,7 @@ var employeeSchema = new Schema({
         type:Date,
     },
     SOCIALSECURITY:{
-        type:String,
+        type:Number,
         required:true
     },
     KLAYTNPRIVATEKEY:{

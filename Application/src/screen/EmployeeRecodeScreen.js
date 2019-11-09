@@ -51,7 +51,7 @@ class EmployeeRecodeScreen extends Component{
                 <ScrollView>
                     {
                         this.state.record.map((item,i) => (
-                            <ListItem key = {i} title = {item[0]} subtitle = {new Date(Number.parseInt(item[1])).toUTCString()}
+                            <ListItem key = {i} title = {item[1]} subtitle = {new Date(Number.parseInt(item[2])).toUTCString()}
                             bottomDivider chevron></ListItem>
                         ))
                     }

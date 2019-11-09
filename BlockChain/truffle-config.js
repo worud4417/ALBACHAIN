@@ -39,6 +39,12 @@ module.exports = {
    */
 
   networks: {
+    baobab: {
+      provider: () => new HDWalletProvider(privateKey,"https://api.baobab.klaytn.net:8651"),
+      network_id: '1001', //Klaytn baobab testnet's network id
+      gas: '30000000',
+      gasPrice: null
+    },
     // Useful for testing. The `development` name is special - truffle uses it by default
     // if it's defined here and no other network is specified at the command line.
     // You should run a client (like ganache-cli, geth or parity) in a separate terminal
@@ -79,12 +85,6 @@ module.exports = {
       // network_id: 2111,   // This network is yours, in the cloud.
       // production: true    // Treats this network as if it was a public net. (default: false)
     // }
-    baobab: {
-      provider: () => new HDWalletProvider(privateKey,"https://api.baobab.klaytn.net:8651"),
-      network_id: '1001', //Klaytn baobab testnet's network id
-      gas: '30000000',
-      gasPrice: null
-    }
   },
 
   // Set default mocha options here, use special reporters etc.
