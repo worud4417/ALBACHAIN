@@ -11,7 +11,6 @@
 var express = require("express");
 var router = express.Router();
 var message = require('../../utils/ErrorMessage');
-var web3 = require('../../utils/Web3');
 
 //get employer's mongodb schema
 var Employer = require('../../model/Employer');

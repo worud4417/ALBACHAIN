@@ -1,12 +1,23 @@
 const url = require("./IpAddress");
 
-export function GetEmployeeImage(id){
-    const uri = url.url + "/image/" + id + "-ee.jpg";
+export async function GetEmployeeImage(id){
+    let uri = url.url + "/image/" + id + "-ee.jpg";
+
+    var result = await fetch(uri);
+    if(result.status == 404){
+        uri = url.url + "/image/" + "default.jpg";
+    }
     return uri;
 }
 
-export function GetEmployerImage(id){
-    const uri = url.url + "/image/" + id + "-er.jpg";
+export async function GetEmployerImage(id){
+    let uri = url.url + "/image/" + id + "-er.jpg";
+
+    var result = await fetch(uri);
+    if(result.status == 404){
+        uri = url.url + "/image/" + "default.jpg";
+    }
+
     return uri;
 }
 

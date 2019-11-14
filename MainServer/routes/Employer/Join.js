@@ -10,10 +10,12 @@
 
  //get caver-js for create address
 var caver = require('../../utils/caver');
+//get web3-js utils
 var web3 = require('../../utils/Web3');
 var express = require("express");
 var router = express.Router();
 var message = require('../../utils/ErrorMessage');
+//module for saving image
 var multer = require('multer');
 var path = require('path');
 
@@ -39,6 +41,7 @@ let upload = multer({storage:storage});
  * @param REGISTRATION is employer's registration.
  * @param CALLNUMBER is employer's callnumber
  * @param ADDRESS is employer's address
+ * @param IMAGESOURCE is employer's image path
  */
 router.post('/',upload.single("image"),function(req,res,next){
 

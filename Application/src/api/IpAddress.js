@@ -3,6 +3,6 @@ const ipAddress = "15.164.224.74";
 const temr = "192.168.1.86";
 const portNumber = "3000"
 
-const url = protocol+"://"+temr+":"+portNumber;
+const url = protocol+"://"+ipAddress+":"+portNumber;
 
 exports.url = url;

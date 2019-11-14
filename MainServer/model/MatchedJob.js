@@ -19,11 +19,11 @@ var Schema = mongoose.Schema;
 
 var MatchedJobSchema = new Schema({
     REGISTRATION:{
-        type:String,
+        type:Number,
         required:true
     },
     SOCIALSECURITY:{
-        type:String,
+        type:Number,
         required:true
     },
     STARTDATE:{

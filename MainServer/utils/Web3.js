@@ -1,3 +1,10 @@
+/**
+ * main server 
+ * @project ALBACHAIN
+ * @author JaeGyeong Lee
+ * this module is offered the utils that using web3-js
+ */
+
 var Web3 = require('web3');
 var web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
 

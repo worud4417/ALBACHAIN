@@ -14,7 +14,8 @@ var message = require("../../utils/ErrorMessage");
 
 //get caver-js utils to search the job record
 var caver = require('../../utils/caver');
-var web3 = require('../../utils/web3');
+//get web3-js utils
+var web3 = require('../../utils/Web3');
 
 //get employee's mongodb schema
 var Employee = require('../../model/Employee');
@@ -39,17 +40,19 @@ router.get('/',function(req,res,next){
         }
         else{
             try{
-                var record = await caver.getEmployeeRecord(obj.SOCIALSECURITY);
+                // var record = await caver.getEmployeeRecord(obj.SOCIALSECURITY);
+                var record = await caver.getAllRecord();
                 var recordArray = record[0].map(function(e,i){
-                    return [e,record[1][i],record[2][i],record[3][i]];
+                    return [e,record[1][i],record[2][i],record[3][i],record[4][i]];
                 });
 
-                console.log(record);
+                console.log(recordArray);
 
                 return res.status(200).send({status:"1",recordArray});
             }
             catch(e){
-                return res.status(500).send({status:"3",});
+                console.log(e);
+                return res.status(500).send({status:"3",errormessage:message.serverError});
             }
         }
     })

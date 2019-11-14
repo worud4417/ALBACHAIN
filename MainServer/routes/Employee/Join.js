@@ -10,11 +10,14 @@
 
 //get caver-js for create new address
 var caver = require('../../utils/caver');
+//get web3-js
 var web3 = require('../../utils/Web3');
 var express = require("express");
 var router = express.Router();
+//module for saving image
 var multer = require('multer');
 var path = require('path');
+//module for errormessage
 var message = require('../../utils/ErrorMessage');
 
 //get employee's mongodb schema
@@ -38,6 +41,7 @@ let upload = multer({storage:storage});
  * @param NAME is employee's name
  * @param CALLNUMBER is employee's callnumber
  * @param SOCIALSECURITY is employee's socialsecurity number
+ * @param IMAGESOURCE is employee's image source path
  */
 router.post('/',upload.single("image"),async function(req,res,next){
 

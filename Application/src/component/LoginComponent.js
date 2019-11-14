@@ -40,7 +40,7 @@ class LoginComponent extends React.Component{
                         address : result.ADDRESS,
                         registration : result.REGISTRATION,
                         socialsecurity : "",
-                        imagesource : GetEmployerImage(result.ID)
+                        imagesource : await GetEmployerImage(result.ID)
                     }
                 })
                 return this.props.navigation.navigate("Main");
@@ -65,7 +65,7 @@ class LoginComponent extends React.Component{
                         address : "",
                         registration : "",
                         socialsecurity : result.SOCIALSECURITY,
-                        imagesource : GetEmployeeImage(result.ID)
+                        imagesource : await GetEmployeeImage(result.ID)
                     },
                     isLogined : true
                 })

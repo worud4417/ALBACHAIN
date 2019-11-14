@@ -12,8 +12,8 @@ contract AlbaChain is Ownable{
         uint256 endDate;
     }
     
-    mapping (uint256=>uint256) employeeCounter;
-    mapping (uint256=>uint256) employerCounter;
+    mapping (uint256 => uint256) employeeCounter;
+    mapping (uint256 => uint256) employerCounter;
     
     Record[] private records;
     
@@ -21,6 +21,11 @@ contract AlbaChain is Ownable{
         records.push(Record(_pay,_employer,_employee,_startDate,_endDate));
         employerCounter[_employer]++;
         employeeCounter[_employee]++;
+    }
+    
+    function getCounter(uint256 user) view public returns(uint256){
+        uint256 a = employeeCounter[user];
+        return (a);
     }
     
     function getAllRecord() public view returns(uint32[] memory,uint256[] memory, uint256[] memory,uint256[] memory,uint256[] memory){
@@ -41,10 +46,10 @@ contract AlbaChain is Ownable{
     }
     
     function getEmployeeRecord(uint256 _employee) public view returns(uint32[] memory,uint256[] memory, uint256[] memory,uint256[] memory){
-        uint32[] memory term1 = new uint32[](employeeCounter[_employee]);
-        uint256[] memory term2 = new uint256[](employeeCounter[_employee]);
-        uint256[] memory term3 = new uint256[](employeeCounter[_employee]);
-        uint256[] memory term4 = new uint256[](employeeCounter[_employee]);
+        uint32[] memory term1 = new uint32[](employeeCounter[records.length]);
+        uint256[] memory term2 = new uint256[](employeeCounter[records.length]);
+        uint256[] memory term3 = new uint256[](employeeCounter[records.length]);
+        uint256[] memory term4 = new uint256[](employeeCounter[records.length]);
         
         for(uint i =0;i<records.length;i++){
             if(records[i].employee == _employee){
@@ -59,10 +64,10 @@ contract AlbaChain is Ownable{
     }
     
     function getEmployerRecord(uint256 _employer) public view returns(uint32[] memory, uint256[] memory, uint256[] memory, uint256[] memory){
-        uint32[] memory term1 = new uint32[](employerCounter[_employer]);
-        uint256[] memory term2 = new uint256[](employerCounter[_employer]);
-        uint256[] memory term3 = new uint256[](employerCounter[_employer]);
-        uint256[] memory term4 = new uint256[](employerCounter[_employer]);
+        uint32[] memory term1 = new uint32[](records.length);
+        uint256[] memory term2 = new uint256[](records.length);
+        uint256[] memory term3 = new uint256[](records.length);
+        uint256[] memory term4 = new uint256[](records.length);
         
         for(uint i =0;i<records.length;i++){
             if(records[i].employer == _employer){
@@ -76,7 +81,7 @@ contract AlbaChain is Ownable{
         return (term1,term2,term3,term4);
     }
     
-    // ---------
+// ---------
 // Dont accept ETH;
 // ---------
     function () external payable { 

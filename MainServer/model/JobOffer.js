@@ -28,7 +28,7 @@ var jobOfferSchema = new Schema({
         required:true
     },
     REGISTRATION:{
-        type:String,
+        type:Number,
         required:true
     },
     CALLNUMBER:{

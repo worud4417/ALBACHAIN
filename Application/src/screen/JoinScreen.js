@@ -76,6 +76,11 @@ class JoinScreen extends Component{
 
     async _submitEmployee(){
         if(this._checkPassword(this.state.password,this.state.checkPassword)){
+
+            if(this.state.image == null){
+                
+            }
+
             let result = await fetchJoinEmployee(
                 this.state.id,
                 this.state.password,

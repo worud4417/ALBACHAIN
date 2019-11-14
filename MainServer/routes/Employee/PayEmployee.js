@@ -1,10 +1,28 @@
+/**
+ * main server 
+ * @project ALBACHAIN
+ * @author JaeGyeong Lee
+ * use REST api
+ * employee get pay info
+ * fort number is 3000
+ * http://(ipaddress):3000/employeepay
+ */
+
+
 var express = require('express');
 var router = express.Router();
 var message = require('../../utils/ErrorMessage');
 
+//get employee & matchedjob schema
 var Employee = require('../../model/Employee');
 var MatchedJob = require('../../model/MatchedJob');
 
+
+/**
+ * get employee's pay info
+ * use GET
+ * @param ID is employee's id
+ */
 router.get('/',function(req,res,next){
     id = req.query.ID;
 
